@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebCameraControl.Pages
+namespace WebCameraControl.Pages.Index
 {
     public class IndexModel : PageModel
     {
