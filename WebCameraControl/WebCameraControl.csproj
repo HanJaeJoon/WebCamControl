@@ -7,10 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\Shared\**" />
-    <Content Remove="Views\Shared\**" />
-    <EmbeddedResource Remove="Views\Shared\**" />
-    <None Remove="Views\Shared\**" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>

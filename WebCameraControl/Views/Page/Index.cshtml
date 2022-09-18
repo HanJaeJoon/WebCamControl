@@ -1,0 +1,36 @@
+﻿@model WebCameraControl.Models.IndexModel
+
+@{
+    Layout = "_Layout";
+}
+
+<style type="text/css">
+    #title {
+        font-family: SeoulNamsan CL;
+        font-size: 100px;
+        font-weight: 400;
+        height: 200px;
+        letter-spacing: -0.01em;
+        text-align: left;
+    }
+</style>
+
+<div class="container w-100">
+    <div class="row">
+        <span class="text-muted w-auto ms-auto">Korean style self-photobooth</span>
+    </div>
+    <div class="row">
+        <span id="title" class="w-auto mx-auto">photo.moment</span>
+    </div>
+    <div class="row">
+        <button type="button" id="btn-start" class="btn btn-primary btn-lg w-auto mx-auto">document your moment now 👉</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('#btn-start').addEventListener('click', () => {
+            window.location.href = '/pay';
+        });
+    });
+</script>

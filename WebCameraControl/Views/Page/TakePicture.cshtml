@@ -1,0 +1,20 @@
+﻿@model WebCameraControl.Models.IndexModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div id="camera-preview" style="width: 1280px; height: 720px;">
+    <video playsinline="playsinline" style="width: 1280px; height: 720px;"></video>
+</div>
+<button type="button" id="btn-take-picture" class="btn btn-primary">Take Picture</button>
+<div id="picture-list" style="width: 1280px; height: 720px;">
+</div>
+
+<script src="~/lib/webcam/webcam.js"></script>
+<script src="~/js/Views/index.js"></script>
+<script type="text/javascript">
+    const variables = {
+        CameraManufacturer: '@Model.CameraManufacturer',
+    };
+</script>

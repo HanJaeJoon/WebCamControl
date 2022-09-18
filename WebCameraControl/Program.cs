@@ -20,6 +20,13 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapDefaultControllerRoute();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapDefaultControllerRoute();
+    endpoints.MapRazorPages();
+});
+
+// JJ: delete
+// app.UseErrorWrappingMiddleware();
 
 app.Run();
