@@ -21,13 +21,19 @@
 
         navigator.mediaDevices?.enumerateDevices()
             .then(devices => {
+                let webcamOption = null;
+
                 for (let i = 0; i < devices.length; i++) {
                     const device = devices[i];
 
-                    if (device.label?.toLowerCase()?.includes('fuji')) {
-                        Webcam.set({
-                            width: 720,
-                            //width: 1280,
+                    if (device?.kind !== 'videoinput') {
+                        continue;
+                    }
+
+                    if (device.label?.toLowerCase()?.includes('fuji') || !webcamOption) {
+                        webcamOption = {
+                            //width: 720,
+                            width: 1280,
                             height: 720,
                             image_format: 'jpeg',
                             jpeg_quality: 100,
@@ -37,11 +43,20 @@
                             //},
                             deviceId: { exact: device.deviceId, },
                             flip_horiz: true,
-                        });
 
-                        Webcam.attach('#camera-preview');
+                            // device capture size
+                            dest_width: 1280,
+                            dest_height: 720,
+
+                            // final cropped size
+                            crop_width: 1280,
+                            crop_height: 720,
+                        };
                     }
                 };
+
+                Webcam.set(webcamOption);
+                Webcam.attach('#camera-preview');
             })
             .catch(err => {
                 console.log(err);
