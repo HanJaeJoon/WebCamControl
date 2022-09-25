@@ -85,7 +85,6 @@
             formData.append('password', password);
             formData.append('__RequestVerificationToken', document.getElementsByName('__RequestVerificationToken')[0].value);
 
-            // JJ: MONA fetch API 참고하기
             fetch('/check-password', {
                 method: 'POST',
                 body: formData,

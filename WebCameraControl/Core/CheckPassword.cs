@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace WebCameraControl.Core
 {
@@ -11,8 +9,8 @@ namespace WebCameraControl.Core
         {
             if (context.HttpContext.Session.GetString("IsPasswordChecked") != "1")
             {
+                // context.Result = new UnauthorizedResult();
                 throw new Exception("Unauthorized!");
-                context.Result = new UnauthorizedResult();
             }
         }
     }
