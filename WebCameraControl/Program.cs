@@ -1,7 +1,17 @@
+using WebCameraControl.Core;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 WebApplication app = builder.Build();
 
@@ -13,6 +23,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseErrorWrappingMiddleware();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -20,13 +32,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapDefaultControllerRoute();
     endpoints.MapRazorPages();
 });
-
-// JJ: delete
-// app.UseErrorWrappingMiddleware();
 
 app.Run();

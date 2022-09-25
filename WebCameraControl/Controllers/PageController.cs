@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebCameraControl.Core;
 using WebCameraControl.Models;
 
 namespace WebCameraControl.Controllers
@@ -32,13 +33,15 @@ namespace WebCameraControl.Controllers
 
             if (password != appPassword)
             {
-                // throw new Exception("Unauthorized!");
                 return Unauthorized("Unauthorized!");
             }
+
+            HttpContext.Session.SetString("IsPasswordChecked", "1");
 
             return Redirect("/take-picture");
         }
 
+        [CheckLogin]
         [HttpGet("/take-picture")]
         public IActionResult TakePicture()
         {
