@@ -1,18 +1,43 @@
 html {
-  font-size: 14px;
+    -webkit-text-size-adjust: none;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+/* index */
+#title {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 8em;
+    color: #000000;
+}
+
+#sub-title {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2.5em;
+    color: #000000;
+}
+
+#btn-start {
+    font-family: 'Lexend Deca';
+    font-size: 2.5em;
+    background-color: #742DDD;
+    width: 15em;
 }
