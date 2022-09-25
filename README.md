@@ -1,6 +1,10 @@
 # WebCameraControl
 
----
+## 개발 자료
+
+- figma: https://www.figma.com/file/6qK6lUbZeVRVtdViYckqay/Haru-Haru?node-id=0%3A1
+
+## 리서치 자료
 
 테스트 페이지
 https://pixlcore.com/demos/webcamjs/demos/basic.html
