@@ -1,0 +1,31 @@
+﻿@model WebCameraControl.Models.IndexModel
+
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="d-flex flex-column min-vh-100 p-5">
+    <span id="timer" class="w-auto ms-auto me-5" data-set-timer-second="3"></span>
+    <span id="title" class="w-auto me-auto mt-1">Steps ✅</span>
+    <span id="sub-intro" class="w-auto me-auto">1. Take 8 photos</span>
+    <span id="sub-intro" class="w-auto me-auto">2. Pick 4 photos</span>
+    <span id="sub-intro" class="w-auto me-auto">3. Select photo style</span>
+    <div class="button-container mx-auto mt-auto">
+        <button type="button" id="btn-next" class="btn btn-secondary btn-lg mx-auto mt-5"
+                data-bs-toggle="modal" data-bs-target="#modal-password" disabled>
+            Okay, I got it &#8594;
+        </button>
+        <div class="mx-auto mt-2 mb-5 text-center">
+            <a href="/" class="text-black">< Go back to first</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        let timerSpan = document.querySelector('#timer');
+
+        startTimer(timerSpan);
+    });
+</script>

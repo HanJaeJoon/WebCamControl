@@ -5,7 +5,7 @@
 }
 
 
-<div class="d-flex flex-column min-vh-100 py-5">
+<div class="d-flex flex-column min-vh-100 p-5">
     <span id="intro" class="w-auto me-auto mt-5">안녕하세요. 👋</span>
     <span id="sub-intro" class="w-auto me-auto">Hi there, which would you like?</span>
     <div class="d-flex flex-row justify-content-center my-5">
@@ -16,14 +16,14 @@
             <div class="picture-option"></div>
         </div>
     </div>
-    <div class="mx-auto mt-auto">
+    <div class="button-container mx-auto mt-auto">
         <button type="button" id="btn-next" class="btn btn-secondary btn-lg mx-auto mt-5"
                 data-bs-toggle="modal" data-bs-target="#modal-password" disabled>
             🔒 Call staff to play
         </button>
-    </div>
-    <div class="mx-auto mt-2 mb-5">
-        <a href="/" class="text-black">< Go back to first</a>
+        <div class="mx-auto mt-2 mb-5 text-center">
+            <a href="/" class="text-black">< Go back to first</a>
+        </div>
     </div>
 </div>
 
@@ -101,7 +101,7 @@
                         throw new Error('internal server error!');
                     }
                 })
-                .then(() => { window.location.href = '/take-picture'; })
+                .then(() => { window.location.href = '/guide'; })
                 .catch(error => alert(error));
         });
     });

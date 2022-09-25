@@ -42,6 +42,13 @@ namespace WebCameraControl.Controllers
         }
 
         [CheckLogin]
+        [HttpGet("/guide")]
+        public IActionResult Guide()
+        {
+            return View();
+        }
+
+        [CheckLogin]
         [HttpGet("/take-picture")]
         public IActionResult TakePicture()
         {

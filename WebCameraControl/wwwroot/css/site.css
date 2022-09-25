@@ -40,6 +40,11 @@ body {
     font-size: 3em;
     background-color: #742DDD;
     width: 15em;
+    max-width: 15em;
+}
+
+.button-container {
+    margin-bottom: 7rem !important;
 }
 
 /* pay */
