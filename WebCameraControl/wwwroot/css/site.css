@@ -35,9 +35,40 @@ body {
     color: #000000;
 }
 
-#btn-start {
+#btn-next {
     font-family: 'Lexend Deca';
-    font-size: 2.5em;
+    font-size: 3em;
     background-color: #742DDD;
     width: 15em;
+}
+
+/* pay */
+#intro {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 6em;
+    color: #000000;
+}
+
+#sub-intro {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3em;
+    color: #000000;
+}
+
+.picture-option {
+    width: 300px;
+    height: 400px;
+    border-radius: 4px;
+    background: #403f3f;
+    background: rgba(64, 63, 63, 0.9);
+    cursor: pointer;
+}
+
+.picture-option.selected {
+    border: 3px solid #C2A9FA;
+    border-radius: 4px;
 }

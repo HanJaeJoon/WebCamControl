@@ -4,40 +4,26 @@
     Layout = "_Layout";
 }
 
-<style type="text/css">
-    #title {
-        font-family: SeoulNamsan CL;
-        font-size: 100px;
-        font-weight: 400;
-        height: 200px;
-        letter-spacing: -0.05em;
-        text-align: left;
-    }
 
-    .info-text {
-        font-family: SeoulNamsan CL;
-        font-size: 35px;
-    }
-</style>
-
-<div class="container w-100">
-    <div class="row">
-        <span class="w-auto mx-auto info-text">photo.moment</span>
+<div class="d-flex flex-column min-vh-100 py-5">
+    <span id="intro" class="w-auto me-auto mt-5">안녕하세요. 👋</span>
+    <span id="sub-intro" class="w-auto me-auto">Hi there, which would you like?</span>
+    <div class="d-flex flex-row justify-content-center my-5">
+        <div class="me-5">
+            <div class="picture-option"></div>
+        </div>
+        <div class="">
+            <div class="picture-option"></div>
+        </div>
     </div>
-    <div class="row">
-        <span id="title" class="w-auto mx-auto info-text">20RM for 1+1 photo</span>
-    </div>
-    <div class="row">
-        <span class="w-auto mx-auto info-text">Hi there!</span>
-    </div>
-    <div class="row">
-        <span class="w-auto mx-auto info-text">please pay to staff first, then they will start the process.</span>
-    </div>
-    <div class="row">
-        <button type="button" id="btn-start" class="btn btn-secondary btn-lg w-auto mx-auto mt-5"
-                data-bs-toggle="modal" data-bs-target="#modal-password">
-            Locked 🔒
+    <div class="mx-auto mt-auto">
+        <button type="button" id="btn-next" class="btn btn-secondary btn-lg mx-auto mt-5"
+                data-bs-toggle="modal" data-bs-target="#modal-password" disabled>
+            🔒 Call staff to play
         </button>
+    </div>
+    <div class="mx-auto mt-2 mb-5">
+        <a href="/" class="text-black">< Go back to first</a>
     </div>
 </div>
 
@@ -56,7 +42,6 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" id="submit" class="btn btn-primary">Get started</button>
                 </div>
             </div>
@@ -66,6 +51,23 @@
 
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
+        const options = document.querySelectorAll('.picture-option');
+        const btnNext = document.querySelector('#btn-next');
+
+        const checkOptions = () => {
+            let selectedOptions = document.querySelector('.picture-option.selected');
+
+            btnNext.disabled = !selectedOptions;
+        };
+
+        options.forEach(option => {
+            option.addEventListener('click', () =>  {
+                options.forEach(option => option.classList.remove('selected'));
+                option.classList.add('selected');
+                checkOptions();
+            });
+        });
+
         document.querySelector('#submit').addEventListener('click', function() {
             let password = document.querySelector('#password').value;
 
@@ -89,9 +91,19 @@
                 body: formData,
                 headers: myHeaders,
             })
-                .then(response => response.text())
-                .then(result => { })
-                .catch(error => alert('wrong password!'));
+                .then(response => {
+                    if (response.ok) {
+                        return;
+                    }
+
+                    if (response.status == 401) {
+                        throw new Error('wrong password!');
+                    } else {
+                        throw new Error('internal server error!');
+                    }
+                })
+                .then(() => { window.location.href = '/take-picture'; })
+                .catch(error => alert(error));
         });
     });
 </script>
