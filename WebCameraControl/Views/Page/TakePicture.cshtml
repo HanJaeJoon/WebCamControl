@@ -1,14 +1,47 @@
-﻿@model WebCameraControl.Models.IndexModel
+﻿@using System.Diagnostics
+@model WebCameraControl.Models.IndexModel
 
 @{
     Layout = "_Layout";
+
+    int width = Debugger.IsAttached ? 1080 : 720;
+    int height = Debugger.IsAttached ? 720 : 1080;
 }
 
-<div id="camera-preview" style="width: 360px; height: 590px;">
-    <video playsinline="playsinline" style="width: 360px; height: 590px;"></video>
+<div id="take-picture-area" class="d-flex flex-column min-vh-100">
+    <span id="counter" class="w-auto me-auto ms-3">1/8</span>
+
+    <div id="camera-preview">
+        <video playsinline="playsinline"></video>
+    </div>
+
+    <span id="timer" class="w-auto mx-auto">Ready?</span>
 </div>
-<button type="button" id="btn-take-picture" class="btn btn-primary">Take Picture</button>
-<div id="picture-list" style="width: 1280px; height: 720px;">
+<div id="picture-list-area" class="flex-column min-vh-100 d-none">
+    <div class="d-flex flex-row mb-3 justify-content-center">
+        <div id="img1" class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        </div>
+        <div id="img2" class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        </div>
+        <div id="img3" class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        </div>
+    </div>
+    <div class="d-flex flex-row mb-3 justify-content-center">
+        <div id="img4"  class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        </div>
+        <div id="img5"  class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        </div>
+        <div id="img6" class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        </div>
+    </div>
+    <div class="d-flex flex-row mb-3 justify-content-center">
+        <div id="img7" class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        </div>
+        <div id="img8"  class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        </div>
+        <div class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        </div>
+    </div>
 </div>
 
 <script src="~/lib/webcam/webcam.js"></script>
@@ -31,16 +64,16 @@
 
                     if (device.label?.toLowerCase()?.includes(variables.CameraManufacturer) || !webcamOption) {
                         webcamOption = {
-                            width: 360,
-                            height: 590,
+                            width: @(width / 2),
+                            height: @(height / 2),
                             image_format: 'jpeg',
                             jpeg_quality: 100,
                             deviceId: { exact: device.deviceId, },
                             flip_horiz: true,
 
                             // device capture size
-                            dest_width: 720,
-                            dest_height: 1080,
+                            dest_width: @width,
+                            dest_height: @height,
                         };
                     }
                 };
@@ -52,10 +85,59 @@
                 console.log(err);
             });
 
-        document.querySelector('#btn-take-picture').addEventListener('click', () => {
-            Webcam.snap(function (uri) {
-                document.querySelector('#picture-list').innerHTML += `<div><img src="${uri}" /></div>`;
-            });
-        });
+        const totalCount = 8;
+        const counter = document.querySelector('#counter');
+        const timerSpan = document.querySelector('#timer');
+        const pictureUriList = [];
+
+        const renderPictures = () => {
+            document.querySelector('#take-picture-area').classList.add('d-none');
+
+            const pictureList = document.querySelector('#picture-list-area');
+
+            for (let i = 0; i < pictureUriList.length; i++) {
+                const pictureUri = pictureUriList[i];
+
+                document.querySelector(`#img${i + 1}`).innerHTML = `
+                    <img src="${pictureUri}" style="width: @(width / 2)px; height: @(height / 2)px;" />
+                `;
+            }
+
+            pictureList.classList.remove('d-none');
+        }
+
+        let current = 1;
+
+        const initTimer = () => {
+            let seconds;
+            let timer = 6;
+            let interval = setInterval(() => {
+                seconds = timer;
+
+                timerSpan.innerText = timer === 6 ? 'Ready?' :
+                    timer === 0 ? '📸' :
+                    seconds + '!';
+
+                if (--timer < 0) {
+                    current++;
+
+                    counter.innerText = `${current}/${totalCount}`;
+
+                    Webcam.snap((uri) => {
+                        pictureUriList.push(uri);
+                    });
+
+                    clearInterval(interval);
+
+                    if (current >= totalCount) {
+                        renderPictures();
+                    } else {
+                        initTimer();
+                    }
+                }
+            }, 1_000);
+        }
+
+        initTimer();
     });
 </script>
