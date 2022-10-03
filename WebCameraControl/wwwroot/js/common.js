@@ -1,9 +1,7 @@
-﻿function startTimer(displaySpan) {
-    //let minutes
+﻿function startTimer(displaySpan, callBack) {
+    let seconds;
     let timer = +displaySpan.getAttribute('data-set-timer-second');
-
     let interval = setInterval(() => {
-        //minutes = +(timer / 60, 10);
         seconds = timer;
 
         //minutes = minutes < 10 ? '0' + minutes : minutes;
@@ -12,7 +10,7 @@
         displaySpan.innerText = 'Time left ' + seconds + 's';
 
         if (--timer < 0) {
-            alert('go back to first page')
+            callBack();
             clearInterval(interval);
         }
     }, 1_000);

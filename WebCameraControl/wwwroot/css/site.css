@@ -86,3 +86,12 @@ body {
     border: 3px solid #C2A9FA;
     border-radius: 4px;
 }
+
+/* Step */
+.black-intro {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.5em;
+    color: #7E7E7E;
+}

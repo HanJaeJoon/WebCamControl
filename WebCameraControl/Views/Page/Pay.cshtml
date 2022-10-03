@@ -36,7 +36,7 @@
         const btnNext = document.querySelector('#btn-next');
 
         const checkOptions = () => {
-            let selectedOptions = document.querySelector('.picture-option.selected');
+            const selectedOptions = document.querySelector('.picture-option.selected');
 
             btnNext.disabled = !selectedOptions;
         };
@@ -49,8 +49,8 @@
             });
         });
 
-        btnNext.addEventListener('click', function () {
-            var rm = document.querySelector('.picture-option.selected')?.getAttribute("data-rm");
+        btnNext.addEventListener('click', () => {
+            const rm = document.querySelector('.picture-option.selected')?.getAttribute("data-rm");
             window.location.href = `/step-page?rm=${rm}`;
         });
     });
