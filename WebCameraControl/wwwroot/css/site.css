@@ -64,6 +64,15 @@ body {
     color: #000000;
 }
 
+/* pay */
+.colored-intro {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2em;
+    color: #742DDD;
+}
+
 .picture-option {
     width: 300px;
     height: 400px;

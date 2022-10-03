@@ -10,47 +10,24 @@
     <span id="sub-intro" class="w-auto me-auto">Hi there, which would you like?</span>
     <div class="d-flex flex-row justify-content-center my-5">
         <div class="me-5">
-            <div class="picture-option">
-                <img src="/images/18.png" class="w-100 h-100" />
+            <div class="picture-option" data-rm="18">
+                <img src="/images/18RM.png" class="w-100 h-100" />
             </div>
         </div>
         <div class="">
-            <div class="picture-option">
-                <img src="/images/29.png" class="w-100 h-100" />
+            <div class="picture-option" data-rm="29">
+                <img src="/images/29RM.png" class="w-100 h-100" />
             </div>
         </div>
     </div>
     <div class="button-container mx-auto mt-auto">
-        <button type="button" id="btn-next" class="btn btn-secondary btn-lg mx-auto mt-5"
-                data-bs-toggle="modal" data-bs-target="#modal-password" disabled>
+        <button type="button" id="btn-next" class="btn btn-secondary btn-lg mx-auto mt-5" disabled>
             🔒 Call staff to play
         </button>
         <div class="mx-auto mt-2 mb-5 text-center">
             <a href="/" class="text-black">< Go back to first</a>
         </div>
     </div>
-</div>
-
-<div class="modal fade" id="modal-password" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <form asp-controller="Page" asp-action="CheckPassword">
-        @Html.AntiForgeryToken()
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Input Password</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row g-3 align-items-center">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Please enter a password." />
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="submit" class="btn btn-primary">Get started</button>
-                </div>
-            </div>
-        </div>
-    </form>
 </div>
 
 <script type="text/javascript">
@@ -72,41 +49,9 @@
             });
         });
 
-        document.querySelector('#submit').addEventListener('click', function() {
-            let password = document.querySelector('#password').value;
-
-            if (!password) {
-                alert('Please enter a password!');
-                return;
-            }
-
-            const myHeaders = new Headers();
-
-            myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
-
-            const formData = new URLSearchParams();
-
-            formData.append('password', password);
-            formData.append('__RequestVerificationToken', document.getElementsByName('__RequestVerificationToken')[0].value);
-
-            fetch('/check-password', {
-                method: 'POST',
-                body: formData,
-                headers: myHeaders,
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return;
-                    }
-
-                    if (response.status == 401) {
-                        throw new Error('wrong password!');
-                    } else {
-                        throw new Error('internal server error!');
-                    }
-                })
-                .then(() => { window.location.href = '/guide'; })
-                .catch(error => alert(error));
+        btnNext.addEventListener('click', function () {
+            var rm = document.querySelector('.picture-option.selected')?.getAttribute("data-rm");
+            window.location.href = `/step-page?rm=${rm}`;
         });
     });
 </script>

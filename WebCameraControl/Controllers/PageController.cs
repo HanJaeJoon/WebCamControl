@@ -25,6 +25,12 @@ namespace WebCameraControl.Controllers
             return View();
         }
 
+        [HttpGet("/step-page")]
+        public IActionResult StepPage()
+        {
+            return View();
+        }
+
         [HttpPost("/check-password")]
         [ValidateAntiForgeryToken]
         public IActionResult CheckPassword([FromForm] string password)

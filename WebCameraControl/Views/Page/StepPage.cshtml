@@ -1,0 +1,71 @@
+﻿@model WebCameraControl.Models.IndexModel
+
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="d-flex flex-column min-vh-100 p-5">
+    @Html.AntiForgeryToken()
+    <span id="sub-intro" class="w-auto me-auto">Staff-only mode 🔒</span>
+    <div class="d-flex flex-row justify-content-center mt-5 mb-3">
+        <span class="w-auto me-auto colored-intro">@(Context.Request.Query["rm"] == "18" ? "1 sheet only selected(18)" : "1 + 1 sheets selected(29)")</span>
+    </div>
+    <div class="input-group input-group-lg">
+        <input type="password" id="password" class="form-control" style="background: #EEEEEE" />
+    </div>
+    <div class="input-group input-group-lg my-3" style="text-align: center;">
+        <span class="form-control mx-auto" style="background: #FFF2B6">🔊 Put paper sheets before start!</span>
+    </div>
+    <div class="button-container mx-auto mt-auto">
+        <button type="button" id="btn-next" class="btn btn-secondary btn-lg mx-auto mt-5">
+            Done
+        </button>
+        <div class="mx-auto mt-2 mb-5 text-center">
+            <a href="/" class="text-black">< Go back to first</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        const btnNext = document.querySelector('#btn-next');
+
+        btnNext.addEventListener('click', function () {
+            let password = document.querySelector('#password').value;
+
+            if (!password) {
+                alert('Please enter a password!');
+                return;
+            }
+
+            const myHeaders = new Headers();
+
+            myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+
+            const formData = new URLSearchParams();
+
+            formData.append('password', password);
+            formData.append('__RequestVerificationToken', document.getElementsByName('__RequestVerificationToken')[0].value);
+
+            fetch('/check-password', {
+                method: 'POST',
+                body: formData,
+                headers: myHeaders,
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return;
+                    }
+
+                    if (response.status == 401) {
+                        throw new Error('wrong password!');
+                    } else {
+                        throw new Error('internal server error!');
+                    }
+                })
+                .then(() => { window.location.href = '/guide'; })
+                .catch(error => alert(error));
+        });
+    });
+</script>
