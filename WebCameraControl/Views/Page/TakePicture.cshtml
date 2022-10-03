@@ -4,17 +4,58 @@
     Layout = "_Layout";
 }
 
-<div id="camera-preview" style="width: 1280px; height: 720px;">
-    <video playsinline="playsinline" style="width: 1280px; height: 720px;"></video>
+<div id="camera-preview" style="width: 360px; height: 590px;">
+    <video playsinline="playsinline" style="width: 360px; height: 590px;"></video>
 </div>
 <button type="button" id="btn-take-picture" class="btn btn-primary">Take Picture</button>
 <div id="picture-list" style="width: 1280px; height: 720px;">
 </div>
 
 <script src="~/lib/webcam/webcam.js"></script>
-<script src="~/js/Views/index.js"></script>
 <script type="text/javascript">
     const variables = {
         CameraManufacturer: '@Model.CameraManufacturer',
     };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        navigator.mediaDevices?.enumerateDevices()
+            .then(devices => {
+                let webcamOption = null;
+
+                for (let i = 0; i < devices.length; i++) {
+                    const device = devices[i];
+
+                    if (device?.kind !== 'videoinput') {
+                        continue;
+                    }
+
+                    if (device.label?.toLowerCase()?.includes(variables.CameraManufacturer) || !webcamOption) {
+                        webcamOption = {
+                            width: 360,
+                            height: 590,
+                            image_format: 'jpeg',
+                            jpeg_quality: 100,
+                            deviceId: { exact: device.deviceId, },
+                            flip_horiz: true,
+
+                            // device capture size
+                            dest_width: 720,
+                            dest_height: 1080,
+                        };
+                    }
+                };
+
+                Webcam.set(webcamOption);
+                Webcam.attach('#camera-preview');
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+        document.querySelector('#btn-take-picture').addEventListener('click', () => {
+            Webcam.snap(function (uri) {
+                document.querySelector('#picture-list').innerHTML += `<div><img src="${uri}" /></div>`;
+            });
+        });
+    });
 </script>
