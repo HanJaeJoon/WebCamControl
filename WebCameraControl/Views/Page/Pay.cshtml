@@ -8,13 +8,19 @@
 <div class="d-flex flex-column min-vh-100 p-5">
     <span id="intro" class="w-auto me-auto mt-5">안녕하세요. 👋</span>
     <span id="sub-intro" class="w-auto me-auto">Hi there, which would you like?</span>
-    <div class="d-flex flex-row justify-content-center my-5">
+    <div class="d-flex flex-row justify-content-center my-3">
         <div class="me-5">
+            <div class="mx-auto text-center text-option invisible">
+                <span class="text-decoration-underline">📍 Selected!</span>
+            </div>
             <div class="picture-option" data-rm="18">
                 <img src="/images/18RM.png" class="w-100 h-100" />
             </div>
         </div>
         <div class="">
+            <div class="mx-auto text-center text-option invisible">
+                <span class="text-decoration-underline">📍 Selected!</span>
+            </div>
             <div class="picture-option" data-rm="29">
                 <img src="/images/29RM.png" class="w-100 h-100" />
             </div>
@@ -33,18 +39,29 @@
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
         const options = document.querySelectorAll('.picture-option');
+        const texts = document.querySelectorAll('.text-option');
         const btnNext = document.querySelector('#btn-next');
 
         const checkOptions = () => {
             const selectedOptions = document.querySelector('.picture-option.selected');
+            const selectedOptionsText = selectedOptions.parentNode.querySelector('.text-option');
 
             btnNext.disabled = !selectedOptions;
+
+            // 상단 select 버튼 초기화 
+            texts.forEach(text => {
+                text.classList.add('invisible');
+            });
+
+            // 선택된 이미지 상단 select 버튼 노출 
+            selectedOptionsText.classList.remove('invisible');
         };
 
         options.forEach(option => {
-            option.addEventListener('click', () =>  {
+            option.addEventListener('click', () => {
                 options.forEach(option => option.classList.remove('selected'));
                 option.classList.add('selected');
+
                 checkOptions();
             });
         });
