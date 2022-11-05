@@ -87,6 +87,14 @@ body {
     border-radius: 4px;
 }
 
+.text-option {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2em;
+    color: #000000;
+}
+
 /* Step */
 .black-intro {
     font-family: 'Lexend Deca';
