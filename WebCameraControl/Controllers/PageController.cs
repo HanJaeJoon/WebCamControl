@@ -63,5 +63,11 @@ namespace WebCameraControl.Controllers
                 CameraManufacturer = _configuration["CameraManufacturer"],
             });
         }
+
+        [HttpGet("/testjj")]
+        public IActionResult TestJJ()
+        {
+            return View();
+        }
     }
 }
