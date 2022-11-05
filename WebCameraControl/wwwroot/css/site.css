@@ -39,12 +39,12 @@ body {
     font-family: 'Lexend Deca';
     font-size: 3em;
     background-color: #742DDD;
-    width: 15em;
-    max-width: 15em;
+    width: 100%;
 }
 
 .button-container {
     margin-bottom: 7rem !important;
+    width: 100%;
 }
 
 /* pay */
