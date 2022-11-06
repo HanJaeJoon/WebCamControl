@@ -21,7 +21,10 @@ builder.Services.AddSession(options =>
 
 WebApplication app = builder.Build();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseWhen(httpContext => !httpContext.Request.Path.Value?.StartsWith("/api", StringComparison.CurrentCultureIgnoreCase) == true, application =>
+{
+    application.UseMiddleware<ExceptionHandlingMiddleware>();
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

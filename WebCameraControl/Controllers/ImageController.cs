@@ -35,22 +35,21 @@ namespace WebCameraControl.Controllers
             newMail.Subject = "My First Email";
             newMail.Body = "<h1> This is my first Templated Email in C# </h1>";
 
-            foreach (string imageSource in command.ImageSourceList)
-            {
-                byte[] bytes = Convert.FromBase64String(imageSource);
+            // 이미지 생성 로직
+            // 최종 결과
+            byte[] resultBytes = Convert.FromBase64String(command.ImageSourceList.FirstOrDefault() ?? string.Empty);
 
-                using MemoryStream memoryStream = new(bytes);
+            using MemoryStream memoryStream = new(resultBytes);
 
-                Attachment attachment = new (memoryStream, MediaTypeNames.Application.Octet);
+            ContentType contentType = new(MediaTypeNames.Image.Jpeg);
+            Attachment attachment = new(memoryStream, contentType);
 
-                newMail.Attachments.Add(attachment);
-            }
+            newMail.Attachments.Add(attachment);
 
             SmtpClient client = new("smtp.gmail.com", 587)
             {
                 Credentials = new NetworkCredential(_configuration["GmailUser"], _configuration["GmailPassword"]),
                 EnableSsl = true,
-                // UseDefaultCredentials = false,
             };
 
             client.Send(newMail);
