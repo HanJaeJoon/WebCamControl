@@ -366,3 +366,4 @@ FodyWeavers.xsd
 # Edit at https://www.toptal.com/developers/gitignore?templates=rider
 
 .idea/*
+WebCameraControl/appsettings.Development.json
