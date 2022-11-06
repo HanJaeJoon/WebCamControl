@@ -1,34 +1,34 @@
-﻿namespace WebCameraControl.Core
+﻿namespace WebCameraControl.Core;
+
+public class ExceptionHandlingMiddleware
 {
-    public class ExceptionHandlingMiddleware
+    private readonly RequestDelegate _next;
+
+    public ExceptionHandlingMiddleware(RequestDelegate next)
     {
-        private readonly RequestDelegate _next;
+        _next = next;
+    }
 
-        public ExceptionHandlingMiddleware(RequestDelegate next)
+    public async Task InvokeAsync(HttpContext httpContext)
+    {
+        try
         {
-            _next = next;
-        }
+            await _next(httpContext);
 
-        public async Task InvokeAsync(HttpContext httpContext)
-        {
-            try
+            if (httpContext.Response.StatusCode == 404)
             {
-                await _next(httpContext);
-
-                if (httpContext.Response.StatusCode == 404)
-                {
-                    httpContext.Response.Redirect("/");
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleExceptionAsync(httpContext, ex);
+                httpContext.Response.Redirect("/");
             }
         }
-
-        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        catch (Exception ex)
         {
-            string contentScript = $@"
+            await HandleExceptionAsync(httpContext, ex);
+        }
+    }
+
+    private async Task HandleExceptionAsync(HttpContext context, Exception exception)
+    {
+        string contentScript = $@"
                 <!DOCTYPE html>
                 <html>
                 <head>
@@ -41,7 +41,6 @@
                 </html>
             ";
 
-            await context.Response.WriteAsync(contentScript);
-        }
+        await context.Response.WriteAsync(contentScript);
     }
 }
