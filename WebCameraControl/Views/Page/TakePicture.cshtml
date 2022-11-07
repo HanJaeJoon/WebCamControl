@@ -8,14 +8,13 @@
     int height = Debugger.IsAttached ? 720 : 1080;
 }
 
-<div id="take-picture-area" class="d-flex flex-column min-vh-100">
-    <span id="counter" class="w-auto me-auto ms-3">1/8</span>
-
+<div id="take-picture-area" class="d-flex flex-column">
     <div id="camera-preview">
         <video playsinline="playsinline"></video>
     </div>
 
-    <span id="timer" class="w-auto mx-auto">Ready?</span>
+    <span id="camera-counter" class="w-auto me-auto ms-3">1/8</span>
+    <span id="camera-timer" class="w-auto mx-auto">Ready?</span>
 </div>
 <div id="picture-list-area" class="flex-column min-vh-100 d-none">
     <div class="d-flex flex-row mb-3 justify-content-center">
@@ -62,10 +61,12 @@
                         continue;
                     }
 
+                    let width = window.innerWidth;
+                    let height = document.documentElement.clientHeight;
                     if (device.label?.toLowerCase()?.includes(variables.CameraManufacturer) || !webcamOption) {
                         webcamOption = {
-                            width: window.innerWidth, // @(width / 2),
-                            height: window.innerHeight, // @(height / 2),
+                            width: width, // @(width / 2),
+                            height: height, // @(height / 2),
                             image_format: 'jpeg',
                             jpeg_quality: 100,
                             deviceId: { exact: device.deviceId, },
@@ -86,8 +87,8 @@
             });
 
         const totalCount = 8;
-        const counter = document.querySelector('#counter');
-        const timerSpan = document.querySelector('#timer');
+        const counter = document.querySelector('#camera-counter');
+        const timerSpan = document.querySelector('#camera-timer');
         const pictureUriList = [];
 
         const renderPictures = () => {
@@ -139,5 +140,21 @@
         }
 
         initTimer();
+
+
+        // 테스트 용도로 마우스 클릭시마다 사진 찍히도록 추가함. 
+        document.addEventListener('click', (event) => {
+            current++;
+
+            counter.innerText = `${current}/${totalCount}`;
+
+            Webcam.snap((uri) => {
+                pictureUriList.push(uri);
+            });
+
+            if (current >= totalCount) {
+                renderPictures();
+            }
+        });
     });
 </script>

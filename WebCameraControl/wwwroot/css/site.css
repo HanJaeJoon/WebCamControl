@@ -95,6 +95,45 @@ body {
     color: #000000;
 }
 
+/* Take Picture */
+#camera-preview {
+/*    position: relative;*/
+}
+
+#camera-preview video {
+    object-fit: cover;
+}
+
+#take-picture-area {
+    position: relative;
+}
+
+#camera-timer {
+    font-family: 'Lexend Deca';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    font-weight: 700;
+    font-size: 6em;
+    line-height: 16px;
+    letter-spacing: -0.4px;
+    color: #FFF2B6;
+    text-shadow: 0 0 2px #000;
+}
+
+#camera-counter {
+    font-family: 'Lexend Deca';
+    position: absolute;
+    font-weight: 600;
+    font-size: 3.5em;
+    top:3%;
+    line-height: 16px;
+    color: #FFF2B6;
+    letter-spacing: -1.4px;
+    text-shadow: 0 0 2px #000;
+}
+
 /* Step */
 .black-intro {
     font-family: 'Lexend Deca';
