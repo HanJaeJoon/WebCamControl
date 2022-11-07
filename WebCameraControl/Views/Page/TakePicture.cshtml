@@ -62,7 +62,7 @@
                     }
 
                     let width = window.innerWidth;
-                    let height = document.documentElement.clientHeight;
+                    let height = window.innerHeight;
                     if (device.label?.toLowerCase()?.includes(variables.CameraManufacturer) || !webcamOption) {
                         webcamOption = {
                             width: width, // @(width / 2),

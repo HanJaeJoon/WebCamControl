@@ -1,7 +1,6 @@
-﻿namespace WebCameraControl.Models
+﻿namespace WebCameraControl.Models;
+
+public class IndexModel
 {
-    public class IndexModel
-    {
-        public string? CameraManufacturer { get; set; } = null;
-    }
+    public string? CameraManufacturer { get; set; } = null;
 }

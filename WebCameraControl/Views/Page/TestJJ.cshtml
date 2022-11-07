@@ -1,0 +1,41 @@
+﻿@model WebCameraControl.Models.IndexModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="d-flex flex-column min-vh-100 p-5">
+    <img id="image" alt="image: radical candor" src="" style="width: 540px; height: 360px;">
+    <button type="button" id="btn-test" class="btn btn-primary btn-lg">Test</button>
+</div>
+
+<script src="~/js/test-data.js"></script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('#image').src = 'data:image/jpeg;base64,' + testData;
+
+        document.querySelector('#btn-test').addEventListener('click', () => {
+            fetch('/api/image/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ImageSourceList: [ testData ],
+                }),
+            })
+                .then(async (response) => {
+                    if (response.ok) {
+                        alert('Email 전송 성공!');
+                        return;
+                    }
+
+                    const text = await response.text();
+                    throw new Error(text);
+                })
+                .catch((error) => {
+                    alert(`에러 발생!\n${error}`);
+                });
+        });
+    });
+</script>

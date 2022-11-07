@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Created by https://www.toptal.com/developers/gitignore/api/rider
+# Edit at https://www.toptal.com/developers/gitignore?templates=rider
+
+.idea/*
+WebCameraControl/appsettings.Development.json
