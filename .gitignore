@@ -367,3 +367,5 @@ FodyWeavers.xsd
 
 .idea/*
 WebCameraControl/appsettings.Development.json
+
+WebCameraControl/wwwroot/data/db.*.sqlite
