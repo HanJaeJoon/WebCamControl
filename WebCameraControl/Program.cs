@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using WebCameraControl.Core;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,10 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+string connectionString = builder.Configuration.GetConnectionString("SqliteConnection")!;
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
 
 WebApplication app = builder.Build();
 

@@ -35,7 +35,7 @@ public class PageController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult CheckPassword([FromForm] string password)
     {
-        string appPassword = _configuration["Password"];
+        string? appPassword = _configuration["Password"];
 
         if (password != appPassword)
         {
