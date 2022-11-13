@@ -150,6 +150,11 @@ body {
     color: #000000;
 }
 
+.pick-option.selected {
+    border: 5px solid #6211C8;
+    border-radius: 4px;
+}
+
 #btn-done {
     font-family: 'Lexend Deca';
     font-size: 2em;
