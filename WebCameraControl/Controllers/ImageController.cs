@@ -36,36 +36,18 @@ public class ImageController : Controller
         // JJ: 이미지 생성 로직
         byte[] resultBytes = Convert.FromBase64String(command.ImageSourceList.FirstOrDefault() ?? string.Empty);
 
-        // 파일 저장
-        string fileName = $"{Guid.NewGuid()}.jpg";
-        string filePath = Path.Combine(_environment.ContentRootPath, "wwwroot\\files", fileName);
-
-        try
-        {
-            await using FileStream stream = System.IO.File.Create(filePath);
-
-            if (stream is null)
-            {
-                throw new Exception("invalid file path");
-            }
-
-            await stream.WriteAsync(resultBytes);
-        }
-        catch
-        {
-            throw new Exception("파일 저장 실패");
-        }
-
         // DB 저장
+        string downloadKey = Guid.NewGuid().ToString();
+
         try
         {
             _appDbContext.UserFiles.Add(new UserFile
             {
                 Id = _appDbContext.UserFiles.ToList().Count + 1,
                 Email = email,
-                FileName = fileName,
-                FilePath = filePath,
+                DownloadKey = downloadKey,
                 Date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                Content = resultBytes
             });
 
             await _appDbContext.SaveChangesAsync();
@@ -83,7 +65,7 @@ public class ImageController : Controller
             ContentType contentType = new(MediaTypeNames.Image.Jpeg);
             Attachment attachment = new(memoryStream, contentType);
 
-            string link = $"{Request.GetUri().GetLeftPart(UriPartial.Authority)}/download/{fileName}";
+            string link = $"{Request.GetUri().GetLeftPart(UriPartial.Authority)}/download/{downloadKey}";
 
             MailMessage newMail = new();
 

@@ -367,5 +367,3 @@ FodyWeavers.xsd
 
 .idea/*
 WebCameraControl/appsettings.Development.json
-
-WebCameraControl/wwwroot/files/

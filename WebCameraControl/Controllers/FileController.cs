@@ -10,30 +10,20 @@ namespace WebCameraControl.Controllers;
 public class FileController : Controller
 {
     private readonly AppDbContext _appDbContext;
-    private readonly IConfiguration _configuration;
 
-    public FileController(AppDbContext appDbContext, IConfiguration configuration)
+    public FileController(AppDbContext appDbContext)
     {
         _appDbContext = appDbContext;
-        _configuration = configuration;
     }
 
     [AllowAnonymous]
-    [HttpGet("/download/{fileName}")]
-    public IActionResult Download([FromRoute] string fileName)
+    [HttpGet("/download/{downloadKey}")]
+    public IActionResult Download([FromRoute] string downloadKey)
     {
-        UserFile? imageFile = _appDbContext.UserFiles.FirstOrDefault(x => x.FileName == fileName);
+        UserFile? imageFile = _appDbContext.UserFiles.FirstOrDefault(x => x.DownloadKey == downloadKey);
 
-        if (imageFile?.FilePath is null)
-        {
-            return View("_Error", new ErrorModel
-            {
-                Message = "파일을 찾을 수 없습니다.",
-            });
-        }
-
-        if (!DateTime.TryParseExact(imageFile.Date, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture,
-                DateTimeStyles.None, out DateTime writeDate))
+        if (imageFile?.Content is null || !DateTime.TryParseExact(imageFile.Date, "yyyy-MM-dd HH:mm:ss",
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime writeDate))
         {
             return View("_Error", new ErrorModel
             {
@@ -53,7 +43,7 @@ public class FileController : Controller
         }
         else
         {
-            return PhysicalFile(imageFile.FilePath, "image/jpeg", $"{imageFile.Email}.jpg");
+            return File(imageFile.Content, "image/jpeg", $"{imageFile.Email}.jpg");
         }
     }
 }
