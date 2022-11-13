@@ -134,6 +134,29 @@ body {
     text-shadow: 0 0 2px #000;
 }
 
+#pick {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 6em;
+    color: #000000;
+}
+
+#reset {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2em;
+    color: #000000;
+}
+
+#btn-done {
+    font-family: 'Lexend Deca';
+    font-size: 2em;
+    background-color: #742DDD;
+    width: 50%;
+}
+
 /* Step */
 .black-intro {
     font-family: 'Lexend Deca';

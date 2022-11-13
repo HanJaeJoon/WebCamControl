@@ -16,29 +16,34 @@
     <span id="camera-counter" class="w-auto me-auto ms-3">1/8</span>
     <span id="camera-timer" class="w-auto mx-auto">Ready?</span>
 </div>
-<div id="picture-list-area" class="flex-column min-vh-100 d-none">
+<div id="picture-list-area" class="d-flex flex-column min-vh-100 p-5">
+    <span id="pick" class="w-auto me-auto mt-1">Pick 4 photos</span>
     <div class="d-flex flex-row mb-3 justify-content-center">
-        <div id="img1" class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        <div id="img1" class="mx-3" style="background-color: red; width: 30%; height: 30%;">
         </div>
-        <div id="img2" class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        <div id="img2" class="mx-3" style="background-color: red; width: 30%; height: 30%;">
         </div>
-        <div id="img3" class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        <div id="img3" class="mx-3" style="background-color: red; width: 30%; height: 30%;">
         </div>
     </div>
     <div class="d-flex flex-row mb-3 justify-content-center">
-        <div id="img4"  class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        <div id="img4" class="mx-3" style="background-color: red; width: 30%; height: 30%;">
         </div>
-        <div id="img5"  class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        <div id="img5" class="mx-3" style="background-color: red; width: 30%; height: 30%;">
         </div>
-        <div id="img6" class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        <div id="img6" class="mx-3" style="background-color: red; width: 30%; height: 30%;">
         </div>
     </div>
     <div class="d-flex flex-row mb-3 justify-content-center">
-        <div id="img7" class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        <div id="img7" class="mx-3" style="background-color: red; width: 30%; height: 30%;">
         </div>
-        <div id="img8"  class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        <div id="img8" class="mx-3" style="background-color: red; width: 30%; height: 30%;">
         </div>
-        <div class="mx-3" style="background-color: red; width: 300px; height: 500px;">
+        <div class="mx-3 text-center align-self-end"  style="width: 30%; height: 30%;">
+            <a id="reset" href="/" class="text-black">RESET ALL</a>
+            <button type="button" id="btn-done" class="btn btn-secondary justify-content-center">
+                Done
+            </button>
         </div>
     </div>
 </div>
@@ -48,6 +53,9 @@
     const variables = {
         CameraManufacturer: '@Model.CameraManufacturer',
     };
+
+    const windowInnerWidth = window.innerWidth;
+    const windowInnerHeight = window.innerHeight;
 
     document.addEventListener('DOMContentLoaded', async () => {
         navigator.mediaDevices?.enumerateDevices()
@@ -61,20 +69,18 @@
                         continue;
                     }
 
-                    let width = window.innerWidth;
-                    let height = window.innerHeight;
                     if (device.label?.toLowerCase()?.includes(variables.CameraManufacturer) || !webcamOption) {
                         webcamOption = {
-                            width: width, // @(width / 2),
-                            height: height, // @(height / 2),
+                            width: windowInnerWidth, // @(width / 2),
+                            height: windowInnerHeight, // @(height / 2),
                             image_format: 'jpeg',
                             jpeg_quality: 100,
                             deviceId: { exact: device.deviceId, },
                             flip_horiz: true,
 
                             // device capture size
-                            dest_width: @width,
-                            dest_height: @height,
+                            dest_width: windowInnerWidth / 2,
+                            dest_height: windowInnerHeight / 2,
                         };
                     }
                 };
@@ -100,7 +106,7 @@
                 const pictureUri = pictureUriList[i];
 
                 document.querySelector(`#img${i + 1}`).innerHTML = `
-                    <img src="${pictureUri}" style="width: @(width / 2)px; height: @(height / 2)px;" />
+                    <img src="${pictureUri}" style="max-width: 100%;" />
                 `;
             }
 
