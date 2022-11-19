@@ -22,16 +22,19 @@
       <input type="email" id="email" class="form-control" placeholder="jaejoon.han@crevisse.com" value="jaejoon.han@crevisse.com">
       <label for="email">링크를 전송할 Email</label>
     </div>
-    <button type="button" id="btn-test" class="btn btn-primary btn-lg">Test</button>
+    <button type="button" id="btn-send" class="btn btn-primary btn-lg">Send Email</button>
+    <div id="qr-code-area" class="mt-5"></div>
 </div>
 
 <script src="~/js/test-data.js"></script>
+<script src="~/js/qrcode.js"></script>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#image').src = 'data:image/jpeg;base64,' + testData;
         const emailInput = document.querySelector("#email");
+        const qrArea = document.querySelector('#qr-code-area');
 
-        document.querySelector('#btn-test').addEventListener('click', () => {
+        document.querySelector('#btn-send').addEventListener('click', () => {
             if (!emailInput) {
                 alert(`email을 입력해주세요!`);
                 return;
@@ -49,12 +52,15 @@
             })
                 .then(async (response) => {
                     if (response.ok) {
-                        alert('Email 전송 성공!');
-                        return;
+                        return response.json();
                     }
 
                     const text = await response.text();
                     throw new Error(text);
+                })
+                .then((data) => {
+                    new QRCode(qrArea, data);
+                    alert(`성공!`);
                 })
                 .catch((error) => {
                     alert(`에러 발생!\n${error}`);

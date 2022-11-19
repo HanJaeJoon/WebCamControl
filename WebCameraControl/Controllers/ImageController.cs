@@ -23,7 +23,7 @@ public class ImageController : Controller
     }
 
     [HttpPost("send")]
-    public async Task SendImages(SendImagesCommand command)
+    public async Task<JsonResult> SendImages(SendImagesCommand command)
     {
         if (command?.ImageSourceList is null || command.Email is null)
         {
@@ -35,6 +35,7 @@ public class ImageController : Controller
 
         // DB 저장
         string downloadKey = Guid.NewGuid().ToString();
+        string link = string.Empty;
 
         try
         {
@@ -62,7 +63,7 @@ public class ImageController : Controller
             ContentType contentType = new(MediaTypeNames.Image.Jpeg);
             Attachment attachment = new(memoryStream, contentType);
 
-            string link = $"{Request.GetUri().GetLeftPart(UriPartial.Authority)}/download/{downloadKey}";
+            link = $"{Request.GetUri().GetLeftPart(UriPartial.Authority)}/download/{downloadKey}";
 
             MailMessage newMail = new();
 
@@ -89,6 +90,6 @@ public class ImageController : Controller
             throw new Exception("Email 전송 실패");
         }
 
-        await Task.CompletedTask;
+        return Json(link);
     }
 }
