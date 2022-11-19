@@ -11,4 +11,6 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<UserFile> UserFiles => Set<UserFile>();
+
+    public DbSet<AppInfo> AppInfo => Set<AppInfo>();
 }

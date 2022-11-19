@@ -1,11 +1,27 @@
-﻿@model WebCameraControl.Models.IndexModel
+﻿@using WebCameraControl.Core
+@using WebCameraControl.Models
+@model WebCameraControl.Models.IndexModel
+@inject AppDbContext DbContext
 
 @{
     Layout = "_Layout";
+
+    AppInfo? info = DbContext.AppInfo.FirstOrDefault();
+}
+
+@if (info is not null)
+{
+    <div>
+        버전: @info.Version.ToString() (@info.Date)
+    </div>
 }
 
 <div class="d-flex flex-column min-vh-100 p-5">
     <img id="image" alt="image: radical candor" src="" style="width: 540px; height: 360px;">
+    <div class="form-floating my-5">
+      <input type="email" id="email" class="form-control" placeholder="jaejoon.han@crevisse.com" value="jaejoon.han@crevisse.com">
+      <label for="email">링크를 전송할 Email</label>
+    </div>
     <button type="button" id="btn-test" class="btn btn-primary btn-lg">Test</button>
 </div>
 
@@ -13,15 +29,22 @@
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#image').src = 'data:image/jpeg;base64,' + testData;
+        const emailInput = document.querySelector("#email");
 
         document.querySelector('#btn-test').addEventListener('click', () => {
+            if (!emailInput) {
+                alert(`email을 입력해주세요!`);
+                return;
+            }
+
             fetch('/api/image/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    ImageSourceList: [ testData ],
+                    email: emailInput.value,
+                    imageSourceList: [ testData ],
                 }),
             })
                 .then(async (response) => {
