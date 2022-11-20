@@ -16,6 +16,8 @@
     </div>
 }
 
+<link rel="stylesheet" href="~/css/filters.min.css" />
+
 <div class="d-flex flex-column min-vh-100 p-5">
     <img id="image" alt="image: radical candor" src="" style="width: 540px; height: 360px;">
     <div class="form-floating my-5">
@@ -27,7 +29,7 @@
 </div>
 
 <script src="~/js/test-data.js"></script>
-<script src="~/js/qrcode.js"></script>
+<script src="~/js/qrcode.min.js"></script>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#image').src = 'data:image/jpeg;base64,' + testData;
