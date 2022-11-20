@@ -35,7 +35,7 @@ public class ImageController : Controller
 
         // DB 저장
         string downloadKey = Guid.NewGuid().ToString();
-        string link = string.Empty;
+        string link;
 
         try
         {
