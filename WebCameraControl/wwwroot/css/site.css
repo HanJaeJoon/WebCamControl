@@ -18,6 +18,15 @@ body {
     margin-bottom: 60px;
 }
 
+/* common */
+#btn-go-to-print {
+    font-family: 'Lexend Deca';
+    font-size: 3em;
+    background-color: #742DDD;
+    color: #FFFFFF;
+    width: 100%;
+}
+
 /* index */
 #title {
     font-family: 'Lexend Deca';
@@ -161,6 +170,110 @@ body {
     background-color: #742DDD;
     width: 50%;
 }
+
+#picture-priview-modal .modal-title {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 3em;
+}
+
+#picture-priview-modal .modal-footer .btn-purple {
+    width: 48%;
+    font-size: 2em;
+    background-color: #742DDD;
+    color: #FFFFFF;
+}
+
+#picture-priview-modal .modal-footer .btn-white {
+    width: 48%;
+    font-size: 2em;
+    background-color: #FFFFFF;
+    color: #742DDD;
+}
+
+#picture-priview-modal .photo-container {
+    background-color: #D9D9D9;
+    padding: 12px;
+}
+
+#picture-priview-modal .photo-footer {
+    text-align: center;
+}
+
+/* Select Page*/
+#select-style-area .title {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 6em;
+    color: #000000;
+}
+
+#select-style-area .photo-container {
+    background-color: #D9D9D9;
+    padding: 12px;
+}
+
+#select-style-area .photo-container .photo-footer {
+    text-align: center;
+}
+
+#select-style-area .option-title {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 2em;
+    line-height: 15px;
+    color: #000000;
+}
+
+#select-style-area .select-filter .filter {
+    border-radius: 11px;
+    font-size: 1em;
+    padding: 5px;
+    color: #757575;
+}
+
+#select-style-area .select-filter .filter.selected {
+    background-color: #742DDD;
+    color: #FFFFFF;
+}
+
+#select-style-area .select-color .preview-color {
+    width: 35px;
+    height: 35px;
+    left: 148px;
+    top: 164px;
+    border: 0.2px solid #000000;
+    border-radius: 100%;
+}
+
+#select-style-area .select-color .text-color {
+    font-size: 1em;
+    text-align: center;
+}
+
+#color-white {
+    background-color: #FFFFFF;
+}
+
+#color-black {
+    background-color: #000000;
+}
+
+#color-gray {
+    background-color: #D9D9D9;
+}
+
+#color-red {
+    background-color: #F0A8B3;
+}
+
+#color-purple {
+    background-color: #DBD1FF;
+}
+
 
 /* Step */
 .black-intro {

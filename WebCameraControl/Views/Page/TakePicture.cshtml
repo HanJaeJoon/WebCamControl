@@ -57,22 +57,32 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex flex-row mb-3 justify-content-center">
-                    <div id="preview-img1" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
+                <div class="container photo-container">
+                    <div class="row">
+                        <div id="preview-img1" class="pick-option col">
+                        </div>
+                        <div id="preview-img2" class="pick-option col">
+                        </div>
                     </div>
-                    <div id="preview-img2" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
+
+                    <div class="row" style="height:24px;"></div>
+
+                    <div class="row">
+                        <div id="preview-img3" class="pick-option col">
+                        </div>
+                        <div id="preview-img4" class="pick-option col">
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex flex-row mb-3 justify-content-center">
-                    <div id="preview-img3" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
-                    </div>
-                    <div id="preview-img4" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
+
+                    <div class="row photo-footer">
+                        <span>Haru Haru</span>
+                        <span>오늘을 기록하다</span>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn-white" data-bs-dismiss="modal">Go Back</button>
+                <button type="button" id="btn-confirm" class="btn-purple">Confirm</button>
             </div>
         </div>
     </div>
@@ -186,7 +196,7 @@
 
         options.forEach(option => {
             option.addEventListener('click', () => {
-                option.classList.add('selected');
+                option.classList.toggle('selected');
 
                 checkOptions();
             });
@@ -231,6 +241,17 @@
             }
 
             $('#picture-priview-modal').modal('show');
+        });
+
+        const btnConfirm = document.querySelector('#btn-confirm');
+        btnConfirm.addEventListener('click', () => {
+            console.log('btnConfirm');
+            localStorage.setItem("image1_src", $("#preview-img1 img")[0].src);
+            localStorage.setItem("image2_src", $("#preview-img2 img")[0].src);
+            localStorage.setItem("image3_src", $("#preview-img3 img")[0].src);
+            localStorage.setItem("image4_src", $("#preview-img4 img")[0].src);
+
+            window.location.href = `/select-page`;
         });
     });
 </script>
