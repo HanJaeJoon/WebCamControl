@@ -31,6 +31,14 @@ public class PageController : Controller
         return View();
     }
 
+
+    [HttpGet("/select-page")]
+    public IActionResult SelectPage()
+    {
+        return View();
+    }
+
+
     [HttpPost("/check-password")]
     [ValidateAntiForgeryToken]
     public IActionResult CheckPassword([FromForm] string password)

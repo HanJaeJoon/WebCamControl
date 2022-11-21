@@ -1,0 +1,91 @@
+﻿@model WebCameraControl.Models.IndexModel
+
+@{
+    Layout = "_Layout";
+}
+
+
+<div id="select-style-area" class="container min-vh-100 p-5">
+    <span class="title w-auto me-auto mt-1">Select Style</span>
+    <div class="row mb-3 justify-content-center">
+        <div class="photo-container col-6">
+            <div class="row">
+                <div id="select-img1" class="col">
+                </div>
+                <div id="select-img2" class="col">
+                </div>
+            </div>
+
+            <div class="row" style="height:24px;"></div>
+
+            <div class="row">
+                <div id="select-img3" class="col">
+                </div>
+                <div id="select-img4" class="col">
+                </div>
+            </div>
+
+            <div class="row photo-footer">
+                <span>Haru Haru</span>
+                <span>오늘을 기록하다</span>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="row">
+                <div class="select-filter">
+                    <p class="option-title">photo filter</p>
+                    <div class="d-flex flex-row">
+                        <div class="filter selected">Natural</div>
+                        <div class="filter ms-4">Black & White</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="height:30px;"></div>
+            <div class="row">
+                <div class="select-color">
+                    <p class="option-title">frame color</p>
+                    <div class="row">
+                        <div class="color col">
+                            <div id="color-white" class="preview-color"></div>
+                            <div class="text-color">white</div>
+                        </div>
+                        <div class="color col">
+                            <div id="color-black" class="preview-color"></div>
+                            <div class="text-color">black</div>
+                        </div>
+                        <div class="color col">
+                            <div id="color-gray" class="preview-color"></div>
+                            <div class="text-color">gray</div>
+                        </div>
+                        <div class="color col">
+                            <div id="color-red" class="preview-color"></div>
+                            <div class="text-color">red</div>
+                        </div>
+                        <div class="color col">
+                            <div id="color-purple" class="preview-color"></div>
+                            <div class="text-color">purple</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="button-container mx-auto mt-auto">
+        <button type="button" id="btn-go-to-print" class="btn btn-lg">Go to print →</button>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        @*localStorage.setItem("image1_src", $("#preview-img1 img").src);*@
+        console.log('here');
+        document.querySelector("#select-img1").innerHTML = `<img src="${localStorage.getItem("image1_src")}" style="max-width: 100%;" />`;
+        document.querySelector("#select-img2").innerHTML = `<img src="${localStorage.getItem("image2_src")}" style="max-width: 100%;" />`;
+        document.querySelector("#select-img3").innerHTML = `<img src="${localStorage.getItem("image3_src")}" style="max-width: 100%;" />`;
+        document.querySelector("#select-img4").innerHTML = `<img src="${localStorage.getItem("image4_src")}" style="max-width: 100%;" />`;
+
+    });
+</script>
