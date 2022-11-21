@@ -23,28 +23,26 @@ public class ImageController : Controller
     }
 
     [HttpPost("send")]
-    public async Task SendImages(SendImagesCommand command)
+    public async Task<JsonResult> SendImages(SendImagesCommand command)
     {
-        if (command?.ImageSourceList is null)
+        if (command?.ImageSourceList is null || command.Email is null)
         {
             throw new Exception("잘못된 접근입니다.");
         }
-
-        // JJ: command 내부로
-        string email = "jaejoon.han@crevisse.com";
 
         // JJ: 이미지 생성 로직
         byte[] resultBytes = Convert.FromBase64String(command.ImageSourceList.FirstOrDefault() ?? string.Empty);
 
         // DB 저장
         string downloadKey = Guid.NewGuid().ToString();
+        string link;
 
         try
         {
             _appDbContext.UserFiles.Add(new UserFile
             {
                 Id = _appDbContext.UserFiles.ToList().Count + 1,
-                Email = email,
+                Email = command.Email,
                 DownloadKey = downloadKey,
                 Date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 Content = resultBytes
@@ -65,13 +63,13 @@ public class ImageController : Controller
             ContentType contentType = new(MediaTypeNames.Image.Jpeg);
             Attachment attachment = new(memoryStream, contentType);
 
-            string link = $"{Request.GetUri().GetLeftPart(UriPartial.Authority)}/download/{downloadKey}";
+            link = $"{Request.GetUri().GetLeftPart(UriPartial.Authority)}/download/{downloadKey}";
 
             MailMessage newMail = new();
 
             newMail.From = new MailAddress(_configuration["EmailSenderAddress"] ?? string.Empty,
                 _configuration["EmailSenderName"]);
-            newMail.To.Add(email);
+            newMail.To.Add(command.Email);
 
             newMail.IsBodyHtml = true;
             newMail.Subject = "[HaruHaru] pictures";
@@ -92,6 +90,6 @@ public class ImageController : Controller
             throw new Exception("Email 전송 실패");
         }
 
-        await Task.CompletedTask;
+        return Json(link);
     }
 }

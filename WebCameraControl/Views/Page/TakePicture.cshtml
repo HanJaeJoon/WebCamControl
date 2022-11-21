@@ -110,8 +110,8 @@
 
                     if (device.label?.toLowerCase()?.includes(variables.CameraManufacturer) || !webcamOption) {
                         webcamOption = {
-                            width: windowInnerWidth, // @(width / 2),
-                            height: windowInnerHeight, // @(height / 2),
+                            width: windowInnerWidth,
+                            height: windowInnerHeight,
                             image_format: 'jpeg',
                             jpeg_quality: 100,
                             deviceId: { exact: device.deviceId, },

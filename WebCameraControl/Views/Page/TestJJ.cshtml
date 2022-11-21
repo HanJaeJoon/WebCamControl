@@ -1,41 +1,110 @@
-﻿@model WebCameraControl.Models.IndexModel
+﻿@using WebCameraControl.Core
+@using WebCameraControl.Models
+@model WebCameraControl.Models.IndexModel
+@inject AppDbContext DbContext
 
 @{
     Layout = "_Layout";
+
+    AppInfo? info = DbContext.AppInfo.FirstOrDefault();
+}
+
+@if (info is not null)
+{
+    <div>
+        버전: @info.Version.ToString() (@info.Date)
+    </div>
 }
 
 <div class="d-flex flex-column min-vh-100 p-5">
+    <span>original</span>
     <img id="image" alt="image: radical candor" src="" style="width: 540px; height: 360px;">
-    <button type="button" id="btn-test" class="btn btn-primary btn-lg">Test</button>
+    <span id="filter">original(no filter)</span>
+    <canvas id="canvas" width="540" height="360" style="width: 540px; height: 360px;"></canvas>
+    <div class="form-floating my-5">
+        <input type="email" id="email" class="form-control" placeholder="jaejoon.han@crevisse.com" value="jaejoon.han@crevisse.com">
+        <label for="email">링크를 전송할 Email</label>
+    </div>
+    <button type="button" id="btn-send" class="btn btn-primary btn-lg">Send Email</button>
+    <button type="button" id="btn-filter" class="btn btn-secondary btn-lg my-3">Set filter</button>
+    <div id="qr-code-area" class="mt-5"></div>
 </div>
 
 <script src="~/js/test-data.js"></script>
+<script src="~/js/qrcode.min.js"></script>
+<script src="~/js/pixels.min.js"></script>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
-        document.querySelector('#image').src = 'data:image/jpeg;base64,' + testData;
+        const image = document.querySelector('#image');
+        image.src = 'data:image/jpeg;base64,' + testData;
 
-        document.querySelector('#btn-test').addEventListener('click', () => {
+        const canvas = document.querySelector('#canvas');
+
+        let context = canvas.getContext('2d');
+        let img = new Image();
+        img.src = image.src;
+        img.onload = () => {
+          context.drawImage(img, 0, 0, 1080, 720, 0, 0, 540, 360);
+        };
+
+        const emailInput = document.querySelector('#email');
+        const qrArea = document.querySelector('#qr-code-area');
+
+        document.querySelector('#btn-send').addEventListener('click', () => {
+            if (!emailInput) {
+                alert(`email을 입력해주세요!`);
+                return;
+            }
+
+            const base64Image = canvas.toDataURL('image/jpeg').split(';base64,')[1];
+
             fetch('/api/image/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    ImageSourceList: [ testData ],
+                    email: emailInput.value,
+                    imageSourceList: [ base64Image ],
                 }),
             })
                 .then(async (response) => {
                     if (response.ok) {
-                        alert('Email 전송 성공!');
-                        return;
+                        return response.json();
                     }
 
                     const text = await response.text();
                     throw new Error(text);
                 })
+                .then((data) => {
+                    new QRCode(qrArea, data);
+                    alert(`성공!`);
+                })
                 .catch((error) => {
                     alert(`에러 발생!\n${error}`);
                 });
+        });
+
+        const filterList = pixelsJS.getFilterList();
+        const filterSpan = document.querySelector('#filter');
+
+        document.querySelector('#btn-filter').addEventListener('click', () => {
+            img.src = image.src;
+            img.onload = () => {
+                let context = canvas.getContext('2d')
+
+                context.drawImage(img, 0, 0, 1080, 720, 0, 0, 540, 360);
+
+                let imgData = context.getImageData(0, 0, 540, 360);
+                let index = Math.floor(Math.random() * filterList.length);
+                let filter = filterList[index];
+
+                filterSpan.innerHTML = filter;
+
+                let newImgData = pixelsJS.filterImgData(imgData, filter);
+
+                context.putImageData(newImgData, 0, 0);
+            };
         });
     });
 </script>
