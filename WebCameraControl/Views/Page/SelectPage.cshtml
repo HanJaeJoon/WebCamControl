@@ -6,7 +6,6 @@
 
 
 <div id="select-style-area" class="container min-vh-100 p-5">
-    <p id="selectPage-timer" class="text-end">Timer left</p>
     <span class="title w-auto me-auto mt-1">Select Style</span>
     <div class="row mb-3 justify-content-center">
         <div class="photo-container col-6">
@@ -81,6 +80,7 @@
 
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
+        // 이미지 세팅 
         document.querySelector("#select-img1").innerHTML = `<img src="${localStorage.getItem("image1_src")}" style="max-width: 100%;" />`;
         document.querySelector("#select-img2").innerHTML = `<img src="${localStorage.getItem("image2_src")}" style="max-width: 100%;" />`;
         document.querySelector("#select-img3").innerHTML = `<img src="${localStorage.getItem("image3_src")}" style="max-width: 100%;" />`;
