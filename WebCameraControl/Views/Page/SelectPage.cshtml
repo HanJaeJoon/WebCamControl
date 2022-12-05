@@ -6,6 +6,7 @@
 
 
 <div id="select-style-area" class="container min-vh-100 p-5">
+    <p id="selectPage-timer" class="text-end">Timer left</p>
     <span class="title w-auto me-auto mt-1">Select Style</span>
     <div class="row mb-3 justify-content-center">
         <div class="photo-container col-6">
@@ -47,23 +48,23 @@
                     <p class="option-title">frame color</p>
                     <div class="row">
                         <div class="color col">
-                            <div id="color-white" class="preview-color"></div>
+                            <div id="color-white" class="preview-color" style="background-color: #FFFFFF;"></div>
                             <div class="text-color">white</div>
                         </div>
                         <div class="color col">
-                            <div id="color-black" class="preview-color"></div>
+                            <div id="color-black" class="preview-color" style="background-color: #000000;"></div>
                             <div class="text-color">black</div>
                         </div>
                         <div class="color col">
-                            <div id="color-gray" class="preview-color"></div>
+                            <div id="color-gray" class="preview-color selected" style="background-color: #D9D9D9;"></div>
                             <div class="text-color">gray</div>
                         </div>
                         <div class="color col">
-                            <div id="color-red" class="preview-color"></div>
+                            <div id="color-red" class="preview-color" style="background-color: #F0A8B3;"></div>
                             <div class="text-color">red</div>
                         </div>
                         <div class="color col">
-                            <div id="color-purple" class="preview-color"></div>
+                            <div id="color-purple" class="preview-color" style="background-color: #DBD1FF;"></div>
                             <div class="text-color">purple</div>
                         </div>
                     </div>
@@ -80,12 +81,35 @@
 
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
-        @*localStorage.setItem("image1_src", $("#preview-img1 img").src);*@
-        console.log('here');
         document.querySelector("#select-img1").innerHTML = `<img src="${localStorage.getItem("image1_src")}" style="max-width: 100%;" />`;
         document.querySelector("#select-img2").innerHTML = `<img src="${localStorage.getItem("image2_src")}" style="max-width: 100%;" />`;
         document.querySelector("#select-img3").innerHTML = `<img src="${localStorage.getItem("image3_src")}" style="max-width: 100%;" />`;
         document.querySelector("#select-img4").innerHTML = `<img src="${localStorage.getItem("image4_src")}" style="max-width: 100%;" />`;
 
+        // 필터 선택하기
+        const filterOptions = document.querySelectorAll('.select-filter .filter');
+
+        filterOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                filterOptions.forEach(option => option.classList.remove('selected'));
+                option.classList.add('selected');
+            });
+        });
+
+        // 색상 선택하기 
+        const colorOptions = document.querySelectorAll('.select-color .preview-color');
+
+        colorOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                colorOptions.forEach(option => option.classList.remove('selected'));
+                option.classList.add('selected');
+
+                let selectedColor = option.style.backgroundColor;
+                console.log(selectedColor);
+                console.log(option);
+                $("#select-style-area .photo-container").css('background-color', selectedColor);
+                // #select-style-area .photo-container
+            });
+        });
     });
 </script>
