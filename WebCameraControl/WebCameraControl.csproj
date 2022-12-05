@@ -21,4 +21,9 @@
     <Folder Include="wwwroot\data" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\images\frame_white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

@@ -193,8 +193,16 @@ body {
 }
 
 #picture-priview-modal .photo-container {
-    background-color: #D9D9D9;
-    padding: 12px;
+    background-image: url("/images/frame_white.png");
+    background-size: contain;
+    width: 450px;
+    height: 600px;
+    padding: 13px 41px;
+}
+
+#picture-priview-modal .photo-container .pick-option {
+    width: 187px;
+    height: 250px;
 }
 
 #picture-priview-modal .photo-footer {

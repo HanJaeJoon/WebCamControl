@@ -17,6 +17,7 @@
     <span id="camera-timer" class="w-auto mx-auto">Ready?</span>
 </div>
 <div id="picture-list-area" class="d-flex flex-column min-vh-100 p-5">
+    <p id="pickPhoto-timer" class="text-end">Timer left <span id="timer"></span></p>
     <span id="pick" class="w-auto me-auto mt-1">Pick 4 photos</span>
     <div class="d-flex flex-row mb-3 justify-content-center">
         <div id="img1" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
@@ -73,15 +74,10 @@
                         <div id="preview-img4" class="pick-option col">
                         </div>
                     </div>
-
-                    <div class="row photo-footer">
-                        <span>Haru Haru</span>
-                        <span>오늘을 기록하다</span>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-white" data-bs-dismiss="modal">Go Back</button>
+                <button type="button" class="btn-white" id="btn-goBack" data-bs-dismiss="modal">Go Back</button>
                 <button type="button" id="btn-confirm" class="btn-purple">Confirm</button>
             </div>
         </div>
@@ -154,6 +150,7 @@
 
         let current = 1;
 
+        // 사진 찍id="btn-confirm"  타이머 
         const initTimer = () => {
             let seconds;
             let timer = 6;
@@ -177,6 +174,7 @@
 
                     if (current >= totalCount) {
                         renderPictures();
+                        initPickPhotoimer(80); // 80초 타이머 시작 
                     } else {
                         initTimer();
                     }
@@ -185,6 +183,29 @@
         }
 
         initTimer();
+
+        // 사진 선택 타이머
+
+        // 타이머 시작
+        var pickPhototimer;
+        const initPickPhotoimer = (time) => {
+            console.log('pickPhototimer - ', pickPhototimer);
+            if (pickPhototimer != undefined) {
+                clearInterval(pickPhototimer);
+            }
+
+            pickPhototimer = setInterval(() => {
+                console.log(time);
+                $("#timer").text(time);
+                time--;
+
+                if (time < 0) {
+                    clearInterval(timer);
+                    // 시간 초과 이후 동작 
+                }
+
+            }, 1000);
+        }
 
         // 사진 선택하기
         const options = document.querySelectorAll('.pick-option');
@@ -201,7 +222,6 @@
                 checkOptions();
             });
         });
-
 
 
         // 테스트 용도로 마우스 클릭시마다 사진 찍히도록 추가함.
@@ -252,6 +272,11 @@
             localStorage.setItem("image4_src", $("#preview-img4 img")[0].src);
 
             window.location.href = `/select-page`;
+        });
+
+        const btnGoBack = document.querySelector('#btn-goBack');
+        btnGoBack.addEventListener('click', () => {
+            initPickPhotoimer(40);
         });
     });
 </script>
