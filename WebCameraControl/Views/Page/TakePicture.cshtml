@@ -82,6 +82,7 @@
             </div>
         </div>
     </div>
+</div>
 
 <script src="~/lib/webcam/webcam.js"></script>
 <script type="text/javascript">
@@ -118,7 +119,7 @@
                             dest_height: windowInnerHeight / 2,
                         };
                     }
-                };
+                }
 
                 Webcam.set(webcamOption);
                 Webcam.attach('#camera-preview');
@@ -150,7 +151,7 @@
 
         let current = 1;
 
-        // 사진 찍id="btn-confirm"  타이머 
+        // 사진 찍id="btn-confirm"  타이머
         const initTimer = () => {
             let seconds;
             let timer = 6;
@@ -174,7 +175,7 @@
 
                     if (current >= totalCount) {
                         renderPictures();
-                        initPickPhotoimer(80); // 80초 타이머 시작 
+                        initPickPhotoimer(80); // 80초 타이머 시작
                     } else {
                         initTimer();
                     }
@@ -201,7 +202,7 @@
 
                 if (time < 0) {
                     clearInterval(timer);
-                    // 시간 초과 이후 동작 
+                    // 시간 초과 이후 동작
                 }
 
             }, 1000);

@@ -31,13 +31,19 @@ public class PageController : Controller
         return View();
     }
 
-
     [HttpGet("/select-page")]
     public IActionResult SelectPage()
     {
         return View();
     }
 
+    [HttpGet("/printing")]
+    public IActionResult Printing()
+    {
+        ViewData["url"] = "https://www.naver.com";
+
+        return View();
+    }
 
     [HttpPost("/check-password")]
     [ValidateAntiForgeryToken]

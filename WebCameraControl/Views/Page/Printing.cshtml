@@ -1,0 +1,32 @@
+﻿@model WebCameraControl.Models.IndexModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div id="select-style-area" class="container min-vh-100 p-5">
+    <span id="title" class="w-auto me-auto mt-1 mb-5">Now Printing 🖨️</span>
+    <span id="sub-intro" class="w-auto me-auto">You can also get a digital file</span>
+
+    <div class="w-50 p-5 my-5" style="background: #393939; border-radius: 4em;">
+        <div class="d-flex flex-column">
+            <div class="me-auto ms-auto">
+                <span class="colored-intro">Scan to download</span>
+            </div>
+            <div id="qr-code-area" class="me-auto ms-auto mt-3"></div>
+        </div>
+    </div>
+
+    <div class="button-container mx-auto mt-auto">
+        <button type="button" id="btn-go-to-print" class="btn btn-lg mt-5">Done! Get your photo</button>
+    </div>
+</div>
+
+<script src="js/qrcode.min.js"></script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        const qrArea = document.querySelector('#qr-code-area');
+
+        new QRCode(qrArea, '@ViewData["url"]');
+    });
+</script>
