@@ -19,6 +19,43 @@ body {
 }
 
 /* common */
+.emoji {
+    font-size: calc(100px + 4vw);
+    min-width: 1.4em;
+    margin: 0.3em 0.4em;
+    text-align: center;
+}
+
+.emoji::after {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.camera::after {
+    content: '📷';
+    --emoji: '📸';
+    animation-name: twoFrames;
+    animation-duration: 1.2s;
+}
+
+
+@keyframes twoFrames {
+    50% {
+        content: var(--emoji);
+    }
+}
+
+@keyframes threeFrames {
+    33.333% {
+        content: var(--emoji-1);
+    }
+
+    66.666% {
+        content: var(--emoji-2);
+    }
+}
+
+
 #btn-go-to-print {
     font-family: 'Lexend Deca';
     font-size: 3em;
@@ -58,7 +95,7 @@ body {
 
 /* pay */
 #intro {
-    font-family: 'Lexend Deca';
+    font-family: 'Kreon';
     font-style: normal;
     font-weight: 700;
     font-size: 6em;

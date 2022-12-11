@@ -129,7 +129,7 @@
 
         const totalCount = 8;
         const counter = document.querySelector('#camera-counter');
-        const timerSpan = document.querySelector('#camera-timer');
+        const timerSpan = $("#camera-timer");
         const pictureUriList = [];
 
         const renderPictures = () => {
@@ -150,16 +150,18 @@
 
         let current = 1;
 
-        // 사진 찍id="btn-confirm"  타이머 
+        // 사진 찍기 타이머 
         const initTimer = () => {
             let seconds;
             let timer = 6;
             let interval = setInterval(() => {
                 seconds = timer;
 
-                timerSpan.innerText = timer === 6 ? 'Ready?' :
-                    timer === 0 ? '📸' :
-                    seconds + '!';
+                let cameraEmojispan = $('<span />').attr('class', 'emoji camera').html('');
+
+                timerSpan.empty().append(timer === 6 ? 'Ready?' :
+                    timer === 0 ? cameraEmojispan :
+                    seconds + '!');
 
                 if (--timer < 0) {
                     current++;
