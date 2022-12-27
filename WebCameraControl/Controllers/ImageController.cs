@@ -58,10 +58,7 @@ public class ImageController : Controller
         try
         {
             // 최종 결과
-            using MemoryStream memoryStream = new(resultBytes);
-
-            ContentType contentType = new(MediaTypeNames.Image.Jpeg);
-            Attachment attachment = new(memoryStream, contentType);
+            MemoryStream image = new(resultBytes);
 
             link = $"{Request.GetUri().GetLeftPart(UriPartial.Authority)}/download/{downloadKey}";
 
@@ -71,11 +68,22 @@ public class ImageController : Controller
                 _configuration["EmailSenderName"]);
             newMail.To.Add(command.Email);
 
-            newMail.IsBodyHtml = true;
-            newMail.Subject = "[HaruHaru] pictures";
-            newMail.Body = $@"<h1><a href=""{link}"">click to download</h1>";
+            // 이미지 첨부를 위한 처리
+            const string body = $@"<img src=""cid:HaruHaruPicture"" style=""width: 540px; height: 360px;"" alt=""image"" />";
+            AlternateView alternateView = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
 
-            newMail.Attachments.Add(attachment);
+            LinkedResource imageSource = new(image, MediaTypeNames.Image.Jpeg);
+            imageSource.ContentId = "HaruHaruPicture";
+            imageSource.ContentType = new ContentType("image/jpg");
+            alternateView.LinkedResources.Add(imageSource);
+            newMail.AlternateViews.Add(alternateView);
+
+            ContentType mimeType = new("text/html");
+            AlternateView alternate = AlternateView.CreateAlternateViewFromString(body, mimeType);
+            newMail.AlternateViews.Add(alternate);
+
+            newMail.Subject = "[HaruHaru] pictures";
+            newMail.Body = body;
 
             SmtpClient client = new("smtp.gmail.com", 587)
             {
