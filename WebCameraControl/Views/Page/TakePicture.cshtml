@@ -130,7 +130,7 @@
 
         const totalCount = 8;
         const counter = document.querySelector('#camera-counter');
-        const timerSpan = document.querySelector('#camera-timer');
+        const timerSpan = $("#camera-timer");
         const pictureUriList = [];
 
         const renderPictures = () => {
@@ -151,16 +151,28 @@
 
         let current = 1;
 
-        // 사진 찍id="btn-confirm"  타이머
+        // 사진 찍기 타이머 
         const initTimer = () => {
             let seconds;
             let timer = 6;
+
+            // 카운트 다운 배경음 로드 
+            // var shutter = new Audio();
+            // shutter.src = 'images/countdown.mp3';
+
+            // 카운트다운 시작
+            // shutter.currentTime = null;
+            // shutter.play();
+
+
             let interval = setInterval(() => {
                 seconds = timer;
 
-                timerSpan.innerText = timer === 6 ? 'Ready?' :
-                    timer === 0 ? '📸' :
-                    seconds + '!';
+                let cameraEmojispan = $('<span />').attr('class', 'emoji camera').html('');
+
+                timerSpan.empty().append(timer === 6 ? 'Ready?' :
+                    timer === 0 ? cameraEmojispan :
+                    seconds + '!');
 
                 if (--timer < 0) {
                     current++;
