@@ -11,24 +11,19 @@
     <div class="row mb-3 justify-content-center">
         <div class="photo-container col-6">
             <div class="row">
-                <div id="select-img1" class="col">
+                <div id="select-img1" class="pick-option col">
                 </div>
-                <div id="select-img2" class="col">
+                <div id="select-img2" class="pick-option col">
                 </div>
             </div>
 
             <div class="row" style="height:24px;"></div>
 
             <div class="row">
-                <div id="select-img3" class="col">
+                <div id="select-img3" class="pick-option col">
                 </div>
-                <div id="select-img4" class="col">
+                <div id="select-img4" class="pick-option col">
                 </div>
-            </div>
-
-            <div class="row photo-footer">
-                <span>Haru Haru</span>
-                <span>오늘을 기록하다</span>
             </div>
         </div>
 
@@ -48,23 +43,23 @@
                     <p class="option-title">frame color</p>
                     <div class="row">
                         <div class="color col">
-                            <div id="color-white" class="preview-color" style="background-color: #FFFFFF;"></div>
+                            <div id="color-white" class="preview-color" data-frame="frame_white.png"></div>
                             <div class="text-color">white</div>
                         </div>
                         <div class="color col">
-                            <div id="color-black" class="preview-color" style="background-color: #000000;"></div>
+                            <div id="color-black" class="preview-color" data-frame="frame_black.png"></div>
                             <div class="text-color">black</div>
                         </div>
                         <div class="color col">
-                            <div id="color-gray" class="preview-color selected" style="background-color: #D9D9D9;"></div>
+                            <div id="color-gray" class="preview-color selected" data-frame="frame_gray.png"></div>
                             <div class="text-color">gray</div>
                         </div>
                         <div class="color col">
-                            <div id="color-red" class="preview-color" style="background-color: #F0A8B3;"></div>
+                            <div id="color-red" class="preview-color" data-frame="frame_red.png"></div>
                             <div class="text-color">red</div>
                         </div>
                         <div class="color col">
-                            <div id="color-purple" class="preview-color" style="background-color: #DBD1FF;"></div>
+                            <div id="color-purple" class="preview-color"  data-frame="frame_purple.png"></div>
                             <div class="text-color">purple</div>
                         </div>
                     </div>
@@ -105,10 +100,9 @@
                 colorOptions.forEach(option => option.classList.remove('selected'));
                 option.classList.add('selected');
 
-                let selectedColor = option.style.backgroundColor;
-                console.log(selectedColor);
-                console.log(option);
-                $("#select-style-area .photo-container").css('background-color', selectedColor);
+                let selectedFrame = option.dataset.frame;
+                console.log(selectedFrame);
+                $("#select-style-area .photo-container").css('background-image', 'url("/images/' + selectedFrame + '")');
                 // #select-style-area .photo-container
             });
         });
