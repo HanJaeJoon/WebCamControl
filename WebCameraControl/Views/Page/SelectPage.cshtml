@@ -171,14 +171,19 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    imageSource: base64Image,
+                    base64imageSource: base64Image,
                 }),
             })
                 .then(async (response) => {
-                    if (!response.ok) {
-                        const text = await response.text();
-                        throw new Error(text);
+                    if (response.ok) {
+                        return response.json();
                     }
+
+                    const text = await response.text();
+                    throw new Error(text);
+                })
+                .then((data) => {
+                    window.location.href = `/printing/${data}`;
                 })
                 .catch((error) => {
                     alert(`에러 발생!\n${error}`);

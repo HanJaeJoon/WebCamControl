@@ -23,20 +23,19 @@ public class ImageController : Controller
     }
 
     [HttpPost("print")]
-    public async Task<RedirectResult> PrintImage(string imageSourceBase64)
+    public async Task<JsonResult> PrintImage([FromBody] PrintImageCommand command)
     {
         string? printerEmail = _configuration["PrinterEmail"];
 
-        if (string.IsNullOrEmpty(imageSourceBase64) || string.IsNullOrEmpty(printerEmail))
+        if (string.IsNullOrEmpty(command.Base64ImageSource) || string.IsNullOrEmpty(printerEmail))
         {
             throw new Exception("잘못된 접근입니다.");
         }
 
-        byte[] resultBytes = Convert.FromBase64String(imageSourceBase64);
+        byte[] resultBytes = Convert.FromBase64String(command.Base64ImageSource);
 
         // DB 저장
         string downloadKey = Guid.NewGuid().ToString();
-        string link;
 
         try
         {
@@ -61,8 +60,6 @@ public class ImageController : Controller
             // 최종 결과
             MemoryStream image = new(resultBytes);
 
-            link = $"{Request.GetUri().GetLeftPart(UriPartial.Authority)}/download/{downloadKey}";
-
             MailMessage newMail = new();
 
             newMail.From = new MailAddress(_configuration["EmailSenderAddress"] ?? string.Empty,
@@ -70,7 +67,7 @@ public class ImageController : Controller
             newMail.To.Add(printerEmail);
 
             // 이미지 첨부를 위한 처리
-            const string body = $@"<img src=""cid:HaruHaruPicture"" style=""width: 540px; height: 360px;"" alt=""image"" />";
+            const string body = $@"<img src=""cid:HaruHaruPicture"" style=""width: 450px; height: 600px;"" alt=""image"" />";
             AlternateView alternateView = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
 
             LinkedResource imageSource = new(image, MediaTypeNames.Image.Jpeg);
@@ -99,7 +96,7 @@ public class ImageController : Controller
             throw new Exception("Email 전송 실패");
         }
 
-        return Redirect("printing");
+        return Json(downloadKey);
     }
 
     [HttpPost("send")]

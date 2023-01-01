@@ -55,8 +55,7 @@ body {
     }
 }
 
-
-#btn-go-to-print {
+#btn-go-to-print, #btn-go-to-first {
     font-family: 'Lexend Deca';
     font-size: 3em;
     background-color: #742DDD;
@@ -143,7 +142,7 @@ body {
 
 /* Take Picture */
 #camera-preview {
-/*    position: relative;*/
+    /*    position: relative;*/
 }
 
 #camera-preview video {
@@ -159,7 +158,7 @@ body {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     font-weight: 700;
     font-size: 6em;
     line-height: 16px;
@@ -173,7 +172,7 @@ body {
     position: absolute;
     font-weight: 600;
     font-size: 3.5em;
-    top:3%;
+    top: 3%;
     line-height: 16px;
     color: #FFF2B6;
     letter-spacing: -1.4px;

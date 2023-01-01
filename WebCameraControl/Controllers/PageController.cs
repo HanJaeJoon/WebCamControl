@@ -37,10 +37,10 @@ public class PageController : Controller
         return View();
     }
 
-    [HttpGet("/printing")]
-    public IActionResult Printing()
+    [HttpGet("/printing/{downloadKey}")]
+    public IActionResult Printing([FromRoute]string downloadKey)
     {
-        ViewData["url"] = "https://www.naver.com";
+        ViewData["url"] = $"{Request.GetUri().GetLeftPart(UriPartial.Authority)}/download/{downloadKey}";
 
         return View();
     }
