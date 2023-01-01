@@ -68,18 +68,18 @@
             <div class="modal-body">
                 <div class="container photo-container">
                     <div class="row">
-                        <div id="preview-img1" class="pick-option col">
+                        <div id="preview-img1" class="col p-0">
                         </div>
-                        <div id="preview-img2" class="pick-option col">
+                        <div id="preview-img2" class="col p-0">
                         </div>
                     </div>
 
-                    <div class="row" style="height:24px;"></div>
+                    <div class="row" style="height:11px;"></div>
 
                     <div class="row">
-                        <div id="preview-img3" class="pick-option col">
+                        <div id="preview-img3" class="col p-0">
                         </div>
-                        <div id="preview-img4" class="pick-option col">
+                        <div id="preview-img4" class="col p-0">
                         </div>
                     </div>
                 </div>
@@ -298,7 +298,7 @@
 
                 let order = selectedOptions[i].querySelector('.pick-label').innerText;
                 document.querySelector(`#preview-img${order}`).innerHTML = `
-                    <img src="${pickImgSrc}" style="max-width: 100%;" />
+                    <img src="${pickImgSrc}" class="pick-option" style="max-width: 100%;" />
                 `;
             }
 

@@ -251,18 +251,18 @@ body {
 #picture-priview-modal .photo-container {
     width: 450px;
     height: 600px;
-    padding: 13px 41px;
+    padding: 22px 29px 68px 30px;
+}
+
+#picture-priview-modal .photo-container .pick-option {
+    width: 199px;
+    height: 250px;
 }
 
 #select-style-area .photo-container {
     width: 320px;
     height: 426px;
     padding: 13px 41px;
-}
-
-#picture-priview-modal .photo-container .pick-option {
-    width: 187px;
-    height: 250px;
 }
 
 #select-style-area .photo-container .pick-option {
