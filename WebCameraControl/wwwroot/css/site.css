@@ -195,9 +195,24 @@ body {
     color: #000000;
 }
 
-.pick-option.selected {
+.pick-option.selected, .pick-label.selected {
     border: 5px solid #6211C8;
     border-radius: 4px;
+    display: block;
+}
+
+.pick-label {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #6211C8;
+    z-index: 10;
+    color: #FFFFFF;
+    font-size: 1em;
+    text-align: center;
+    font-weight: 500;
+    display:none;
 }
 
 #btn-done {
@@ -236,18 +251,18 @@ body {
 #picture-priview-modal .photo-container {
     width: 450px;
     height: 600px;
-    padding: 13px 41px;
+    padding: 22px 29px 68px 30px;
+}
+
+#picture-priview-modal .photo-container .pick-option {
+    width: 199px;
+    height: 250px;
 }
 
 #select-style-area .photo-container {
     width: 320px;
     height: 426px;
     padding: 13px 41px;
-}
-
-#picture-priview-modal .photo-container .pick-option {
-    width: 187px;
-    height: 250px;
 }
 
 #select-style-area .photo-container .pick-option {
@@ -277,7 +292,7 @@ body {
     font-family: 'Lexend Deca';
     font-style: normal;
     font-weight: 600;
-    font-size: 2em;
+    font-size: 1.4em;
     line-height: 15px;
     color: #000000;
 }

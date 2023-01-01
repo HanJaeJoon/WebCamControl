@@ -21,24 +21,32 @@
     <span id="pick" class="w-auto me-auto mt-1">Pick 4 photos</span>
     <div class="d-flex flex-row mb-3 justify-content-center">
         <div id="img1" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
+            <div class="pick-label" style=""></div>
         </div>
         <div id="img2" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
+            <div class="pick-label" style=""></div>
         </div>
         <div id="img3" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
+            <div class="pick-label" style=""></div>
         </div>
     </div>
     <div class="d-flex flex-row mb-3 justify-content-center">
         <div id="img4" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
+            <div class="pick-label" style=""></div>
         </div>
         <div id="img5" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
+            <div class="pick-label" style=""></div>
         </div>
         <div id="img6" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
+            <div class="pick-label" style=""></div>
         </div>
     </div>
     <div class="d-flex flex-row mb-3 justify-content-center">
         <div id="img7" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
+            <div class="pick-label" style=""></div>
         </div>
         <div id="img8" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
+            <div class="pick-label" style=""></div>
         </div>
         <div class="mx-3 text-center align-self-end" style="width: 30%; height: 30%;">
             <a id="reset" href="/" class="text-black">RESET ALL</a>
@@ -60,18 +68,18 @@
             <div class="modal-body">
                 <div class="container photo-container">
                     <div class="row">
-                        <div id="preview-img1" class="pick-option col">
+                        <div id="preview-img1" class="col p-0">
                         </div>
-                        <div id="preview-img2" class="pick-option col">
+                        <div id="preview-img2" class="col p-0">
                         </div>
                     </div>
 
-                    <div class="row" style="height:24px;"></div>
+                    <div class="row" style="height:11px;"></div>
 
                     <div class="row">
-                        <div id="preview-img3" class="pick-option col">
+                        <div id="preview-img3" class="col p-0">
                         </div>
-                        <div id="preview-img4" class="pick-option col">
+                        <div id="preview-img4" class="col p-0">
                         </div>
                     </div>
                 </div>
@@ -141,7 +149,7 @@
             for (let i = 0; i < pictureUriList.length; i++) {
                 const pictureUri = pictureUriList[i];
 
-                document.querySelector(`#img${i + 1}`).innerHTML = `
+                document.querySelector(`#img${i + 1}`).innerHTML += `
                     <img src="${pictureUri}" style="max-width: 100%;" />
                 `;
             }
@@ -151,28 +159,29 @@
 
         let current = 1;
 
+        // 카운트 다운 배경음 로드 
+        var shutter = new Audio();
+        shutter.src = 'images/countdown.mp3';
+
+
         // 사진 찍기 타이머 
         const initTimer = () => {
             let seconds;
             let timer = 6;
 
-            // 카운트 다운 배경음 로드 
-            // var shutter = new Audio();
-            // shutter.src = 'images/countdown.mp3';
-
             // 카운트다운 시작
-            // shutter.currentTime = null;
-            // shutter.play();
-
-
             let interval = setInterval(() => {
                 seconds = timer;
 
-                let cameraEmojispan = $('<span />').attr('class', 'emoji camera').html('');
+                // 배경음 시작 
+                if (timer == 5) {
+                    shutter.play();
+                } 
 
+                let cameraEmojispan = $('<span />').attr('class', 'emoji camera').html('');
                 timerSpan.empty().append(timer === 6 ? 'Ready?' :
                     timer === 0 ? cameraEmojispan :
-                    seconds + '!');
+                        seconds + '!');
 
                 if (--timer < 0) {
                     current++;
@@ -191,6 +200,9 @@
                     } else {
                         initTimer();
                     }
+
+                    // 배경음 종료 
+                    shutter.pause();
                 }
             }, 1_000);
         }
@@ -230,8 +242,26 @@
 
         options.forEach(option => {
             option.addEventListener('click', () => {
-                option.classList.toggle('selected');
+                if (option.classList.contains("selected")) {
+                    option.classList.remove('selected');
+                    option.querySelector('.pick-label').classList.remove('selected');
 
+                    let optionLabel = option.querySelector('.pick-label').innerText;
+                    document.querySelectorAll('.pick-label.selected').forEach(function (item) {
+                        if (item.innerText > optionLabel) {
+                            item.innerText = item.innerText - 1; 
+                        }
+                    });
+
+                }
+                else {
+                    option.classList.add('selected');
+                    option.querySelector('.pick-label').classList.add('selected');
+
+                    option.getElementsByClassName('pick-label')[0].innerText
+                        = document.querySelectorAll('.pick-option.selected').length;
+
+                }
                 checkOptions();
             });
         });
@@ -247,10 +277,6 @@
                 Webcam.snap((uri) => {
                     pictureUriList.push(uri);
                 });
-
-                if (current >= totalCount) {
-                    renderPictures();
-                }
             }
         });
 
@@ -264,12 +290,15 @@
                 return;
             }
 
+            // 선택된 순서대로 정렬
             for (let i = 0; i < 4; i++) {
                 const previewUri = selectedOptions[i];
                 let pickImgSrc = selectedOptions[i].querySelector('img').src;
 
-                document.querySelector(`#preview-img${i + 1}`).innerHTML = `
-                    <img src="${pickImgSrc}" style="max-width: 100%;" />
+
+                let order = selectedOptions[i].querySelector('.pick-label').innerText;
+                document.querySelector(`#preview-img${order}`).innerHTML = `
+                    <img src="${pickImgSrc}" class="pick-option" style="max-width: 100%;" />
                 `;
             }
 

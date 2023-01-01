@@ -10,9 +10,9 @@
     <span class="title w-auto me-auto mt-1">Select Style</span>
     <div class="row w-100 mb-3 justify-content-start">
         <div class="col-auto p-0">
-            <canvas id="canvas" width="450" height="600" style="width: 450px; height: 600px;"></canvas>
+            <canvas id="canvas" width="300" height="400" style="width: 300px; height: 400px;"></canvas>
         </div>
-        <div class="col-3">
+        <div class="col-auto">
             <div class="row">
                 <div class="select-filter">
                     <p class="option-title">photo filter</p>
@@ -61,12 +61,12 @@
 <script src="~/js/pixels.min.js"></script>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
-        const imageWidth = 187;
-        const imageHeight = 250;
-        const marginLeft = 31;
-        const marginTop = 21;
-        const spaceX = 16;
-        const spaceY = 11;
+        const imageWidth = 374 / 3;
+        const imageHeight = 499 / 3;
+        const marginLeft = 61 / 3;
+        const marginTop = 43 / 3;
+        const spaceX = 33 / 3;
+        const spaceY = 22 / 3;
 
         async function setCanvas(frameSource) {
             let context = canvas.getContext('2d');
@@ -74,7 +74,7 @@
             const frame = new Image();
             frame.src = frameSource ?? `/images/frame_white.png`;
             frame.onload = () => {
-                context.drawImage(frame, 0, 0, 450, 600);
+                context.drawImage(frame, 0, 0, 300, 400);
                 drawImages(context);
             };
         }
