@@ -26,11 +26,6 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connect
 
 WebApplication app = builder.Build();
 
-app.UseWhen(httpContext => !httpContext.Request.Path.Value?.StartsWith("/api", StringComparison.CurrentCultureIgnoreCase) == true, application =>
-{
-    application.UseMiddleware<ExceptionHandlingMiddleware>();
-});
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -51,6 +46,11 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapDefaultControllerRoute();
     endpoints.MapRazorPages();
+});
+
+app.UseWhen(httpContext => !httpContext.Request.Path.Value?.StartsWith("/api", StringComparison.CurrentCultureIgnoreCase) == true, application =>
+{
+    application.UseMiddleware<ExceptionHandlingMiddleware>();
 });
 
 app.Run();

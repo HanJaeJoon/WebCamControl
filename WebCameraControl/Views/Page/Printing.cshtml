@@ -18,15 +18,19 @@
     </div>
 
     <div class="button-container mx-auto mt-auto">
-        <button type="button" id="btn-go-to-print" class="btn btn-lg mt-5">Done! Get your photo</button>
+        <button type="button" id="btn-go-to-first" class="btn btn-lg mt-5">Done! Get your photo</button>
     </div>
 </div>
 
-<script src="js/qrcode.min.js"></script>
+<script src="~/js/qrcode.min.js"></script>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
         const qrArea = document.querySelector('#qr-code-area');
 
         new QRCode(qrArea, '@ViewData["url"]');
+
+        document.querySelector('#btn-go-to-first').addEventListener('click', () => {
+            window.location.href = `/`;
+        });
     });
 </script>
