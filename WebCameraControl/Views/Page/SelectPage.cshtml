@@ -8,11 +8,10 @@
 <div id="select-style-area" class="container min-vh-100 p-5">
     <p id="selectPage-timer" class="text-end">Timer left</p>
     <span class="title w-auto me-auto mt-1">Select Style</span>
-    <div class="row mb-3 justify-content-start">
+    <div class="row w-100 mb-3 justify-content-start">
         <div class="col-auto p-0">
             <canvas id="canvas" width="450" height="600" style="width: 450px; height: 600px;"></canvas>
         </div>
-
         <div class="col-3">
             <div class="row">
                 <div class="select-filter">
@@ -61,88 +60,87 @@
 
 <script src="~/js/pixels.min.js"></script>
 <script type="text/javascript">
-    async function setCanvas(frameSource) {
-        const canvas = document.querySelector('#canvas');
-        let context = canvas.getContext('2d');
+    document.addEventListener('DOMContentLoaded', () => {
+        const imageWidth = 187;
+        const imageHeight = 250;
+        const marginLeft = 31;
+        const marginTop = 21;
+        const spaceX = 16;
+        const spaceY = 11;
 
-        const frame = new Image();
-        frame.src = frameSource ?? `/images/frame_white.png`;
-        frame.onload = () => {
-            context.drawImage(frame, 0, 0, 450, 600);
-            drawImages(context);
-        };
-    }
+        async function setCanvas(frameSource) {
+            let context = canvas.getContext('2d');
 
-    const imageWidth = 187;
-    const imageHeight = 250;
-    const marginLeft = 31;
-    const marginTop = 21;
-    const spaceX = 16;
-    const spaceY = 11;
-
-    function drawImages(context) {
-        const image1 = new Image();
-        image1.src = localStorage.getItem('image1_src');
-        image1.onload = () => {
-            context.drawImage(image1, marginLeft, marginTop, imageWidth, imageHeight);
-        };
-
-        const image2 = new Image();
-        image2.src = localStorage.getItem('image2_src');
-        image2.onload = () => {
-            context.drawImage(image2, marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
-        };
-
-        const image3 = new Image();
-        image3.src = localStorage.getItem('image3_src');
-        image3.onload = () => {
-            context.drawImage(image3, marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
-        };
-
-        const image4 = new Image();
-        image4.src = localStorage.getItem('image4_src');
-        image4.onload = () => {
-            context.drawImage(image4, marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
-        };
-    }
-
-    const filterList = pixelsJS.getFilterList();
-
-    async function setFilters(filterName) {
-        if (filterName === 'original') {
-            const frame = document.querySelector('.frame-color.selected');
-            await setCanvas(`/images/${frame.dataset.frame}`);
-            return;
+            const frame = new Image();
+            frame.src = frameSource ?? `/images/frame_white.png`;
+            frame.onload = () => {
+                context.drawImage(frame, 0, 0, 450, 600);
+                drawImages(context);
+            };
         }
 
+        function drawImages(context) {
+            const image1 = new Image();
+            image1.src = localStorage.getItem('image1_src');
+            image1.onload = () => {
+                context.drawImage(image1, marginLeft, marginTop, imageWidth, imageHeight);
+            };
+
+            const image2 = new Image();
+            image2.src = localStorage.getItem('image2_src');
+            image2.onload = () => {
+                context.drawImage(image2, marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
+            };
+
+            const image3 = new Image();
+            image3.src = localStorage.getItem('image3_src');
+            image3.onload = () => {
+                context.drawImage(image3, marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+            };
+
+            const image4 = new Image();
+            image4.src = localStorage.getItem('image4_src');
+            image4.onload = () => {
+                context.drawImage(image4, marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+            };
+        }
+
+        const filterList = pixelsJS.getFilterList();
+
+        async function setFilters(filterName) {
+            if (filterName === 'original') {
+                const frame = document.querySelector('.frame-color.selected');
+                await setCanvas(`/images/${frame.dataset.frame}`);
+                return;
+            }
+
+            let context = canvas.getContext('2d', { willReadFrequently: true, });
+
+            let index = Math.floor(Math.random() * filterList.length);
+            let filter = filterList[index];
+
+            const image1 = new Image();
+            image1.src = localStorage.getItem('image1_src');
+
+            let imgData1 = context.getImageData(marginLeft, marginTop, imageWidth, imageHeight);
+            let imgData2 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
+            let imgData3 = context.getImageData(marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+            let imgData4 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+
+            document.querySelector('#filter').innerText = filter;
+
+            let newImgData1 = pixelsJS.filterImgData(imgData1, filter);
+            let newImgData2 = pixelsJS.filterImgData(imgData2, filter);
+            let newImgData3 = pixelsJS.filterImgData(imgData3, filter);
+            let newImgData4 = pixelsJS.filterImgData(imgData4, filter);
+
+            context.putImageData(newImgData1, marginLeft, marginTop);
+            context.putImageData(newImgData2, marginLeft + imageWidth + spaceX, marginTop);
+            context.putImageData(newImgData3, marginLeft, marginTop + imageHeight + spaceY);
+            context.putImageData(newImgData4, marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY);
+        }
         const canvas = document.querySelector('#canvas');
-        let context = canvas.getContext('2d', { willReadFrequently: true, });
 
-        let index = Math.floor(Math.random() * filterList.length);
-        let filter = filterList[index];
-
-        const image1 = new Image();
-        image1.src = localStorage.getItem('image1_src');
-
-        let imgData1 = context.getImageData(marginLeft, marginTop, imageWidth, imageHeight);
-        let imgData2 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
-        let imgData3 = context.getImageData(marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
-        let imgData4 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
-
-        document.querySelector('#filter').innerText = filter;
-
-        let newImgData1 = pixelsJS.filterImgData(imgData1, filter);
-        let newImgData2 = pixelsJS.filterImgData(imgData2, filter);
-        let newImgData3 = pixelsJS.filterImgData(imgData3, filter);
-        let newImgData4 = pixelsJS.filterImgData(imgData4, filter);
-
-        context.putImageData(newImgData1, marginLeft, marginTop);
-        context.putImageData(newImgData2, marginLeft + imageWidth + spaceX, marginTop);
-        context.putImageData(newImgData3, marginLeft, marginTop + imageHeight + spaceY);
-        context.putImageData(newImgData4, marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY);
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
         setCanvas();
 
         const filterOptions = document.querySelectorAll('.filter');
@@ -162,6 +160,29 @@
                     await setCanvas(`/images/${this.dataset.frame}`);
                 }
             });
+        });
+
+        document.querySelector('#btn-go-to-print').addEventListener('click', () => {
+            const base64Image = canvas.toDataURL('image/jpeg').split(';base64,')[1];
+
+            fetch('/api/image/print', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    imageSource: base64Image,
+                }),
+            })
+                .then(async (response) => {
+                    if (!response.ok) {
+                        const text = await response.text();
+                        throw new Error(text);
+                    }
+                })
+                .catch((error) => {
+                    alert(`에러 발생!\n${error}`);
+                });
         });
     });
 </script>
