@@ -286,11 +286,14 @@
                 return;
             }
 
+            // 선택된 순서대로 정렬
             for (let i = 0; i < 4; i++) {
                 const previewUri = selectedOptions[i];
                 let pickImgSrc = selectedOptions[i].querySelector('img').src;
 
-                document.querySelector(`#preview-img${i + 1}`).innerHTML = `
+
+                let order = selectedOptions[i].querySelector('.pick-label').innerText;
+                document.querySelector(`#preview-img${order}`).innerHTML = `
                     <img src="${pickImgSrc}" style="max-width: 100%;" />
                 `;
             }
