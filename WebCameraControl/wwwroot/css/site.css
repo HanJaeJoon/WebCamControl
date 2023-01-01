@@ -297,7 +297,7 @@ body {
     color: #FFFFFF;
 }
 
-#select-style-area .select-color .preview-color {
+#select-style-area .select-color .frame-color {
     width: 35px;
     height: 35px;
     left: 148px;
@@ -306,7 +306,7 @@ body {
     border-radius: 100%;
 }
 
-#select-style-area .select-color .preview-color.selected {
+#select-style-area .select-color .frame-color.selected {
     border: 5px solid #6211C8;
 }
 

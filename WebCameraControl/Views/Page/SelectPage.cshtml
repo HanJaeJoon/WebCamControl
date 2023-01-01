@@ -8,32 +8,18 @@
 <div id="select-style-area" class="container min-vh-100 p-5">
     <p id="selectPage-timer" class="text-end">Timer left</p>
     <span class="title w-auto me-auto mt-1">Select Style</span>
-    <div class="row mb-3 justify-content-center">
-        <div class="photo-container col-6">
-            <div class="row">
-                <div id="select-img1" class="pick-option col">
-                </div>
-                <div id="select-img2" class="pick-option col">
-                </div>
-            </div>
-
-            <div class="row" style="height:24px;"></div>
-
-            <div class="row">
-                <div id="select-img3" class="pick-option col">
-                </div>
-                <div id="select-img4" class="pick-option col">
-                </div>
-            </div>
+    <div class="row mb-3 justify-content-start">
+        <div class="col-auto p-0">
+            <canvas id="canvas" width="450" height="600" style="width: 450px; height: 600px;"></canvas>
         </div>
 
-        <div class="col-6">
+        <div class="col-3">
             <div class="row">
                 <div class="select-filter">
                     <p class="option-title">photo filter</p>
                     <div class="d-flex flex-row">
-                        <div class="filter selected">Natural</div>
-                        <div class="filter ms-4">Black & White</div>
+                        <div class="filter selected" data-filter="original">Natural</div>
+                        <div class="filter ms-4" data-filter="random"><span id="filter">original</span></div>
                     </div>
                 </div>
             </div>
@@ -43,23 +29,23 @@
                     <p class="option-title">frame color</p>
                     <div class="row">
                         <div class="color col">
-                            <div id="color-white" class="preview-color" data-frame="frame_white.png"></div>
+                            <div id="color-white" class="frame-color selected" data-frame="frame_white.png"></div>
                             <div class="text-color">white</div>
                         </div>
                         <div class="color col">
-                            <div id="color-black" class="preview-color" data-frame="frame_black.png"></div>
+                            <div id="color-black" class="frame-color" data-frame="frame_black.png"></div>
                             <div class="text-color">black</div>
                         </div>
                         <div class="color col">
-                            <div id="color-gray" class="preview-color selected" data-frame="frame_gray.png"></div>
+                            <div id="color-gray" class="frame-color" data-frame="frame_gray.png"></div>
                             <div class="text-color">gray</div>
                         </div>
                         <div class="color col">
-                            <div id="color-red" class="preview-color" data-frame="frame_red.png"></div>
+                            <div id="color-red" class="frame-color" data-frame="frame_red.png"></div>
                             <div class="text-color">red</div>
                         </div>
                         <div class="color col">
-                            <div id="color-purple" class="preview-color"  data-frame="frame_purple.png"></div>
+                            <div id="color-purple" class="frame-color" data-frame="frame_purple.png"></div>
                             <div class="text-color">purple</div>
                         </div>
                     </div>
@@ -73,37 +59,108 @@
     </div>
 </div>
 
-
+<script src="~/js/pixels.min.js"></script>
 <script type="text/javascript">
+    async function setCanvas(frameSource) {
+        const canvas = document.querySelector('#canvas');
+        let context = canvas.getContext('2d');
+
+        const frame = new Image();
+        frame.src = frameSource ?? `/images/frame_white.png`;
+        frame.onload = () => {
+            context.drawImage(frame, 0, 0, 450, 600);
+            drawImages(context);
+        };
+    }
+
+    const imageWidth = 187;
+    const imageHeight = 250;
+    const marginLeft = 31;
+    const marginTop = 21;
+    const spaceX = 16;
+    const spaceY = 11;
+
+    function drawImages(context) {
+        const image1 = new Image();
+        image1.src = localStorage.getItem('image1_src');
+        image1.onload = () => {
+            context.drawImage(image1, marginLeft, marginTop, imageWidth, imageHeight);
+        };
+
+        const image2 = new Image();
+        image2.src = localStorage.getItem('image2_src');
+        image2.onload = () => {
+            context.drawImage(image2, marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
+        };
+
+        const image3 = new Image();
+        image3.src = localStorage.getItem('image3_src');
+        image3.onload = () => {
+            context.drawImage(image3, marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+        };
+
+        const image4 = new Image();
+        image4.src = localStorage.getItem('image4_src');
+        image4.onload = () => {
+            context.drawImage(image4, marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+        };
+    }
+
+    const filterList = pixelsJS.getFilterList();
+
+    async function setFilters(filterName) {
+        if (filterName === 'original') {
+            const frame = document.querySelector('.frame-color.selected');
+            await setCanvas(`/images/${frame.dataset.frame}`);
+            return;
+        }
+
+        const canvas = document.querySelector('#canvas');
+        let context = canvas.getContext('2d', { willReadFrequently: true, });
+
+        let index = Math.floor(Math.random() * filterList.length);
+        let filter = filterList[index];
+
+        const image1 = new Image();
+        image1.src = localStorage.getItem('image1_src');
+
+        let imgData1 = context.getImageData(marginLeft, marginTop, imageWidth, imageHeight);
+        let imgData2 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
+        let imgData3 = context.getImageData(marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+        let imgData4 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+
+        document.querySelector('#filter').innerText = filter;
+
+        let newImgData1 = pixelsJS.filterImgData(imgData1, filter);
+        let newImgData2 = pixelsJS.filterImgData(imgData2, filter);
+        let newImgData3 = pixelsJS.filterImgData(imgData3, filter);
+        let newImgData4 = pixelsJS.filterImgData(imgData4, filter);
+
+        context.putImageData(newImgData1, marginLeft, marginTop);
+        context.putImageData(newImgData2, marginLeft + imageWidth + spaceX, marginTop);
+        context.putImageData(newImgData3, marginLeft, marginTop + imageHeight + spaceY);
+        context.putImageData(newImgData4, marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-        // 이미지 세팅 
-        document.querySelector("#select-img1").innerHTML = `<img src="${localStorage.getItem("image1_src")}" style="max-width: 100%;" />`;
-        document.querySelector("#select-img2").innerHTML = `<img src="${localStorage.getItem("image2_src")}" style="max-width: 100%;" />`;
-        document.querySelector("#select-img3").innerHTML = `<img src="${localStorage.getItem("image3_src")}" style="max-width: 100%;" />`;
-        document.querySelector("#select-img4").innerHTML = `<img src="${localStorage.getItem("image4_src")}" style="max-width: 100%;" />`;
+        setCanvas();
 
-        // 필터 선택하기
-        const filterOptions = document.querySelectorAll('.select-filter .filter');
+        const filterOptions = document.querySelectorAll('.filter');
+        const frameOptions = document.querySelectorAll('.frame-color');
 
-        filterOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                filterOptions.forEach(option => option.classList.remove('selected'));
-                option.classList.add('selected');
-            });
-        });
+        [ ...filterOptions, ...frameOptions ].forEach(option => {
+            option.addEventListener('click', async function () {
+                const isFilter = this.classList.contains('filter');
+                const options = isFilter ? filterOptions : frameOptions;
 
-        // 색상 선택하기 
-        const colorOptions = document.querySelectorAll('.select-color .preview-color');
+                options.forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
 
-        colorOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                colorOptions.forEach(option => option.classList.remove('selected'));
-                option.classList.add('selected');
-
-                let selectedFrame = option.dataset.frame;
-                console.log(selectedFrame);
-                $("#select-style-area .photo-container").css('background-image', 'url("/images/' + selectedFrame + '")');
-                // #select-style-area .photo-container
+                if (isFilter) {
+                    await setFilters(this.dataset.filter);
+                } else {
+                    await setCanvas(`/images/${this.dataset.frame}`);
+                }
             });
         });
     });
