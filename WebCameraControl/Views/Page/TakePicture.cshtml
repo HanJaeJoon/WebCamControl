@@ -159,28 +159,29 @@
 
         let current = 1;
 
+        // 카운트 다운 배경음 로드 
+        var shutter = new Audio();
+        shutter.src = 'images/countdown.mp3';
+
+
         // 사진 찍기 타이머 
         const initTimer = () => {
             let seconds;
             let timer = 6;
 
-            // 카운트 다운 배경음 로드 
-            // var shutter = new Audio();
-            // shutter.src = 'images/countdown.mp3';
-
             // 카운트다운 시작
-            // shutter.currentTime = null;
-            // shutter.play();
-
-
             let interval = setInterval(() => {
                 seconds = timer;
 
-                let cameraEmojispan = $('<span />').attr('class', 'emoji camera').html('');
+                // 배경음 시작 
+                if (timer == 5) {
+                    shutter.play();
+                } 
 
+                let cameraEmojispan = $('<span />').attr('class', 'emoji camera').html('');
                 timerSpan.empty().append(timer === 6 ? 'Ready?' :
                     timer === 0 ? cameraEmojispan :
-                    seconds + '!');
+                        seconds + '!');
 
                 if (--timer < 0) {
                     current++;
@@ -199,6 +200,9 @@
                     } else {
                         initTimer();
                     }
+
+                    // 배경음 종료 
+                    shutter.pause();
                 }
             }, 1_000);
         }
