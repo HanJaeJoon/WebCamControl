@@ -302,7 +302,7 @@ body {
 .pick-option.selected, .pick-label.selected {
     border: 5px solid #6211C8;
     border-radius: 4px;
-    display: block;
+    display: inline-flex;
 }
 
 .pick-label {
