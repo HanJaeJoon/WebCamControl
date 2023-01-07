@@ -13,7 +13,7 @@
         <video playsinline="playsinline"></video>
     </div>
 
-    <span id="camera-counter" class="w-auto me-auto ms-3">1/8</span>
+    <span id="camera-counter" class="w-auto me-auto ms-3"><span id="camera-current">1</span>/8</span>
     <span id="camera-timer" class="w-auto mx-auto">Ready?</span>
 </div>
 <div id="picture-list-area" class="d-flex flex-column min-vh-100 p-5">
@@ -131,13 +131,14 @@
 
                 Webcam.set(webcamOption);
                 Webcam.attach('#camera-preview');
+
             })
             .catch(err => {
                 console.log(err);
             });
 
         const totalCount = 8;
-        const counter = document.querySelector('#camera-counter');
+        const currentSpan = document.querySelector('#camera-current');
         const timerSpan = $("#camera-timer");
         const pictureUriList = [];
 
@@ -175,7 +176,7 @@
 
                 // 배경음 시작 
                 if (timer == 5) {
-                    shutter.play();
+                    // shutter.play();
                 } 
 
                 let cameraEmojispan = $('<span />').attr('class', 'emoji camera').html('');
@@ -183,10 +184,16 @@
                     timer === 0 ? cameraEmojispan :
                         seconds + '!');
 
+                // todo : 삭제
+                if (timer == 3 && current == 3) {
+                    clearInterval(interval);
+                    shutter.pause();
+                }
+
                 if (--timer < 0) {
                     current++;
 
-                    counter.innerText = `${current}/${totalCount}`;
+                    currentSpan.innerText = `${current}`;
 
                     Webcam.snap((uri) => {
                         pictureUriList.push(uri);
@@ -272,7 +279,7 @@
             if (current < totalCount) {
                 current++;
 
-                counter.innerText = `${current}/${totalCount}`;
+                currentSpan.innerText = `${current}`;
 
                 Webcam.snap((uri) => {
                     pictureUriList.push(uri);

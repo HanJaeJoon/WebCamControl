@@ -253,36 +253,41 @@ body {
 }
 
 #camera-timer {
-    font-family: 'Lexend Deca';
+    font-family: 'Lexend';
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-weight: 700;
-    font-size: 6em;
+    font-weight: 900;
+    font-size: 5em;
     line-height: 16px;
     letter-spacing: -0.4px;
     color: #FFF2B6;
-    text-shadow: 0 0 2px #000;
+    -webkit-text-stroke: 3px #000;
 }
 
 #camera-counter {
-    font-family: 'Lexend Deca';
+    font-family: 'Lexend';
     position: absolute;
-    font-weight: 600;
+    font-weight: 900;
     font-size: 3.5em;
-    top: 3%;
+    top: 4%;
+    left: 1%;
     line-height: 16px;
-    color: #FFF2B6;
-    letter-spacing: -1.4px;
-    text-shadow: 0 0 2px #000;
+    color: #FFFFFF;
+    letter-spacing: 3px;
+    -webkit-text-stroke: 3px #000;
+}
+
+#camera-current {
+    color: #C2A9FA;
 }
 
 #pick {
     font-family: 'Lexend Deca';
     font-style: normal;
     font-weight: 700;
-    font-size: 6em;
+    font-size: 4em;
     color: #000000;
 }
 
