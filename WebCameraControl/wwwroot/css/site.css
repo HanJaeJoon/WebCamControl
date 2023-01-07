@@ -38,6 +38,93 @@ body {
     animation-duration: 1.2s;
 }
 
+.hearts::after {
+    content: '💗';
+    animation-name: hearts;
+    animation-duration: 3s;
+}
+
+.wave::after {
+    content: '✋';
+    --emoji: '👋';
+    animation-name: twoFrames;
+    animation-duration: 1s;
+}
+
+.clock::after {
+    content: '🕛';
+    animation-name: clock;
+    animation-duration: 5s;
+}
+
+@keyframes hearts {
+    16.666% {
+        content: '🧡';
+    }
+
+    33.333% {
+        content: '💛';
+    }
+
+    50% {
+        content: '💚';
+    }
+
+    66.666% {
+        content: '💙';
+    }
+
+    83.333% {
+        content: '💜';
+    }
+}
+
+@keyframes clock {
+    8.333% {
+        content: '🕐';
+    }
+
+    16.666% {
+        content: '🕑';
+    }
+
+    25% {
+        content: '🕒';
+    }
+
+    33.333% {
+        content: '🕓';
+    }
+
+    41.666% {
+        content: '🕔';
+    }
+
+    50% {
+        content: '🕕';
+    }
+
+    58.333% {
+        content: '🕖';
+    }
+
+    66.666% {
+        content: '🕗';
+    }
+
+    75% {
+        content: '🕘';
+    }
+
+    83.333% {
+        content: '🕙';
+    }
+
+    91.666% {
+        content: '🕚';
+    }
+}
+
 
 @keyframes twoFrames {
     50% {
@@ -76,8 +163,9 @@ body {
 #title {
     font-family: 'Lexend Deca';
     font-style: normal;
-    font-weight: 700;
-    font-size: 8em;
+    font-weight: 900;
+    word-spacing: -5px;
+    font-size: 4em;
     color: #000000;
 }
 
