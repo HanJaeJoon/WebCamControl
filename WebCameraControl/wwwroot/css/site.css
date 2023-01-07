@@ -64,6 +64,15 @@ body {
 }
 
 /* index */
+#main {
+    padding: 5rem 3rem 3rem 3rem;
+}
+
+#main_camera {
+    width: 40%;
+    padding-top: 5%;
+}
+
 #title {
     font-family: 'Lexend Deca';
     font-style: normal;
@@ -85,10 +94,11 @@ body {
     font-size: 3em;
     background-color: #742DDD;
     width: 100%;
+    border-color: unset;
 }
 
 .button-container {
-    margin-bottom: 7rem !important;
+    margin-bottom: 2rem !important;
     width: 100%;
 }
 
