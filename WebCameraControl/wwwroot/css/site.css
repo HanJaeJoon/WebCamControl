@@ -323,7 +323,9 @@ body {
     font-family: 'Lexend Deca';
     font-size: 2em;
     background-color: #742DDD;
-    width: 50%;
+    width: 100%;
+    margin-top: 10px;
+    border-color: unset;
 }
 
 #picture-priview-modal .modal-title {
@@ -334,10 +336,13 @@ body {
 }
 
 #picture-priview-modal .modal-footer .btn-purple {
-    width: 48%;
+    font-family: 'Lexend Deca';
+    width: 100%;
     font-size: 2em;
     background-color: #742DDD;
     color: #FFFFFF;
+    border-radius: 4px;
+    border-color: unset;
 }
 
 #picture-priview-modal .modal-footer .btn-white {
@@ -356,6 +361,7 @@ body {
     width: 450px;
     height: 600px;
     padding: 22px 29px 68px 30px;
+    border: 0.7px solid #838383;
 }
 
 #picture-priview-modal .photo-container .pick-option {
@@ -374,6 +380,10 @@ body {
     height: 178px;
 }
 
+#select-style-area #preview-frame {
+    border: 0.7px solid rgb(131, 131, 131);
+}
+
 
 #picture-priview-modal .photo-footer {
     text-align: center;
@@ -384,7 +394,7 @@ body {
     font-family: 'Lexend Deca';
     font-style: normal;
     font-weight: 700;
-    font-size: 6em;
+    font-size: 4em;
     color: #000000;
 }
 
@@ -402,12 +412,16 @@ body {
 }
 
 #select-style-area .select-filter .filter {
+    font-family: 'Lexend Deca';
     border-radius: 11px;
     font-size: 1em;
     padding: 5px;
     color: #757575;
     border-color: #757575;
     border-style: solid;
+    width: 30%;
+    text-align: center;
+    border-radius: 30px;
 }
 
 #select-style-area .select-filter .filter.selected {

@@ -48,7 +48,7 @@
         <div id="img8" class="pick-option mx-3" style="background-color: red; width: 30%; height: 30%;">
             <div class="pick-label" style=""></div>
         </div>
-        <div class="mx-3 text-center align-self-end" style="width: 30%; height: 30%;">
+        <div class="mx-3 text-center position-relative top-50" style="width: 30%; height: 30%;">
             <a id="reset" href="/" class="text-black">RESET ALL</a>
             <button type="button" id="btn-done" class="btn btn-secondary justify-content-center" data-toggle="modal" data-target="#exampleModal">
                 Done
@@ -61,11 +61,11 @@
 <div class="modal fade" id="picture-priview-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header border-white">
                 <h5 class="modal-title">Preview</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body border-white">
                 <div class="container photo-container">
                     <div class="row">
                         <div id="preview-img1" class="col p-0">
@@ -84,8 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-white" id="btn-goBack" data-bs-dismiss="modal">Go Back</button>
+            <div class="modal-footer border-white">
                 <button type="button" id="btn-confirm" class="btn-purple">Confirm</button>
             </div>
         </div>
