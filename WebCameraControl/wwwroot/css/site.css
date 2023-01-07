@@ -107,7 +107,7 @@ body {
     font-family: 'Kreon';
     font-style: normal;
     font-weight: 700;
-    font-size: 6em;
+    font-size: 4em;
     color: #000000;
 }
 
@@ -115,8 +115,9 @@ body {
     font-family: 'Lexend Deca';
     font-style: normal;
     font-weight: 500;
-    font-size: 3em;
+    font-size: 2.5em;
     color: #000000;
+    word-spacing: -5px;
 }
 
 /* pay */
@@ -131,7 +132,7 @@ body {
 .picture-option {
     width: 300px;
     height: 400px;
-    border-radius: 4px;
+    border-radius: 12px;
     background: #403f3f;
     background: rgba(64, 63, 63, 0.9);
     cursor: pointer;

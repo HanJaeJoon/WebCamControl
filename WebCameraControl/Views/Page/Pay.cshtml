@@ -5,7 +5,7 @@
 }
 
 
-<div class="d-flex flex-column min-vh-100 p-5">
+<div class="d-flex flex-column vh-100 p-5">
     <span id="intro" class="w-auto me-auto mt-5">안녕하세요. 👋</span>
     <span id="sub-intro" class="w-auto me-auto">Hi there, which would you like?</span>
     <div class="d-flex flex-row justify-content-center my-3">
@@ -13,16 +13,16 @@
             <div class="mx-auto text-center text-option invisible">
                 <span class="text-decoration-underline">📍 Selected!</span>
             </div>
-            <div class="picture-option" data-rm="18">
-                <img src="/images/18RM.png" class="w-100 h-100" />
+            <div class="picture-option" data-rm="15">
+                <img src="/images/15RM.png" class="w-100 h-100" />
             </div>
         </div>
         <div class="">
             <div class="mx-auto text-center text-option invisible">
                 <span class="text-decoration-underline">📍 Selected!</span>
             </div>
-            <div class="picture-option" data-rm="29">
-                <img src="/images/29RM.png" class="w-100 h-100" />
+            <div class="picture-option" data-rm="20">
+                <img src="/images/20RM.png" class="w-100 h-100" />
             </div>
         </div>
     </div>
@@ -68,7 +68,10 @@
 
         btnNext.addEventListener('click', () => {
             const rm = document.querySelector('.picture-option.selected')?.getAttribute("data-rm");
-            window.location.href = `/step-page?rm=${rm}`;
+            window.location.href = `/guide?rm=${rm}`;
+
+            // 관리자 인증 필요할 시 여기 주석 해제 
+            // window.location.href = `/step-page?rm=${rm}`;
         });
     });
 </script>
