@@ -8,8 +8,8 @@
 <div id="select-style-area" class="container min-vh-100 p-5">
     <p id="selectPage-timer" class="text-end">Timer left</p>
     <span class="title w-auto me-auto mt-1">Select Style</span>
-    <div class="row w-100 mb-3 justify-content-start">
-        <div class="col-auto p-0">
+    <div class="row w-100 mb-5 mt-5 justify-content-start">
+        <div id="preview-frame"class="col-auto p-0">
             <canvas id="canvas" width="300" height="400" style="width: 300px; height: 400px;"></canvas>
         </div>
         <div class="col-auto">
@@ -17,8 +17,8 @@
                 <div class="select-filter">
                     <p class="option-title">photo filter</p>
                     <div class="d-flex flex-row">
-                        <div class="filter selected" data-filter="original">Natural</div>
-                        <div class="filter ms-4" data-filter="random"><span id="filter">original</span></div>
+                        <div class="filter selected" data-filter="original">colored</div>
+                        <div class="filter ms-2" data-filter="random"><span id="filter">mono</span></div>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                     <p class="option-title">frame color</p>
                     <div class="row">
                         <div class="color col">
-                            <div id="color-white" class="frame-color selected" data-frame="frame_white.png"></div>
+                            <div id="color-white" class="frame-color selected" data-frame="frame_white.png" data-type="white"></div>
                             <div class="text-color">white</div>
                         </div>
                         <div class="color col">
@@ -157,8 +157,17 @@
                 if (isFilter) {
                     await setFilters(this.dataset.filter);
                 } else {
+                    // preview-frame에 흰색일때만 구분선으로 border 주기 
+                    if (this.dataset.type == 'white') {
+                        $("#preview-frame").css("border", "0.7px solid #838383");
+                    }
+                    else {
+                        $("#preview-frame").css("border", "none");
+                    }
+
                     await setCanvas(`/images/${this.dataset.frame}`);
                 }
+
             });
         });
 
