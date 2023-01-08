@@ -102,13 +102,15 @@ public class ImageController : Controller
     [HttpPost("send")]
     public async Task<JsonResult> SendImages(SendImagesCommand command)
     {
-        if (command?.ImageSourceList is null || command.Email is null)
+        string? printerEmail = _configuration["PrinterEmail"];
+
+        if (command?.ImageSource is null || command.Email is null || command.Width is null || command.Height is null ||
+            printerEmail is null)
         {
             throw new Exception("잘못된 접근입니다.");
         }
 
-        // JJ: 이미지 생성 로직
-        byte[] resultBytes = Convert.FromBase64String(command.ImageSourceList.FirstOrDefault() ?? string.Empty);
+        byte[] resultBytes = Convert.FromBase64String(command.ImageSource);
 
         // DB 저장
         string downloadKey = Guid.NewGuid().ToString();
@@ -143,10 +145,10 @@ public class ImageController : Controller
 
             newMail.From = new MailAddress(_configuration["EmailSenderAddress"] ?? string.Empty,
                 _configuration["EmailSenderName"]);
-            newMail.To.Add(command.Email);
+            newMail.To.Add(printerEmail);
 
             // 이미지 첨부를 위한 처리
-            const string body = $@"<img src=""cid:HaruHaruPicture"" style=""width: 540px; height: 360px;"" alt=""image"" />";
+            string body = $@"<img src=""cid:HaruHaruPicture"" style=""width: {command.Width}; height: {command.Height}px;"" alt=""image"" />";
             AlternateView alternateView = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
 
             LinkedResource imageSource = new(image, MediaTypeNames.Image.Jpeg);

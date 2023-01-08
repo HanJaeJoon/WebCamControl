@@ -1,7 +1,10 @@
 ﻿@using WebCameraControl.Core
 @using WebCameraControl.Models
+@using Microsoft.Extensions.Configuration
+
 @model WebCameraControl.Models.IndexModel
 @inject AppDbContext DbContext
+@inject IConfiguration Configuration
 
 @{
     Layout = "_Layout";
@@ -18,12 +21,26 @@
 
 <div class="d-flex flex-column min-vh-100 p-5">
     <span>original</span>
-    <img id="image" alt="image: radical candor" src="" style="width: 540px; height: 360px;">
+    <img id="image" alt="image: radical candor" src="" style="width: 600px; height: 400px;">
     <span id="filter">original(no filter)</span>
-    <canvas id="canvas" width="540" height="360" style="width: 540px; height: 360px;"></canvas>
+    <canvas id="canvas" width="600" height="400" style="width: 600px; height: 400px;"></canvas>
     <div class="form-floating my-5">
-        <input type="email" id="email" class="form-control" placeholder="jaejoon.han@crevisse.com" value="jaejoon.han@crevisse.com">
+        <input type="email" id="email" class="form-control" value="@Configuration["PrinterEmail"]" disabled="disabled" />
         <label for="email">링크를 전송할 Email</label>
+
+        <div class="d-flex flex-row mt-5">
+            <div class="input-group w-50">
+                <span class="input-group-text">width</span>
+                <input type="text" id="width" class="form-control size-control" value="600" />
+                <span class="input-group-text">px</span>
+            </div>
+
+            <div class="input-group w-50">
+                <span class="input-group-text">height</span>
+                <input type="text" id="height" class="form-control size-control" value="400" />
+                <span class="input-group-text">px</span>
+            </div>
+        </div>
     </div>
     <button type="button" id="btn-send" class="btn btn-primary btn-lg">Send Email</button>
     <button type="button" id="btn-filter" class="btn btn-secondary btn-lg my-3">Set filter</button>
@@ -38,14 +55,20 @@
         const image = document.querySelector('#image');
         image.src = 'data:image/jpeg;base64,' + testData;
 
-        const canvas = document.querySelector('#canvas');
+        const drawImage = () => {
+            const canvas = document.querySelector('#canvas');
+            const context = canvas.getContext('2d');
+            const width = document.querySelector('#width').value;
+            const height = document.querySelector('#height').value;
+            const img = new Image();
 
-        let context = canvas.getContext('2d');
-        let img = new Image();
-        img.src = image.src;
-        img.onload = () => {
-          context.drawImage(img, 0, 0, 1080, 720, 0, 0, 540, 360);
+            img.src = image.src;
+            img.onload = () => {
+                context.drawImage(img, 0, 0, 600, 400, 0, 0, width, height);
+            };
         };
+
+        drawImage();
 
         const emailInput = document.querySelector('#email');
         const qrArea = document.querySelector('#qr-code-area');
@@ -57,6 +80,8 @@
             }
 
             const base64Image = canvas.toDataURL('image/jpeg').split(';base64,')[1];
+            const width = document.querySelector('#width').value;
+            const height = document.querySelector('#height').value;
 
             fetch('/api/image/send', {
                 method: 'POST',
@@ -65,7 +90,9 @@
                 },
                 body: JSON.stringify({
                     email: emailInput.value,
-                    imageSourceList: [ base64Image ],
+                    imageSource: base64Image,
+                    width,
+                    height,
                 }),
             })
                 .then(async (response) => {
@@ -87,15 +114,19 @@
 
         const filterList = pixelsJS.getFilterList();
         const filterSpan = document.querySelector('#filter');
+        const setFilter =  () => {
+            const canvas = document.querySelector('#canvas');
+            const context = canvas.getContext('2d');
+            const width = document.querySelector('#width').value;
+            const height = document.querySelector('#height').value;
+            const img = new Image();
 
-        document.querySelector('#btn-filter').addEventListener('click', () => {
             img.src = image.src;
             img.onload = () => {
-                let context = canvas.getContext('2d')
 
-                context.drawImage(img, 0, 0, 1080, 720, 0, 0, 540, 360);
+                context.drawImage(img, 0, 0, 600, 400, 0, 0, width, height);
 
-                let imgData = context.getImageData(0, 0, 540, 360);
+                let imgData = context.getImageData(0, 0, width, height);
                 let index = Math.floor(Math.random() * filterList.length);
                 let filter = filterList[index];
 
@@ -105,6 +136,23 @@
 
                 context.putImageData(newImgData, 0, 0);
             };
+        };
+
+        document.querySelector('#btn-filter').addEventListener('click', setFilter);
+
+        document.querySelectorAll('.size-control').forEach(element => {
+            element.addEventListener('change', () => {
+                const canvas = document.querySelector('#canvas');
+                const width = document.querySelector('#width').value;
+                const height = document.querySelector('#height').value;
+
+                canvas.style.width = `${width}px`;
+                canvas.style.height = `${height}px`;
+                canvas.setAttribute('width', width);
+                canvas.setAttribute('height', height);
+
+                drawImage();
+            });
         });
     });
 </script>
