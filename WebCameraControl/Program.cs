@@ -20,6 +20,9 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddHostedService<QueuedHostedService>();
+builder.Services.AddSingleton<IBackgroundTaskQueue>(ctx => new BackgroundTaskQueue(100));
+
 string connectionString = builder.Configuration.GetConnectionString("SqliteConnection")!;
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
