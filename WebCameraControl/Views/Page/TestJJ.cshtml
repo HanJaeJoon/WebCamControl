@@ -79,6 +79,14 @@
                 return;
             }
 
+            const sendButton = document.querySelector('#btn-send');
+
+            sendButton.innerHTML = `
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            `;
+            sendButton.disabled = true;
+
             const base64Image = canvas.toDataURL('image/jpeg').split(';base64,')[1];
             const width = document.querySelector('#width').value;
             const height = document.querySelector('#height').value;
@@ -109,6 +117,10 @@
                 })
                 .catch((error) => {
                     alert(`에러 발생!\n${error}`);
+                })
+                .finally(() => {
+                    sendButton.innerHTML = `Send Email`;
+                    sendButton.disabled = false;
                 });
         });
 
