@@ -1,3 +1,3 @@
 # WebcamControl
 
-https://photo-moment.azurewebsites.net
+- https://photo-moment.azurewebsites.net
