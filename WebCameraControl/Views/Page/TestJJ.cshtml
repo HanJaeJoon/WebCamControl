@@ -24,6 +24,7 @@
     <img id="image" alt="image: radical candor" src="" style="width: 600px; height: 400px;">
     <span id="filter">original(no filter)</span>
     <canvas id="canvas" width="600" height="400" style="width: 600px; height: 400px;"></canvas>
+    <div id="filter-list"></div>
     <div class="form-floating my-5">
         <input type="email" id="email" class="form-control" value="@Configuration["PrinterEmail"]" disabled="disabled" />
         <label for="email">링크를 전송할 Email</label>
@@ -125,8 +126,26 @@
         });
 
         const filterList = pixelsJS.getFilterList();
+        const filterButtonList = document.querySelector('#filter-list');
+
+        let html = '';
+
+        filterList.forEach(filter => {
+            html += `
+                <button type="button" data-filter="${filter}">${filter}</button>
+            `;
+        });
+
+         filterButtonList.innerHTML = html;
+
+         filterButtonList.querySelectorAll('button').forEach(button => {
+             button.addEventListener('click', () => {
+                 setFilter(button.dataset.filter);
+             });
+         });
+
         const filterSpan = document.querySelector('#filter');
-        const setFilter =  () => {
+        const setFilter =  (selectedFilter) => {
             const canvas = document.querySelector('#canvas');
             const context = canvas.getContext('2d');
             const width = document.querySelector('#width').value;
@@ -140,7 +159,7 @@
 
                 let imgData = context.getImageData(0, 0, width, height);
                 let index = Math.floor(Math.random() * filterList.length);
-                let filter = filterList[index];
+                let filter = selectedFilter ?? filterList[index];
 
                 filterSpan.innerHTML = filter;
 
