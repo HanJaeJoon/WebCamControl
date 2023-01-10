@@ -16,36 +16,36 @@
     <span id="camera-counter" class="w-auto me-auto ms-3"><span id="camera-current">1</span>/8</span>
     <span id="camera-timer" class="w-auto mx-auto">Ready?</span>
 </div>
-<div id="picture-list-area" class="d-flex flex-column min-vh-100 p-5">
+<div id="picture-list-area" class="d-flex flex-column min-vh-100 p-5 d-none">
     <p id="pickPhoto-timer" class="text-end">Timer left <span id="timer"></span></p>
     <span id="pick" class="w-auto me-auto mt-1">Pick 4 photos</span>
     <div class="d-flex flex-row mb-3 justify-content-center">
-        <div id="img1" class="pick-option mx-3" style="background-color: red; width: 30%; height: 100%;">
+        <div id="img1" class="pick-option mx-3" style="width: 30%; height: 100%;">
             <div class="pick-label" style=""></div>
         </div>
-        <div id="img2" class="pick-option mx-3" style="background-color: red; width: 30%; height: 100%;">
+        <div id="img2" class="pick-option mx-3" style="width: 30%; height: 100%;">
             <div class="pick-label" style=""></div>
         </div>
-        <div id="img3" class="pick-option mx-3" style="background-color: red; width: 30%; height: 100%;">
-            <div class="pick-label" style=""></div>
-        </div>
-    </div>
-    <div class="d-flex flex-row mb-3 justify-content-center">
-        <div id="img4" class="pick-option mx-3" style="background-color: red; width: 30%; height: 100%;">
-            <div class="pick-label" style=""></div>
-        </div>
-        <div id="img5" class="pick-option mx-3" style="background-color: red; width: 30%; height: 100%;">
-            <div class="pick-label" style=""></div>
-        </div>
-        <div id="img6" class="pick-option mx-3" style="background-color: red; width: 30%; height: 100%;">
+        <div id="img3" class="pick-option mx-3" style="width: 30%; height: 100%;">
             <div class="pick-label" style=""></div>
         </div>
     </div>
     <div class="d-flex flex-row mb-3 justify-content-center">
-        <div id="img7" class="pick-option mx-3" style="background-color: red; width: 30%; height: 100%;">
+        <div id="img4" class="pick-option mx-3" style="width: 30%; height: 100%;">
             <div class="pick-label" style=""></div>
         </div>
-        <div id="img8" class="pick-option mx-3" style="background-color: red; width: 30%; height: 100%;">
+        <div id="img5" class="pick-option mx-3" style="width: 30%; height: 100%;">
+            <div class="pick-label" style=""></div>
+        </div>
+        <div id="img6" class="pick-option mx-3" style="width: 30%; height: 100%;">
+            <div class="pick-label" style=""></div>
+        </div>
+    </div>
+    <div class="d-flex flex-row mb-3 justify-content-center">
+        <div id="img7" class="pick-option mx-3" style="width: 30%; height: 100%;">
+            <div class="pick-label" style=""></div>
+        </div>
+        <div id="img8" class="pick-option mx-3" style="width: 30%; height: 100%;">
             <div class="pick-label" style=""></div>
         </div>
         <div class="mx-3 text-center position-relative top-50" style="width: 30%; height: 100%;">
@@ -61,8 +61,8 @@
 <div class="modal fade" id="picture-priview-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header border-white">
-                <h5 class="modal-title">Preview</h5>
+            <div class="modal-header border-white pt-4 pe-4">
+                <h3 class="modal-title">Preview</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body border-white">
@@ -85,7 +85,7 @@
                 </div>
             </div>
             <div class="modal-footer border-white">
-                <button type="button" id="btn-confirm" class="btn-purple">Confirm</button>
+                <button type="button" id="btn-confirm" class="btn btn-secondary btn-purple">Confirm</button>
             </div>
         </div>
     </div>
@@ -143,6 +143,7 @@
 
         const renderPictures = () => {
             document.querySelector('#take-picture-area').classList.add('d-none');
+            document.querySelector('#picture-list-area').classList.remove('d-none');
 
             const pictureList = document.querySelector('#picture-list-area');
 
@@ -194,7 +195,7 @@
 
                     clearInterval(interval);
 
-                    if (current >= totalCount) {
+                    if (current > totalCount) {
                         renderPictures();
                         initPickPhotoimer(80); // 80초 타이머 시작
                     } else {
@@ -314,11 +315,6 @@
             localStorage.setItem("image4_src", $("#preview-img4 img")[0].src);
 
             window.location.href = `/select-page`;
-        });
-
-        const btnGoBack = document.querySelector('#btn-goBack');
-        btnGoBack.addEventListener('click', () => {
-            initPickPhotoimer(40);
         });
     });
 </script>

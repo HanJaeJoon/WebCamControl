@@ -7,7 +7,7 @@
 
 <div class="d-flex flex-column vh-100 p-5">
     <span id="intro" class="w-auto me-auto mt-5">안녕하세요 <span class="emoji wave m-0 display-1" role="img" aria-label="hand wave"></span></span>
-    <span id="sub-intro" class="w-auto me-auto">Hi there, which would you like?</span>
+    <span id="sub-intro" class="w-auto lh-1">Hi there, which would you like?</span>
     <div class="d-flex flex-row justify-content-center my-3">
         <div class="me-5">
             <div class="mx-auto text-center text-option invisible">
@@ -28,10 +28,10 @@
     </div>
     <div class="button-container mx-auto mt-auto">
         <button type="button" id="btn-next" class="btn btn-secondary btn-lg mx-auto mt-5" disabled>
-            🔒 Call staff to play
+            🔒 Call staff if not paid
         </button>
         <div class="mx-auto mt-2 mb-5 text-center">
-            <a href="/" class="text-black">< Go back to first</a>
+            <a href="/" class="text-black text-decoration-none">< Go back to first</a>
         </div>
     </div>
 </div>
@@ -44,7 +44,6 @@
 
         const checkOptions = () => {
             const selectedOptions = document.querySelector('.picture-option.selected');
-            const selectedOptionsText = selectedOptions.parentNode.querySelector('.text-option');
 
             btnNext.disabled = !selectedOptions;
 
@@ -53,13 +52,23 @@
                 text.classList.add('invisible');
             });
 
-            // 선택된 이미지 상단 select 버튼 노출 
-            selectedOptionsText.classList.remove('invisible');
+            // 선택하지 않은 이미지에 블러 추가
+            options.forEach(option => {
+                if (option.classList.contains('selected')) {
+                    option.parentNode.querySelector('.text-option').classList.remove('invisible');
+                }
+                else {
+                    option.classList.add('non-selected');
+                }
+            });
         };
 
         options.forEach(option => {
             option.addEventListener('click', () => {
-                options.forEach(option => option.classList.remove('selected'));
+                options.forEach(option => {
+                    option.classList.remove('selected');
+                    option.classList.remove('non-selected');
+                });
                 option.classList.add('selected');
 
                 checkOptions();
