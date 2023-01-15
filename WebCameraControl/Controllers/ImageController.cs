@@ -64,26 +64,49 @@ public class ImageController : Controller
 
                 MailMessage newMail = new();
 
-                newMail.From = new MailAddress(_configuration["EmailSenderAddress"] ?? string.Empty,
-                    _configuration["EmailSenderName"]);
+                newMail.From = new MailAddress(_configuration["EmailSenderAddress"] ?? string.Empty, _configuration["EmailSenderName"]);
                 newMail.To.Add(printerEmail);
 
-                // 이미지 첨부를 위한 처리
-                const string body = $@"<img src=""cid:HaruHaruPicture"" style=""width: 450px; height: 600px;"" alt=""image"" />";
-                AlternateView alternateView = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
-
-                LinkedResource imageSource = new(image, MediaTypeNames.Image.Jpeg);
-                imageSource.ContentId = "HaruHaruPicture";
-                imageSource.ContentType = new ContentType("image/jpg");
-                alternateView.LinkedResources.Add(imageSource);
-                newMail.AlternateViews.Add(alternateView);
-
-                ContentType mimeType = new("text/html");
-                AlternateView alternate = AlternateView.CreateAlternateViewFromString(body, mimeType);
-                newMail.AlternateViews.Add(alternate);
-
                 newMail.Subject = "[HaruHaru] pictures";
-                newMail.Body = body;
+
+                Attachment attachment = new(image, MediaTypeNames.Application.Octet);
+                ContentDisposition? disposition = attachment.ContentDisposition;
+
+                if (disposition is null)
+                {
+                    throw new Exception("error!");
+                }
+
+                disposition.CreationDate = DateTime.Now;
+                disposition.ModificationDate = DateTime.Now;
+                disposition.ReadDate = DateTime.Now;
+                disposition.FileName = "haruharu.jpg";
+                disposition.Size = image.Length;
+                disposition.DispositionType = DispositionTypeNames.Attachment;
+                newMail.Attachments.Add(attachment);
+
+                // MailMessage newMail = new();
+                //
+                // newMail.From = new MailAddress(_configuration["EmailSenderAddress"] ?? string.Empty,
+                //     _configuration["EmailSenderName"]);
+                // newMail.To.Add(printerEmail);
+                //
+                // // 이미지 첨부를 위한 처리
+                // const string body = $@"<img src=""cid:HaruHaruPicture"" style=""width: 450px; height: 600px;"" alt=""image"" />";
+                // AlternateView alternateView = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+                //
+                // LinkedResource imageSource = new(image, MediaTypeNames.Image.Jpeg);
+                // imageSource.ContentId = "HaruHaruPicture";
+                // imageSource.ContentType = new ContentType("image/jpg");
+                // alternateView.LinkedResources.Add(imageSource);
+                // newMail.AlternateViews.Add(alternateView);
+                //
+                // ContentType mimeType = new("text/html");
+                // AlternateView alternate = AlternateView.CreateAlternateViewFromString(body, mimeType);
+                // newMail.AlternateViews.Add(alternate);
+                //
+                // newMail.Subject = "[HaruHaru] pictures";
+                // newMail.Body = body;
 
                 SmtpClient client = new("smtp.gmail.com", 587)
                 {
@@ -149,26 +172,43 @@ public class ImageController : Controller
 
                 MailMessage newMail = new();
 
-                newMail.From = new MailAddress(_configuration["EmailSenderAddress"] ?? string.Empty,
-                    _configuration["EmailSenderName"]);
+                newMail.From = new MailAddress(_configuration["EmailSenderAddress"] ?? string.Empty, _configuration["EmailSenderName"]);
                 newMail.To.Add(printerEmail);
 
-                // 이미지 첨부를 위한 처리
-                string body = $@"<img src=""cid:HaruHaruPicture"" style=""width: {command.Width}; height: {command.Height}px;"" alt=""image"" />";
-                AlternateView alternateView = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
-
-                LinkedResource imageSource = new(image, MediaTypeNames.Image.Jpeg);
-                imageSource.ContentId = "HaruHaruPicture";
-                imageSource.ContentType = new ContentType("image/jpg");
-                alternateView.LinkedResources.Add(imageSource);
-                newMail.AlternateViews.Add(alternateView);
-
-                ContentType mimeType = new("text/html");
-                AlternateView alternate = AlternateView.CreateAlternateViewFromString(body, mimeType);
-                newMail.AlternateViews.Add(alternate);
-
                 newMail.Subject = "[HaruHaru] pictures";
-                newMail.Body = body;
+
+                Attachment attachment = new(image, MediaTypeNames.Application.Octet);
+                ContentDisposition? disposition = attachment.ContentDisposition;
+
+                if (disposition is null)
+                {
+                    throw new Exception("error!");
+                }
+
+                disposition.CreationDate = DateTime.Now;
+                disposition.ModificationDate = DateTime.Now;
+                disposition.ReadDate = DateTime.Now;
+                disposition.FileName = "haruharu.jpg";
+                disposition.Size = image.Length;
+                disposition.DispositionType = DispositionTypeNames.Attachment;
+                newMail.Attachments.Add(attachment);
+
+                // // 이미지 첨부를 위한 처리
+                // string body = $@"<img src=""cid:HaruHaruPicture"" style=""width: {command.Width}; height: {command.Height}px;"" alt=""image"" />";
+                // AlternateView alternateView = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+                //
+                // LinkedResource imageSource = new(image, MediaTypeNames.Image.Jpeg);
+                // imageSource.ContentId = "HaruHaruPicture";
+                // imageSource.ContentType = new ContentType("image/jpg");
+                // alternateView.LinkedResources.Add(imageSource);
+                // newMail.AlternateViews.Add(alternateView);
+                //
+                // ContentType mimeType = new("text/html");
+                // AlternateView alternate = AlternateView.CreateAlternateViewFromString(body, mimeType);
+                // newMail.AlternateViews.Add(alternate);
+                //
+                // newMail.Subject = "[HaruHaru] pictures";
+                // newMail.Body = body;
 
                 SmtpClient client = new("smtp.gmail.com", 587)
                 {

@@ -18,7 +18,8 @@
                     <p class="option-title">photo filter</p>
                     <div class="d-flex flex-row">
                         <div class="filter selected" data-filter="original">colored</div>
-                        <div class="filter ms-2" data-filter="random"><span id="filter">mono</span></div>
+                        <div class="filter ms-2" data-filter="greyscale"><span id="filter">greyscale</span></div>
+                        @* <div class="filter ms-2" data-filter="random"><span id="filter">mono</span></div> *@
                     </div>
                 </div>
             </div>
@@ -117,7 +118,7 @@
             let context = canvas.getContext('2d', { willReadFrequently: true, });
 
             let index = Math.floor(Math.random() * filterList.length);
-            let filter = filterList[index];
+            let filter = filterName === 'random' ? filterList[index] : filterName;
 
             const image1 = new Image();
             image1.src = localStorage.getItem('image1_src');
@@ -157,7 +158,7 @@
                 if (isFilter) {
                     await setFilters(this.dataset.filter);
                 } else {
-                    // preview-frame에 흰색일때만 구분선으로 border 주기 
+                    // preview-frame에 흰색일때만 구분선으로 border 주기
                     if (this.dataset.type == 'white') {
                         $("#preview-frame").css("border", "0.7px solid #838383");
                     }
