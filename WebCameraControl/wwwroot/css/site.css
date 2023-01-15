@@ -389,7 +389,6 @@ body {
     border: 0.7px solid rgb(131, 131, 131);
 }
 
-
 #picture-priview-modal .photo-footer {
     text-align: center;
 }
@@ -432,6 +431,7 @@ body {
 #select-style-area .select-filter .filter.selected {
     background-color: #742DDD;
     color: #FFFFFF;
+    border-color: #742DDD;
 }
 
 #select-style-area .select-color .frame-color {
@@ -451,6 +451,7 @@ body {
     font-size: 1em;
     text-align: center;
 }
+
 
 #color-white {
     background-color: #FFFFFF;
@@ -479,4 +480,27 @@ body {
     font-weight: 500;
     font-size: 1.5em;
     color: #7E7E7E;
+}
+
+/* printing */
+#select-style area #sub-intro {
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2em;
+    color: #000000;
+    word-spacing: -5px;
+}
+
+#printing-area #download-area {
+    background: #393939;
+    border-radius: 2em;
+    width: 65%;
+    height: 45%;
+    padding: 16px 12px;
+    margin-top: 30px;
+}
+
+#printing-area .colored-intro {
+    color: #C2A9FA;
 }
