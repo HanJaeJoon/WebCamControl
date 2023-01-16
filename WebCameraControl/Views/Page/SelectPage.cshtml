@@ -10,7 +10,7 @@
     <span class="title w-auto me-auto mt-1">Select Style</span>
     <div class="row w-100 mb-5 mt-5 justify-content-start">
         <div id="preview-frame"class="col-auto p-0">
-            <canvas id="canvas" width="960" height="1200" style="width: 300px; height: 400px;"></canvas>
+            <canvas id="canvas" width="960" height="1280" style="width: 240px; height: 320px;"></canvas>
         </div>
         <div class="col-auto">
             <div class="row">
@@ -62,20 +62,21 @@
 <script src="~/js/pixels.min.js"></script>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
-        const imageWidth = 374 / 3 * (960 / 300);
-        const imageHeight = 499 / 3 * (1200 / 400);
-        const marginLeft = 66 / 3 * (960 / 300);
-        const marginTop = 41 / 3 * (1200 / 400);
-        const spaceX = 21 / 3 * (960 / 300);
-        const spaceY = 22 / 3 * (1200 / 400);
+        const imageWidth = 408;
+        const imageHeight = 567;
+        const marginLeft = 64;
+        const marginTop = 49;
+        const spaceX = 16;
+        const spaceY = 13;
 
+        // 900 , 1200 -> 1200 , 960 
         async function setCanvas(frameSource) {
             let context = canvas.getContext('2d');
 
             const frame = new Image();
             frame.src = frameSource ?? `/images/frame_white.png`;
             frame.onload = () => {
-                context.drawImage(frame, 0, 0, 960, 1200);
+                context.drawImage(frame, 0, 0, 960, 1280);
                 drawImages(context);
             };
         }
