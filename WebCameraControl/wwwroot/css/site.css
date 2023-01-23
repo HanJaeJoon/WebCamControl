@@ -232,7 +232,7 @@ body {
 }
 
 .picture-option.selected {
-    border: 3px solid #C2A9FA;
+    border: 6px solid #C2A9FA;
     border-radius: 4px;
 }
 
