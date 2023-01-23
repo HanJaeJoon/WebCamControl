@@ -9,7 +9,7 @@
     <p id="selectPage-timer" class="text-end">Timer left</p>
     <span class="title w-auto me-auto mt-1">Select Style</span>
     <div class="row w-100 mb-5 mt-5 justify-content-start">
-        <div id="preview-frame"class="col-auto p-0">
+        <div id="preview-frame" class="col-auto p-0">
             <canvas id="canvas" width="900" height="1200" style="width: 300px; height: 400px;"></canvas>
         </div>
         <div class="col-auto">
@@ -18,8 +18,8 @@
                     <p class="option-title">photo filter</p>
                     <div class="d-flex flex-row">
                         <div class="filter selected" data-filter="original">colored</div>
-                        <div class="filter ms-2" data-filter="greyscale"><span id="filter">greyscale</span></div>
-                        @* <div class="filter ms-2" data-filter="random"><span id="filter">mono</span></div> *@
+                        <div class="filter ms-2" data-filter="twenties">greyscale</div>
+                        <div class="filter ms-2" data-filter="rosetint">vintage</div>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
         const marginTop = 54;
         const spaceX = 14;
         const spaceY = 13;
-        
+
         async function setCanvas(frameSource) {
             let context = canvas.getContext('2d');
 
@@ -128,8 +128,6 @@
             let imgData3 = context.getImageData(marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
             let imgData4 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
 
-            document.querySelector('#filter').innerText = filter;
-
             let newImgData1 = pixelsJS.filterImgData(imgData1, filter);
             let newImgData2 = pixelsJS.filterImgData(imgData2, filter);
             let newImgData3 = pixelsJS.filterImgData(imgData3, filter);
@@ -159,7 +157,7 @@
                     await setFilters(this.dataset.filter);
                 } else {
                     // preview-frame에 흰색일때만 구분선으로 border 주기
-                    if (this.dataset.type == 'white') {
+                    if (this.dataset.type === 'white') {
                         $("#preview-frame").css("border", "0.7px solid #838383");
                     }
                     else {
