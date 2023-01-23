@@ -5,7 +5,7 @@
 }
 
 <div id="printing-area" class="container min-vh-100 p-5">
-    <span id="title" class="w-auto me-auto d-block">Now Printing 🖨️</span>
+    <span id="title" class="w-auto me-auto d-block pt-3">Now Printing 🖨️</span>
     <span id="sub-intro" class="w-auto me-auto">You can also get a digital file</span>
 
     <div id="download-area">
@@ -13,7 +13,7 @@
             <div class="me-auto ms-auto">
                 <span class="colored-intro">Scan to download</span>
             </div>
-            <div id="qr-code-area" class="me-auto ms-auto mt-3"></div>
+            <div id="qr-code-area" class="me-auto ms-auto mt-1"></div>
         </div>
     </div>
 
@@ -27,7 +27,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         const qrArea = document.querySelector('#qr-code-area');
 
-        new QRCode(qrArea, '@ViewData["url"]');
+        new QRCode(qrArea, { text: '@ViewData["url"]' , width: 320, height: 320 });
 
         document.querySelector('#btn-go-to-first').addEventListener('click', () => {
             window.location.href = `/`;
