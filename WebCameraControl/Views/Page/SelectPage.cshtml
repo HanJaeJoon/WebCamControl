@@ -172,6 +172,7 @@
 
         document.querySelector('#btn-go-to-print').addEventListener('click', () => {
             const base64Image = canvas.toDataURL('image/jpeg').split(';base64,')[1];
+            const count = localStorage.getItem('count');
 
             fetch('/api/image/print', {
                 method: 'POST',
@@ -180,6 +181,7 @@
                 },
                 body: JSON.stringify({
                     base64imageSource: base64Image,
+                    count,
                 }),
             })
                 .then(async (response) => {
