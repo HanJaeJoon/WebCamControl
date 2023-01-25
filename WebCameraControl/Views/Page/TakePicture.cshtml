@@ -87,6 +87,7 @@
             <div class="modal-footer border-white">
                 <button type="button" id="btn-confirm" class="btn btn-secondary btn-purple">Confirm</button>
             </div>
+            <a id="init" ontouchstart="javascript:sndInit();"></a>
         </div>
     </div>
 </div>
@@ -163,6 +164,14 @@
         // 카운트 다운 배경음 로드 
         var shutter = new Audio();
         shutter.src = 'images/countdown.mp3';
+
+
+        // audio : https://stackoverflow.com/questions/7856502/play-a-sound-via-javascript-event-in-ios-5-html5-app
+        function sndInit() {
+            shutter.play();
+            shutter.pause();
+            document.getElementById('init').style.display = 'none';
+        }
 
 
         // 사진 찍기 타이머 
