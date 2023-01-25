@@ -70,12 +70,7 @@ public class ImageController : Controller
                 newMail.Subject = "[HaruHaru] pictures";
 
                 Attachment attachment = new(image, MediaTypeNames.Application.Octet);
-                ContentDisposition? disposition = attachment.ContentDisposition;
-
-                if (disposition is null)
-                {
-                    throw new Exception("error!");
-                }
+                ContentDisposition disposition = attachment.ContentDisposition!;
 
                 disposition.CreationDate = DateTime.Now;
                 disposition.ModificationDate = DateTime.Now;
@@ -84,6 +79,23 @@ public class ImageController : Controller
                 disposition.Size = image.Length;
                 disposition.DispositionType = DispositionTypeNames.Attachment;
                 newMail.Attachments.Add(attachment);
+
+                if (command.Count == 2)
+                {
+                    MemoryStream image2 = new(resultBytes);
+
+                    Attachment attachment2 = new(image2, MediaTypeNames.Application.Octet);
+                    ContentDisposition disposition2 = attachment2.ContentDisposition!;
+
+                    disposition2.CreationDate = DateTime.Now;
+                    disposition2.ModificationDate = DateTime.Now;
+                    disposition2.ReadDate = DateTime.Now;
+                    disposition2.FileName = "haruharu2.jpg";
+                    disposition2.Size = image.Length;
+                    disposition2.DispositionType = DispositionTypeNames.Attachment;
+
+                    newMail.Attachments.Add(attachment2);
+                }
 
                 // MailMessage newMail = new();
                 //
