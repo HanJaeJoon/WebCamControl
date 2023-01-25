@@ -6,7 +6,7 @@
 
 
 <div id="select-style-area" class="container min-vh-100 p-5">
-    <p id="selectPage-timer" class="text-end">Timer left</p>
+    <p id="pickPhoto-timer" class="text-end">Timer left <span id="timer"></span></p>
     <span class="title w-auto me-auto mt-1">Select Style</span>
     <div class="row w-100 mb-5 mt-5 justify-content-start">
         <div id="preview-frame" class="col-auto p-0">
@@ -199,5 +199,30 @@
                     alert(`에러 발생!\n${error}`);
                 });
         });
+
+        // 사진 선택 타이머
+        // 타이머 시작
+        var pickPhototimer;
+        const initPickPhotoimer = (time) => {
+            if (pickPhototimer != undefined) {
+                clearInterval(pickPhototimer);
+            }
+
+            pickPhototimer = setInterval(() => {
+                $("#timer").text(time);
+                time--;
+                console.log(time);
+
+                if (time < 0) {
+                    clearInterval(pickPhototimer);
+
+                    // 시간 초과 이후 동작
+                    document.getElementById('btn-go-to-print').click();
+                }
+
+            }, 1000);
+        }
+
+        initPickPhotoimer(80); 
     });
 </script>
