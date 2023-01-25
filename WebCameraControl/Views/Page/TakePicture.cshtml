@@ -166,11 +166,15 @@
         shutter.src = 'images/countdown.mp3';
 
 
-        // audio : https://stackoverflow.com/questions/7856502/play-a-sound-via-javascript-event-in-ios-5-html5-app
+        // 처음 한 번만 실행되도록 함 audio : https://stackoverflow.com/questions/7856502/play-a-sound-via-javascript-event-in-ios-5-html5-app
+        let playSync = true; 
         document.addEventListener("touchstart", () => {
-            alert('sndInit');
-            shutter.play();
-            shutter.pause();
+            if (playSync) {
+                alert('sndInit');
+                shutter.play();
+                shutter.pause();
+                playSync = false; 
+            }
         });
 
         // 사진 찍기 타이머 
