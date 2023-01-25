@@ -167,12 +167,11 @@
 
 
         // audio : https://stackoverflow.com/questions/7856502/play-a-sound-via-javascript-event-in-ios-5-html5-app
-        function sndInit() {
+        document.addEventListener("touchstart", () => {
+            alert('sndInit');
             shutter.play();
             shutter.pause();
-            document.getElementById('init').style.display = 'none';
-        }
-
+        });
 
         // 사진 찍기 타이머 
         const initTimer = () => {
