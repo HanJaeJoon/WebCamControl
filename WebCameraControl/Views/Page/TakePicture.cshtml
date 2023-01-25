@@ -87,6 +87,7 @@
             <div class="modal-footer border-white">
                 <button type="button" id="btn-confirm" class="btn btn-secondary btn-purple">Confirm</button>
             </div>
+            <a id="init" ontouchstart="javascript:sndInit();"></a>
         </div>
     </div>
 </div>
@@ -171,7 +172,6 @@
             shutter.play();
             shutter.pause();
         });
-
 
         // 사진 찍기 타이머 
         const initTimer = () => {
