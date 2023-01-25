@@ -211,7 +211,6 @@
         initTimer();
 
         // 사진 선택 타이머
-
         // 타이머 시작
         var pickPhototimer;
         const initPickPhotoimer = (time) => {
@@ -221,13 +220,19 @@
             }
 
             pickPhototimer = setInterval(() => {
-                console.log(time);
                 $("#timer").text(time);
                 time--;
 
                 if (time < 0) {
-                    clearInterval(timer);
+                    clearInterval(pickPhototimer);
+
                     // 시간 초과 이후 동작
+                    localStorage.setItem("image1_src", $("#img1 img")[0].src);
+                    localStorage.setItem("image2_src", $("#img2 img")[0].src);
+                    localStorage.setItem("image3_src", $("#img3 img")[0].src);
+                    localStorage.setItem("image4_src", $("#img4 img")[0].src);
+
+                    window.location.href = `/select-page`;
                 }
 
             }, 1000);
@@ -320,7 +325,6 @@
 
         const btnConfirm = document.querySelector('#btn-confirm');
         btnConfirm.addEventListener('click', () => {
-            console.log('btnConfirm');
             localStorage.setItem("image1_src", $("#preview-img1 img")[0].src);
             localStorage.setItem("image2_src", $("#preview-img2 img")[0].src);
             localStorage.setItem("image3_src", $("#preview-img3 img")[0].src);
