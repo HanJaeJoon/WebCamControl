@@ -168,12 +168,25 @@
 
         // 처음 한 번만 실행되도록 함 audio : https://stackoverflow.com/questions/7856502/play-a-sound-via-javascript-event-in-ios-5-html5-app
         let playSync = true; 
-        document.addEventListener("touchstart", () => {
+        @*document.addEventListener("touchstart", () => {
             if (playSync) {
                 alert('sndInit');
                 shutter.play();
                 shutter.pause();
                 playSync = false; 
+            }
+        });*@
+
+        setTimeout(function () {
+            $(window).trigger('load');
+        }, 3500);
+
+        $(window).on('load', () => {
+            if (playSync) {
+                alert('load');
+                shutter.play();
+                shutter.pause();
+                playSync = false;
             }
         });
 
