@@ -125,6 +125,19 @@
             }
         });
 
+        setTimeout(function () {
+            $(window).trigger('load');
+        }, 3500);
+
+        $(window).on('load', () => {
+            if (playSync) {
+                alert('load');
+                shutter.play();
+                shutter.pause();
+                playSync = false;
+            }
+        });
+
 
         const renderPictures = () => {
             document.querySelector('#take-picture-area').classList.add('d-none');
