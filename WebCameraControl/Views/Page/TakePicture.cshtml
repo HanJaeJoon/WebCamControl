@@ -68,6 +68,8 @@
             document.querySelector('#take-picture-area').classList.remove('d-none');
             shutter.play();
             shutter.pause();
+            click.play();
+            click.pause();
 
             navigator.mediaDevices?.enumerateDevices()
                 .then(devices => {
