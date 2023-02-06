@@ -19,7 +19,7 @@
         <span class="w-auto me-auto black-intro mb-5">Arrange the photo order as well</span>
         <span class="w-auto me-auto colored-intro">3. Select photo style</span>
         <span class="w-auto me-auto black-intro mb-5">Photo filter and frame type</span>
-        <div class="fixed-bottom px-5 pb-5">
+        <div class="fixed-bottom px-5">
             <button type="button" id="btn-next" class="btn btn-secondary btn-lg mx-auto mt-5">
                 Okay, I got it &#8594;
             </button>
@@ -68,6 +68,8 @@
             document.querySelector('#take-picture-area').classList.remove('d-none');
             shutter.play();
             shutter.pause();
+            click.play();
+            click.pause();
 
             navigator.mediaDevices?.enumerateDevices()
                 .then(devices => {
