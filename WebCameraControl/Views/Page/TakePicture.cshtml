@@ -11,7 +11,7 @@
 
 <div id="guide-area" class="d-flex flex-column min-vh-100 p-5">
     <span id="timer" class="text-end" data-set-timer-second="60">&nbsp;</span>
-    <div class="d-flex flex-column vh-100 p-5">
+    <div class="d-flex flex-column vh-100">
         <span id="title" class="w-auto me-auto mt-1 mb-5">STEPS<span class="emoji clock m-1 display-1" role="img" aria-label="clock"></span></span>
         <span class="w-auto me-auto colored-intro">1. Take 8 photos</span>
         <span class="w-auto me-auto black-intro mb-5">5 seconds preparation time every shot</span>
@@ -54,6 +54,9 @@
     // 카운트 다운 배경음 로드
     var shutter = new Audio();
     shutter.src = 'images/countdown.mp3';
+
+    var click = new Audio();
+    click.src = 'images/click.mp3';
 
     document.addEventListener('DOMContentLoaded', async () => {
         const btnNext = document.querySelector('#btn-next');
@@ -125,20 +128,6 @@
             }
         });
 
-        setTimeout(function () {
-            $(window).trigger('load');
-        }, 3500);
-
-        $(window).on('load', () => {
-            if (playSync) {
-                alert('load');
-                shutter.play();
-                shutter.pause();
-                playSync = false;
-            }
-        });
-
-
         const renderPictures = () => {
             document.querySelector('#take-picture-area').classList.add('d-none');
 
@@ -161,7 +150,8 @@
 
                 // 배경음 시작
                 if (timer == 5) {
-                   shutter.play();
+                    shutter.play();
+                    click.pause();
                 }
 
                 let cameraEmojispan = $('<span />').attr('class', 'emoji camera').html('');
@@ -170,6 +160,10 @@
                         seconds + '!');
 
                 if (--timer < 0) {
+                    // 셔터 소리 재생
+                    click.currentTime = 0;
+                    click.play();
+
                     current++;
 
                     currentSpan.innerText = `${current}`;
