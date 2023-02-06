@@ -62,8 +62,8 @@ public class PageController : Controller
     }
 
     [CheckLogin]
-    [HttpGet("/guide")]
-    public IActionResult Guide()
+    [HttpGet("/pick-photo")]
+    public IActionResult PickPhoto()
     {
         return View();
     }

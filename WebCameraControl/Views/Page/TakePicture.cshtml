@@ -8,6 +8,29 @@
     int height = Debugger.IsAttached ? 720 : 1080;
 }
 
+
+<div id="guide-area" class="d-flex flex-column min-vh-100 p-5">
+    <span id="timer" class="text-end" data-set-timer-second="60">&nbsp;</span>
+    <div class="d-flex flex-column vh-100 p-5">
+        <span id="title" class="w-auto me-auto mt-1 mb-5">STEPS<span class="emoji clock m-1 display-1" role="img" aria-label="clock"></span></span>
+        <span class="w-auto me-auto colored-intro">1. Take 8 photos</span>
+        <span class="w-auto me-auto black-intro mb-5">5 seconds preparation time every shot</span>
+        <span class="w-auto me-auto colored-intro">2. Pick 4 photos</span>
+        <span class="w-auto me-auto black-intro mb-5">Arrange the photo order as well</span>
+        <span class="w-auto me-auto colored-intro">3. Select photo style</span>
+        <span class="w-auto me-auto black-intro mb-5">Photo filter and frame type</span>
+        <div class="fixed-bottom px-5 pb-5">
+            <button type="button" id="btn-next" class="btn btn-secondary btn-lg mx-auto mt-5">
+                Okay, I got it &#8594;
+            </button>
+            <div class="mx-auto mt-2 mb-5 text-center">
+                <a href="/" class="text-black">< Go back to first</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div id="take-picture-area" class="d-flex flex-column">
     <div id="camera-preview">
         <video playsinline="playsinline"></video>
@@ -16,81 +39,7 @@
     <span id="camera-counter" class="w-auto me-auto ms-3"><span id="camera-current">1</span>/8</span>
     <span id="camera-timer" class="w-auto mx-auto">Ready?</span>
 </div>
-<div id="picture-list-area" class="d-flex flex-column min-vh-100 p-5 d-none">
-    <p id="pickPhoto-timer" class="text-end">Timer left <span id="timer"></span></p>
-    <span id="pick" class="w-auto me-auto mt-1">Pick 4 photos</span>
-    <div class="d-flex flex-row mb-3 justify-content-center">
-        <div id="img1" class="pick-option mx-3 position-relative" style="width: 30%; height: 100%;">
-            <div class="pick-label" style=""></div>
-        </div>
-        <div id="img2" class="pick-option mx-3 position-relative" style="width: 30%; height: 100%;">
-            <div class="pick-label" style=""></div>
-        </div>
-        <div id="img3" class="pick-option mx-3 position-relative" style="width: 30%; height: 100%;">
-            <div class="pick-label" style=""></div>
-        </div>
-    </div>
-    <div class="d-flex flex-row mb-3 justify-content-center">
-        <div id="img4" class="pick-option mx-3 position-relative" style="width: 30%; height: 100%;">
-            <div class="pick-label" style=""></div>
-        </div>
-        <div id="img5" class="pick-option mx-3 position-relative" style="width: 30%; height: 100%;">
-            <div class="pick-label" style=""></div>
-        </div>
-        <div id="img6" class="pick-option mx-3 position-relative" style="width: 30%; height: 100%;">
-            <div class="pick-label" style=""></div>
-        </div>
-    </div>
-    <div class="d-flex flex-row mb-3 justify-content-center">
-        <div id="img7" class="pick-option mx-3 position-relative" style="width: 30%; height: 100%;">
-            <div class="pick-label" style=""></div>
-        </div>
-        <div id="img8" class="pick-option mx-3 position-relative" style="width: 30%; height: 100%;">
-            <div class="pick-label" style=""></div>
-        </div>
-        <div class="mx-3 text-center position-relative top-50" style="width: 30%; height: 100%;">
-            <a id="reset" class="text-black">RESET ALL</a>
-            <button type="button" id="btn-done" class="btn btn-secondary justify-content-center" data-toggle="modal" data-target="#exampleModal">
-                Done
-            </button>
-        </div>
-    </div>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="picture-priview-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header border-white pt-4 pe-4">
-                <h3 class="modal-title">preview</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body border-white">
-                <div class="container photo-container">
-                    <div class="row">
-                        <div id="preview-img1" class="col p-0">
-                        </div>
-                        <div id="preview-img2" class="col p-0">
-                        </div>
-                    </div>
-
-                    <div class="row" style="height:11px;"></div>
-
-                    <div class="row">
-                        <div id="preview-img3" class="col p-0">
-                        </div>
-                        <div id="preview-img4" class="col p-0">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer border-white">
-                <button type="button" id="btn-confirm" class="btn btn-secondary btn-purple">Confirm</button>
-            </div>
-            <a id="init" ontouchstart="javascript:sndInit();"></a>
-        </div>
-    </div>
-</div>
 
 <script src="~/lib/webcam/webcam.js"></script>
 <script type="text/javascript">
@@ -100,97 +49,95 @@
 
     const windowInnerWidth = window.innerWidth;
     const windowInnerHeight = window.innerHeight;
+    let current = 1;
+
+    // 카운트 다운 배경음 로드
+    var shutter = new Audio();
+    shutter.src = 'images/countdown.mp3';
 
     document.addEventListener('DOMContentLoaded', async () => {
-        navigator.mediaDevices?.enumerateDevices()
-            .then(devices => {
-                let webcamOption = null;
+        const btnNext = document.querySelector('#btn-next');
+        const timerSpan = document.querySelector('#timer');
 
-                for (let i = 0; i < devices.length; i++) {
-                    const device = devices[i];
+        const goNext = () => {
+            initTimer();
+            document.querySelector('#guide-area').classList.add('d-none');
+            document.querySelector('#take-picture-area').classList.remove('d-none');
+            shutter.play();
+            shutter.pause();
 
-                    if (device?.kind !== 'videoinput') {
-                        continue;
+            navigator.mediaDevices?.enumerateDevices()
+                .then(devices => {
+                    let webcamOption = null;
+
+                    for (let i = 0; i < devices.length; i++) {
+                        const device = devices[i];
+
+                        if (device?.kind !== 'videoinput') {
+                            continue;
+                        }
+
+                        if (device.label?.toLowerCase()?.includes(variables.CameraManufacturer) || !webcamOption) {
+                            webcamOption = {
+                                width: windowInnerWidth,
+                                height: windowInnerHeight,
+                                image_format: 'jpeg',
+                                jpeg_quality: 100,
+                                deviceId: { exact: device.deviceId, },
+                                flip_horiz: true,
+
+                                // device capture size
+                                dest_width: windowInnerWidth / 2,
+                                dest_height: windowInnerHeight / 2,
+                            };
+                        }
                     }
 
-                    if (device.label?.toLowerCase()?.includes(variables.CameraManufacturer) || !webcamOption) {
-                        webcamOption = {
-                            width: windowInnerWidth,
-                            height: windowInnerHeight,
-                            image_format: 'jpeg',
-                            jpeg_quality: 100,
-                            deviceId: { exact: device.deviceId, },
-                            flip_horiz: true,
+                    Webcam.set(webcamOption);
+                    Webcam.attach('#camera-preview');
 
-                            // device capture size
-                            dest_width: windowInnerWidth / 2,
-                            dest_height: windowInnerHeight / 2,
-                        };
-                    }
-                }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        };
 
-                Webcam.set(webcamOption);
-                Webcam.attach('#camera-preview');
-
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        startTimer(timerSpan, goNext);
+        btnNext.addEventListener('click', goNext);
 
         const totalCount = 8;
         const currentSpan = document.querySelector('#camera-current');
-        const timerSpan = $("#camera-timer");
+        const cameraTimerSpan = $("#camera-timer");
         const pictureUriList = [];
 
-        const renderPictures = () => {
-            document.querySelector('#take-picture-area').classList.add('d-none');
-            document.querySelector('#picture-list-area').classList.remove('d-none');
+        // 테스트 용도로 마우스 클릭시마다 사진 찍히도록 추가함.
+        document.addEventListener('click', (event) => {
+            if (current >= 2) {
+                if (current < totalCount) {
+                    current++;
 
-            const pictureList = document.querySelector('#picture-list-area');
+                    currentSpan.innerText = `${current}`;
 
-            for (let i = 0; i < pictureUriList.length; i++) {
-                const pictureUri = pictureUriList[i];
-
-                document.querySelector(`#img${i + 1}`).innerHTML += `
-                    <img src="${pictureUri}" style="max-width: 100%;" />
-                `;
-            }
-
-            pictureList.classList.remove('d-none');
-        }
-
-        let current = 1;
-
-        // 카운트 다운 배경음 로드 
-        var shutter = new Audio();
-        shutter.src = 'images/countdown.mp3';
-
-
-        // 처음 한 번만 실행되도록 함 audio : https://stackoverflow.com/questions/7856502/play-a-sound-via-javascript-event-in-ios-5-html5-app
-        let playSync = true; 
-        @*document.addEventListener("touchstart", () => {
-            if (playSync) {
-                alert('sndInit');
-                shutter.play();
-                shutter.pause();
-                playSync = false; 
-            }
-        });*@
-
-        setTimeout(function () {
-            $(window).trigger('load');
-        }, 3500);
-
-        $(window).on('load', () => {
-            if (playSync) {
-                alert('load');
-                shutter.play();
-                shutter.pause();
-                playSync = false;
+                    Webcam.snap((uri) => {
+                        pictureUriList.push(uri);
+                    });
+                }
             }
         });
 
-        // 사진 찍기 타이머 
+
+        const renderPictures = () => {
+            document.querySelector('#take-picture-area').classList.add('d-none');
+
+            for (let i = 0; i < pictureUriList.length; i++) {
+                const pictureUri = pictureUriList[i];
+                localStorage.setItem(`pick_image${i + 1}_src`, pictureUri);
+            }
+
+            window.location.href = '/pick-photo';
+        }
+    
+        // 사진 찍기 타이머
         const initTimer = () => {
             let seconds;
             let timer = 6;
@@ -199,13 +146,13 @@
             let interval = setInterval(() => {
                 seconds = timer;
 
-                // 배경음 시작 
+                // 배경음 시작
                 if (timer == 5) {
-                    shutter.play();
-                } 
+                   shutter.play();
+                }
 
                 let cameraEmojispan = $('<span />').attr('class', 'emoji camera').html('');
-                timerSpan.empty().append(timer === 6 ? 'Ready?' :
+                cameraTimerSpan.empty().append(timer === 6 ? 'Ready?' :
                     timer === 0 ? cameraEmojispan :
                         seconds + '!');
 
@@ -222,150 +169,15 @@
 
                     if (current > totalCount) {
                         renderPictures();
-                        initPickPhotoimer(80); // 80초 타이머 시작
                     } else {
                         initTimer();
                     }
 
-                    // 배경음 종료 
+                    // 배경음 종료
                     shutter.pause();
                 }
             }, 1_000);
         }
 
-        initTimer();
-
-        // 사진 선택 타이머
-        // 타이머 시작
-        var pickPhototimer;
-        const initPickPhotoimer = (time) => {
-            console.log('pickPhototimer - ', pickPhototimer);
-            if (pickPhototimer != undefined) {
-                clearInterval(pickPhototimer);
-            }
-
-            pickPhototimer = setInterval(() => {
-                $("#timer").text(time);
-                time--;
-
-                if (time < 0) {
-                    clearInterval(pickPhototimer);
-
-                    // 시간 초과 이후 동작
-                    localStorage.setItem("image1_src", $("#img1 img")[0].src);
-                    localStorage.setItem("image2_src", $("#img2 img")[0].src);
-                    localStorage.setItem("image3_src", $("#img3 img")[0].src);
-                    localStorage.setItem("image4_src", $("#img4 img")[0].src);
-
-                    window.location.href = `/select-page`;
-                }
-
-            }, 1000);
-        }
-
-        // 사진 선택하기
-        const options = document.querySelectorAll('.pick-option');
-
-        const checkOptions = () => {
-            const selectedOptions = document.querySelectorAll('.pick-option.selected');
-
-            // 5개부터는 클릭 불가능하게 함
-            if (selectedOptions != null && selectedOptions.length >= 4) {
-                return false;
-            }
-
-            return true; 
-        };
-
-        options.forEach(option => {
-            option.addEventListener('click', () => {
-                if (option.classList.contains("selected")) {
-                    option.classList.remove('selected');
-                    option.querySelector('.pick-label').classList.remove('selected', 'badge');
-
-                    let optionLabel = option.querySelector('.pick-label').innerText;
-                    document.querySelectorAll('.pick-label.selected.badge').forEach(function (item) {
-                        if (item.innerText > optionLabel) {
-                            item.innerText = item.innerText - 1; 
-                        }
-                    });
-
-                }
-                else {
-
-                    // 5개 이상 선택 안되게 함 
-                    if (!checkOptions()) {
-                        return;
-                    }
-
-                    option.classList.add('selected');
-                    option.querySelector('.pick-label').classList.add('selected', 'badge');
-
-                    option.getElementsByClassName('pick-label')[0].innerText
-                        = document.querySelectorAll('.pick-option.selected').length;
-
-                }
-
-            });
-        });
-
-
-        // 테스트 용도로 마우스 클릭시마다 사진 찍히도록 추가함.
-        document.addEventListener('click', (event) => {
-            if (current < totalCount) {
-                current++;
-
-                currentSpan.innerText = `${current}`;
-
-                Webcam.snap((uri) => {
-                    pictureUriList.push(uri);
-                });
-            }
-        });
-
-        const btnDone = document.querySelector('#btn-done');
-
-        btnDone.addEventListener('click', () => {
-            const selectedOptions = document.querySelectorAll('.pick-option.selected');
-
-            if (selectedOptions.length < 4) {
-                alert('4개의 사진을 선택해주세요');
-                return;
-            }
-
-            // 선택된 순서대로 정렬
-            for (let i = 0; i < 4; i++) {
-                const previewUri = selectedOptions[i];
-                let pickImgSrc = selectedOptions[i].querySelector('img').src;
-
-
-                let order = selectedOptions[i].querySelector('.pick-label').innerText;
-                document.querySelector(`#preview-img${order}`).innerHTML = `
-                    <img src="${pickImgSrc}" class="pick-option" style="max-width: 100%;" />
-                `;
-            }
-
-            $('#picture-priview-modal').modal('show');
-        });
-
-        const btnConfirm = document.querySelector('#btn-confirm');
-        btnConfirm.addEventListener('click', () => {
-            localStorage.setItem("image1_src", $("#preview-img1 img")[0].src);
-            localStorage.setItem("image2_src", $("#preview-img2 img")[0].src);
-            localStorage.setItem("image3_src", $("#preview-img3 img")[0].src);
-            localStorage.setItem("image4_src", $("#preview-img4 img")[0].src);
-
-            window.location.href = `/select-page`;
-        });
-        document.querySelector('#reset').addEventListener('click', () => {
-            const selectedOptions = document.querySelectorAll('.pick-option.selected');
-
-            selectedOptions.forEach((option) => {
-                option.classList.remove('selected');
-                option.querySelector('.pick-label').classList.remove('selected', 'badge');
-                option.querySelector('.pick-label').innerText = "";
-            });
-
-        });
     });
 </script>
