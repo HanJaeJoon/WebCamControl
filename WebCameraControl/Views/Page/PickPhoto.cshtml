@@ -81,41 +81,20 @@
 </div>
 
 <script type="text/javascript">
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-    function base64toBlob(dataUri) {
-        const byteString = atob(dataUri.split(',')[1]);
-        const arrayBuffer = new ArrayBuffer(byteString.length);
-        const array = new Uint8Array(arrayBuffer);
-
-        for (let i = 0; i < byteString.length; i++) {
-            array[i] = byteString.charCodeAt(i);
-        }
-
-        return new Blob([arrayBuffer], { type: 'image/jpeg' });
-    }
 
     document.addEventListener('DOMContentLoaded', () => {
+
         // 사진 로드
         for (let i = 0; i < 8; i++) {
-            const image = new Image();
-            let base64Image = localStorage.getItem(`pick_image${(i + 1)}_src`);
-
-            if (isSafari) {
-                const imageBlob = base64toBlob(base64Image);
-                image.src = window.URL.createObjectURL(imageBlob);
-            } else {
-                image.src = base64Image;
-            }
-
-            image.style.maxWidth = '100%';
-            image.crossOrigin = 'Anonymous';
-
-            document.querySelector(`#img${(i + 1)}`).appendChild(image);
+            const pictureUri = localStorage.getItem(`pick_image${(i + 1)}_src`);
+            console.log(pictureUri);
+            document.querySelector(`#img${(i + 1)}`).innerHTML += `
+                    <img src="${pictureUri}" style="max-width: 100%;" />
+                `;
         }
 
         // 타이머 시작
-        let pickPhototimer;
+        var pickPhototimer;
         const initPickPhotoTimer = (time) => {
             console.log('pickPhototimer - ', pickPhototimer);
             if (pickPhototimer != undefined) {
@@ -142,7 +121,7 @@
         }
         initPickPhotoTimer(80);
 
-
+  
 
         // 사진 선택하기
         const options = document.querySelectorAll('.pick-option');
@@ -207,22 +186,9 @@
 
 
                 let order = selectedOptions[i].querySelector('.pick-label').innerText;
-
-                const image = new Image();
-                let base64Image = localStorage.getItem(`pick_image${(i + 1)}_src`);
-
-                if (isSafari) {
-                    const imageBlob = base64toBlob(base64Image);
-                    image.src = window.URL.createObjectURL(imageBlob);
-                } else {
-                    image.src = base64Image;
-                }
-
-                image.className = 'pick-option';
-                image.style.maxWidth = '100%';
-                image.crossOrigin = 'Anonymous';
-
-                document.querySelector(`#preview-img${order}`).appendChild(image);
+                document.querySelector(`#preview-img${order}`).innerHTML = `
+                    <img src="${pickImgSrc}" class="pick-option" style="max-width: 100%;" />
+                `;
             }
 
             $('#picture-priview-modal').modal('show');
