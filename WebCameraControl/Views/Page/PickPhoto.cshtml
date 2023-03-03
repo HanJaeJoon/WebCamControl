@@ -87,7 +87,14 @@
         // 사진 로드
         for (let i = 0; i < 8; i++) {
             const pictureUri = localStorage.getItem(`pick_image${(i + 1)}_src`);
-            console.log(pictureUri);
+
+            if (pictureUri == undefined) {
+                alert('시스템 오류가 발생했습니다.');
+
+                window.location.href = '/pay';
+                break;
+            }
+
             document.querySelector(`#img${(i + 1)}`).innerHTML += `
                     <img src="${pictureUri}" style="max-width: 100%;" />
                 `;
@@ -96,7 +103,6 @@
         // 타이머 시작
         var pickPhototimer;
         const initPickPhotoTimer = (time) => {
-            console.log('pickPhototimer - ', pickPhototimer);
             if (pickPhototimer != undefined) {
                 clearInterval(pickPhototimer);
             }
