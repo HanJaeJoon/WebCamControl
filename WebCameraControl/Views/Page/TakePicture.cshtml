@@ -131,6 +131,9 @@
         });
 
         const renderPictures = () => {
+            // 로컬 스토리지 초기화 
+            localStorage.clear();
+
             document.querySelector('#take-picture-area').classList.add('d-none');
 
             for (let i = 0; i < pictureUriList.length; i++) {
@@ -138,9 +141,24 @@
                 localStorage.setItem(`pick_image${i + 1}_src`, pictureUri);
             }
 
+            // setTimeout 함수를 사용하여 300ms 뒤에 페이지 이동을 수행합니다.
             setTimeout(function () {
-                location.replace('/pick-photo');
-            }, 0);
+                // localStorage에 모든 데이터가 저장되어 있는지 확인합니다.
+                if (localStorage.getItem("pick_image1_src") &&
+                    localStorage.getItem("pick_image2_src") &&
+                    localStorage.getItem("pick_image3_src") &&
+                    localStorage.getItem("pick_image4_src") &&
+                    localStorage.getItem("pick_image5_src") &&
+                    localStorage.getItem("pick_image6_src") &&
+                    localStorage.getItem("pick_image7_src") &&
+                    localStorage.getItem("pick_image8_src")
+                ) {
+
+                    // 모든 데이터가 저장되어 있다면 페이지 이동을 수행합니다.
+                    location.replace("/pick-photo");
+                } else {
+                }
+            }, 300);
         }
     
         // 사진 찍기 타이머
