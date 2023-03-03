@@ -70,7 +70,7 @@
         const spaceY = 45;
 
         async function setCanvas(frameSource) {
-            let context = canvas.getContext('2d');
+            let context = canvas.getContext('2d', { willReadFrequently: true, });
 
             const frame = new Image();
             frame.src = frameSource ?? `/images/frame_white.png`;
@@ -116,27 +116,44 @@
             }
 
             let context = canvas.getContext('2d', { willReadFrequently: true, });
-
             let index = Math.floor(Math.random() * filterList.length);
             let filter = filterName === 'random' ? filterList[index] : filterName;
 
             const image1 = new Image();
             image1.src = localStorage.getItem('image1_src');
+            image1.onload = () => {
+                context.drawImage(image1, marginLeft, marginTop, imageWidth, imageHeight);
+                let imgData1 = context.getImageData(marginLeft, marginTop, imageWidth, imageHeight);
+                let newImgData1 = pixelsJS.filterImgData(imgData1, filter);
+                context.putImageData(newImgData1, marginLeft, marginTop);
+            };
 
-            let imgData1 = context.getImageData(marginLeft, marginTop, imageWidth, imageHeight);
-            let imgData2 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
-            let imgData3 = context.getImageData(marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
-            let imgData4 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+            const image2 = new Image();
+            image2.src = localStorage.getItem('image2_src');
+            image2.onload = () => {
+                context.drawImage(image2, marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
+                let imgData2 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
+                let newImgData2 = pixelsJS.filterImgData(imgData2, filter);
+                context.putImageData(newImgData2, marginLeft + imageWidth + spaceX, marginTop);
+            };
 
-            let newImgData1 = pixelsJS.filterImgData(imgData1, filter);
-            let newImgData2 = pixelsJS.filterImgData(imgData2, filter);
-            let newImgData3 = pixelsJS.filterImgData(imgData3, filter);
-            let newImgData4 = pixelsJS.filterImgData(imgData4, filter);
+            const image3 = new Image();
+            image3.src = localStorage.getItem('image3_src');
+            image3.onload = () => {
+                context.drawImage(image3, marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+                let imgData3 = context.getImageData(marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+                let newImgData3 = pixelsJS.filterImgData(imgData3, filter);
+                context.putImageData(newImgData3, marginLeft, marginTop + imageHeight + spaceY);
+            };
 
-            context.putImageData(newImgData1, marginLeft, marginTop);
-            context.putImageData(newImgData2, marginLeft + imageWidth + spaceX, marginTop);
-            context.putImageData(newImgData3, marginLeft, marginTop + imageHeight + spaceY);
-            context.putImageData(newImgData4, marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY);
+            const image4 = new Image();
+            image4.src = localStorage.getItem('image4_src');
+            image4.onload = () => {
+                context.drawImage(image4, marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+                let imgData4 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
+                let newImgData4 = pixelsJS.filterImgData(imgData4, filter);
+                context.putImageData(newImgData4, marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY);
+            };
         }
         const canvas = document.querySelector('#canvas');
 
