@@ -146,6 +146,9 @@
             let seconds;
             let timer = 6;
 
+            // 기존 로컬 스토리지 비우기 
+            localStorage.clear();
+
             // 카운트다운 시작
             let interval = setInterval(() => {
                 seconds = timer;
