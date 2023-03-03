@@ -120,9 +120,20 @@
                     localStorage.setItem("image3_src", $("#img3 img")[0].src);
                     localStorage.setItem("image4_src", $("#img4 img")[0].src);
 
+                    // setTimeout 함수를 사용하여 300ms 뒤에 페이지 이동을 수행합니다.
                     setTimeout(function () {
-                        location.replace(`/select-page`);
-                    }, 0);
+                        // localStorage에 모든 데이터가 저장되어 있는지 확인합니다.
+                        if (localStorage.getItem("image1_src") &&
+                            localStorage.getItem("image2_src") &&
+                            localStorage.getItem("image3_src") &&
+                            localStorage.getItem("image4_src")) {
+
+                            // 모든 데이터가 저장되어 있다면 페이지 이동을 수행합니다.
+                            location.replace("/select-page");
+                        } else {
+
+                        }
+                    }, 300);
                 }
 
             }, 1000);
@@ -209,7 +220,21 @@
             localStorage.setItem("image3_src", $("#preview-img3 img")[0].src);
             localStorage.setItem("image4_src", $("#preview-img4 img")[0].src);
 
-            window.location.href = `/select-page`;
+            // setTimeout 함수를 사용하여 300ms 뒤에 페이지 이동을 수행합니다.
+            setTimeout(function () {
+                // localStorage에 모든 데이터가 저장되어 있는지 확인합니다.
+                if (localStorage.getItem("image1_src") &&
+                    localStorage.getItem("image2_src") &&
+                    localStorage.getItem("image3_src") &&
+                    localStorage.getItem("image4_src")) {
+
+                    // 모든 데이터가 저장되어 있다면 페이지 이동을 수행합니다.
+                    location.replace("/select-page");
+                } else {
+
+                }
+            }, 300);
+
         });
         document.querySelector('#reset').addEventListener('click', () => {
             const selectedOptions = document.querySelectorAll('.pick-option.selected');

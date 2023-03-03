@@ -81,6 +81,17 @@
         }
 
         function drawImages(context) {
+            if (localStorage.getItem('image1_src') == undefined
+                || localStorage.getItem('image2_src') == undefined
+                || localStorage.getItem('image3_src') == undefined
+                || localStorage.getItem('image4_src') == undefined
+            ) {
+                alert('시스템 오류가 발생했습니다.');
+
+                window.location.href = '/pay';
+                return;
+            }
+
             const image1 = new Image();
             image1.src = localStorage.getItem('image1_src');
             image1.onload = () => {
