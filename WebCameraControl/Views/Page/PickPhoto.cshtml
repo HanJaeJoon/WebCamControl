@@ -120,7 +120,9 @@
                     localStorage.setItem("image3_src", $("#img3 img")[0].src);
                     localStorage.setItem("image4_src", $("#img4 img")[0].src);
 
-                    window.location.href = `/select-page`;
+                    setTimeout(function () {
+                        location.replace(`/select-page`);
+                    }, 0);
                 }
 
             }, 1000);

@@ -138,7 +138,9 @@
                 localStorage.setItem(`pick_image${i + 1}_src`, pictureUri);
             }
 
-            window.location.href = '/pick-photo';
+            setTimeout(function () {
+                location.replace('/pick-photo');
+            }, 0);
         }
     
         // 사진 찍기 타이머
