@@ -131,6 +131,9 @@
         });
 
         const renderPictures = () => {
+            // 로컬 스토리지 초기화 
+            localStorage.clear();
+
             document.querySelector('#take-picture-area').classList.add('d-none');
 
             for (let i = 0; i < pictureUriList.length; i++) {
