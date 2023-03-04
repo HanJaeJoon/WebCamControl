@@ -131,8 +131,13 @@
         });
 
         const renderPictures = () => {
-            // 로컬 스토리지 초기화 
-            localStorage.clear();
+            // 이미지 관련 로컬 스토리지 초기화 
+            for (let i = 0; i < 8; i++) {
+                localStorage.removeItem(`pick_image${i + 1}_src`);
+            }
+            for (let i = 0; i < 4; i++) {
+                localStorage.removeItem(`image{i + 1}_src`);
+            }
 
             document.querySelector('#take-picture-area').classList.add('d-none');
 
@@ -166,8 +171,13 @@
             let seconds;
             let timer = 6;
 
-            // 기존 로컬 스토리지 비우기 
-            localStorage.clear();
+            // 사진 관련 로컬 스토리지 비우기 
+            for (let i = 0; i < 8; i++) {
+                localStorage.removeItem(`pick_image${i + 1}_src`);
+            }
+            for (let i = 0; i < 4; i++) {
+                localStorage.removeItem(`image{i + 1}_src`);
+            }
 
             // 카운트다운 시작
             let interval = setInterval(() => {

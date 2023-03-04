@@ -114,8 +114,13 @@
                 if (time < 0) {
                     clearInterval(pickPhototimer);
 
-                    // 로컬 스토리지 초기화 
-                    localStorage.clear();
+                    // 사진 관련 로컬 스토리지 초기화 
+                    for (let i = 0; i < 8; i++) {
+                        localStorage.removeItem(`pick_image${i + 1}_src`);
+                    }
+                    for (let i = 0; i < 4; i++) {
+                        localStorage.removeItem(`image{i + 1}_src`);
+                    }
 
                     // 시간 초과 이후 동작
                     localStorage.setItem("image1_src", $("#img1 img")[0].src);
@@ -218,8 +223,13 @@
 
         const btnConfirm = document.querySelector('#btn-confirm');
         btnConfirm.addEventListener('click', () => {
-            // 로컬 스토리지 초기화 
-            localStorage.clear();
+            // 사진 관련 로컬 스토리지 초기화 
+            for (let i = 0; i < 8; i++) {
+                localStorage.removeItem(`pick_image${i + 1}_src`);
+            }
+            for (let i = 0; i < 4; i++) {
+                localStorage.removeItem(`image{i + 1}_src`);
+            }
 
             localStorage.setItem("image1_src", $("#preview-img1 img")[0].src);
             localStorage.setItem("image2_src", $("#preview-img2 img")[0].src);
