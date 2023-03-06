@@ -78,7 +78,7 @@
         btnNext.addEventListener('click', () => {
             const count = document.querySelector('.picture-option.selected')?.getAttribute("data-print-count");
 
-            localStorage.setItem('count', count);
+            sessionStorage.setItem("count", count);
 
             window.location.href = `/take-picture`;
         });

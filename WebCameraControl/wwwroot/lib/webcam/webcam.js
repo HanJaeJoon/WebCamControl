@@ -650,9 +650,9 @@
 			}
 
 			// if this is the user's first visit, set flashvar so flash privacy settings panel is shown first
-			if (window.localStorage && !localStorage.getItem('visited')) {
+			if (window.sessionStorage && !sessionStorage.getItem('visited')) {
 				this.params.new_user = 1;
-				localStorage.setItem('visited', 1);
+				sessionStorage.setItem('visited', 1);
 			}
 
 			// construct flashvars string
@@ -925,7 +925,7 @@
 
 		configure: function (panel) {
 			// open flash configuration panel -- specify tab name:
-			// "camera", "privacy", "default", "localStorage", "microphone", "settingsManager"
+			// "camera", "privacy", "default", "sessionStorage", "microphone", "settingsManager"
 			if (!panel) panel = "camera";
 			this.getMovie()._configure(panel);
 		},

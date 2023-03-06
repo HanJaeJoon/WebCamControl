@@ -81,10 +81,10 @@
         }
 
         function drawImages(context) {
-            if (localStorage.getItem('image1_src') == undefined
-                || localStorage.getItem('image2_src') == undefined
-                || localStorage.getItem('image3_src') == undefined
-                || localStorage.getItem('image4_src') == undefined
+            if (sessionStorage.getItem('image1_src') == undefined
+                || sessionStorage.getItem('image2_src') == undefined
+                || sessionStorage.getItem('image3_src') == undefined
+                || sessionStorage.getItem('image4_src') == undefined
             ) {
                 alert('시스템 오류가 발생했습니다.');
 
@@ -93,25 +93,25 @@
             }
 
             const image1 = new Image();
-            image1.src = localStorage.getItem('image1_src');
+            image1.src = sessionStorage.getItem('image1_src');
             image1.onload = () => {
                 context.drawImage(image1, marginLeft, marginTop, imageWidth, imageHeight);
             };
 
             const image2 = new Image();
-            image2.src = localStorage.getItem('image2_src');
+            image2.src = sessionStorage.getItem('image2_src');
             image2.onload = () => {
                 context.drawImage(image2, marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
             };
 
             const image3 = new Image();
-            image3.src = localStorage.getItem('image3_src');
+            image3.src = sessionStorage.getItem('image3_src');
             image3.onload = () => {
                 context.drawImage(image3, marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
             };
 
             const image4 = new Image();
-            image4.src = localStorage.getItem('image4_src');
+            image4.src = sessionStorage.getItem('image4_src');
             image4.onload = () => {
                 context.drawImage(image4, marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
             };
@@ -131,7 +131,7 @@
             let filter = filterName === 'random' ? filterList[index] : filterName;
 
             const image1 = new Image();
-            image1.src = localStorage.getItem('image1_src');
+            image1.src = sessionStorage.getItem('image1_src');
             image1.onload = () => {
                 context.drawImage(image1, marginLeft, marginTop, imageWidth, imageHeight);
                 let imgData1 = context.getImageData(marginLeft, marginTop, imageWidth, imageHeight);
@@ -140,7 +140,7 @@
             };
 
             const image2 = new Image();
-            image2.src = localStorage.getItem('image2_src');
+            image2.src = sessionStorage.getItem('image2_src');
             image2.onload = () => {
                 context.drawImage(image2, marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
                 let imgData2 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop, imageWidth, imageHeight);
@@ -149,7 +149,7 @@
             };
 
             const image3 = new Image();
-            image3.src = localStorage.getItem('image3_src');
+            image3.src = sessionStorage.getItem('image3_src');
             image3.onload = () => {
                 context.drawImage(image3, marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
                 let imgData3 = context.getImageData(marginLeft, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
@@ -158,7 +158,7 @@
             };
 
             const image4 = new Image();
-            image4.src = localStorage.getItem('image4_src');
+            image4.src = sessionStorage.getItem('image4_src');
             image4.onload = () => {
                 context.drawImage(image4, marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
                 let imgData4 = context.getImageData(marginLeft + imageWidth + spaceX, marginTop + imageHeight + spaceY, imageWidth, imageHeight);
@@ -200,7 +200,7 @@
 
         document.querySelector('#btn-go-to-print').addEventListener('click', () => {
             const base64Image = canvas.toDataURL('image/jpeg').split(';base64,')[1];
-            const count = localStorage.getItem('count') ?? 1;
+            const count = sessionStorage.getItem('count');
 
             fetch('/api/image/print', {
                 method: 'POST',
