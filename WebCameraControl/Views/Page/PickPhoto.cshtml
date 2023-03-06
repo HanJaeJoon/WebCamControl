@@ -86,7 +86,7 @@
 
         // 사진 로드
         for (let i = 0; i < 8; i++) {
-            const pictureUri = localStorage.getItem(`pick_image${(i + 1)}_src`);
+            const pictureUri = sessionStorage.getItem(`pick_image${(i + 1)}_src`);
 
             if (pictureUri == undefined) {
                 alert('시스템 오류가 발생했습니다.');
@@ -116,25 +116,25 @@
 
                     // 사진 관련 로컬 스토리지 초기화 
                     for (let i = 0; i < 8; i++) {
-                        localStorage.removeItem(`pick_image${i + 1}_src`);
+                        sessionStorage.removeItem(`pick_image${i + 1}_src`);
                     }
                     for (let i = 0; i < 4; i++) {
-                        localStorage.removeItem(`image{i + 1}_src`);
+                        sessionStorage.removeItem(`image{i + 1}_src`);
                     }
 
                     // 시간 초과 이후 동작
-                    localStorage.setItem("image1_src", $("#img1 img")[0].src);
-                    localStorage.setItem("image2_src", $("#img2 img")[0].src);
-                    localStorage.setItem("image3_src", $("#img3 img")[0].src);
-                    localStorage.setItem("image4_src", $("#img4 img")[0].src);
+                    sessionStorage.setItem("image1_src", $("#img1 img")[0].src);
+                    sessionStorage.setItem("image2_src", $("#img2 img")[0].src);
+                    sessionStorage.setItem("image3_src", $("#img3 img")[0].src);
+                    sessionStorage.setItem("image4_src", $("#img4 img")[0].src);
 
                     // setTimeout 함수를 사용하여 300ms 뒤에 페이지 이동을 수행합니다.
                     setTimeout(function () {
-                        // localStorage에 모든 데이터가 저장되어 있는지 확인합니다.
-                        if (localStorage.getItem("image1_src") &&
-                            localStorage.getItem("image2_src") &&
-                            localStorage.getItem("image3_src") &&
-                            localStorage.getItem("image4_src")) {
+                        // sessionStorage에 모든 데이터가 저장되어 있는지 확인합니다.
+                        if (sessionStorage.getItem("image1_src") &&
+                            sessionStorage.getItem("image2_src") &&
+                            sessionStorage.getItem("image3_src") &&
+                            sessionStorage.getItem("image4_src")) {
 
                             // 모든 데이터가 저장되어 있다면 페이지 이동을 수행합니다.
                             location.replace("/select-page");
@@ -225,24 +225,24 @@
         btnConfirm.addEventListener('click', () => {
             // 사진 관련 로컬 스토리지 초기화 
             for (let i = 0; i < 8; i++) {
-                localStorage.removeItem(`pick_image${i + 1}_src`);
+                sessionStorage.removeItem(`pick_image${i + 1}_src`);
             }
             for (let i = 0; i < 4; i++) {
-                localStorage.removeItem(`image{i + 1}_src`);
+                sessionStorage.removeItem(`image{i + 1}_src`);
             }
 
-            localStorage.setItem("image1_src", $("#preview-img1 img")[0].src);
-            localStorage.setItem("image2_src", $("#preview-img2 img")[0].src);
-            localStorage.setItem("image3_src", $("#preview-img3 img")[0].src);
-            localStorage.setItem("image4_src", $("#preview-img4 img")[0].src);
+            sessionStorage.setItem("image1_src", $("#preview-img1 img")[0].src);
+            sessionStorage.setItem("image2_src", $("#preview-img2 img")[0].src);
+            sessionStorage.setItem("image3_src", $("#preview-img3 img")[0].src);
+            sessionStorage.setItem("image4_src", $("#preview-img4 img")[0].src);
 
             // setTimeout 함수를 사용하여 300ms 뒤에 페이지 이동을 수행합니다.
             setTimeout(function () {
-                // localStorage에 모든 데이터가 저장되어 있는지 확인합니다.
-                if (localStorage.getItem("image1_src") &&
-                    localStorage.getItem("image2_src") &&
-                    localStorage.getItem("image3_src") &&
-                    localStorage.getItem("image4_src")) {
+                // sessionStorage에 모든 데이터가 저장되어 있는지 확인합니다.
+                if (sessionStorage.getItem("image1_src") &&
+                    sessionStorage.getItem("image2_src") &&
+                    sessionStorage.getItem("image3_src") &&
+                    sessionStorage.getItem("image4_src")) {
 
                     // 모든 데이터가 저장되어 있다면 페이지 이동을 수행합니다.
                     location.replace("/select-page");
