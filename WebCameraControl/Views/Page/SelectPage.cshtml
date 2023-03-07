@@ -175,6 +175,10 @@
 
         [ ...filterOptions, ...frameOptions ].forEach(option => {
             option.addEventListener('click', async function () {
+                // 필터와 프레임 적용될 동안 버튼 disable 처리
+                document.querySelector('#btn-go-to-print').disabled = true; 
+
+
                 const isFilter = this.classList.contains('filter');
                 const options = isFilter ? filterOptions : frameOptions;
 
@@ -195,10 +199,17 @@
                     await setCanvas(`/images/${this.dataset.frame}`);
                 }
 
+                // 필터와 프레임 적용될 동안 버튼 disable 처리
+                document.querySelector('#btn-go-to-print').disabled = false; 
+
             });
         });
 
         document.querySelector('#btn-go-to-print').addEventListener('click', () => {
+            // 필터와 프레임 적용될 동안 버튼 disable 처리
+            document.querySelector('#btn-go-to-print').disabled = true; 
+
+
             const base64Image = canvas.toDataURL('image/jpeg').split(';base64,')[1];
             const count = sessionStorage.getItem('count');
 
@@ -225,6 +236,9 @@
                 })
                 .catch((error) => {
                     alert(`에러 발생!\n${error}`);
+
+                    // 필터와 프레임 적용될 동안 버튼 disable 처리
+                    document.querySelector('#btn-go-to-print').disabled = false; 
                 });
         });
 
