@@ -70,26 +70,34 @@
         let loadingStatus = [false, false, false, false, false];
 
         const canvas = document.querySelector('#canvas');
+        const context = canvas.getContext('2d', { willReadFrequently: true, });
 
-        initPicture();
+        drawFilteredImageWithFrame();
 
         const filterOptions = document.querySelectorAll('.filter');
         const frameOptions = document.querySelectorAll('.frame-color');
 
-        async function initPicture(frameSource) {
+        async function drawFilteredImageWithFrame(frameSource) {
             disableButton();
-            let context = canvas.getContext('2d', { willReadFrequently: true, });
 
             const frame = new Image();
             frame.src = frameSource ?? `/images/frame_white.png`;
             frame.onload = () => {
                 context.drawImage(frame, 0, 0, 2447, 3263);
-                drawImages(context);
+
+                const filter = document.querySelector('.filter.selected')?.dataset.filter;
+
+                if (filter === 'original') {
+                    drawImages();
+                } else {
+                    setFilters(filter);
+                }
+
                 enableButton(0);
             };
         }
 
-        function drawImages(context) {
+        function drawImages() {
             if (!sessionStorage.getItem('image1_src')
                 || !sessionStorage.getItem('image2_src')
                 || !sessionStorage.getItem('image3_src')
@@ -132,12 +140,6 @@
         const filterList = pixelsJS.getFilterList();
 
         async function setFilters(filterName) {
-            if (filterName === 'original') {
-                const frame = document.querySelector('.frame-color.selected');
-                await initPicture(`/images/${frame.dataset.frame}`);
-            }
-
-            let context = canvas.getContext('2d', { willReadFrequently: true, });
             let index = Math.floor(Math.random() * filterList.length);
             let filter = filterName === 'random' ? filterList[index] : filterName;
 
@@ -184,9 +186,7 @@
 
         [ ...filterOptions, ...frameOptions ].forEach(option => {
             option.addEventListener('click', async function () {
-                // 필터와 프레임 적용될 동안 버튼 disable 처리
-                document.querySelector('#btn-go-to-print').disabled = true;
-
+                disableButton();
 
                 const isFilter = this.classList.contains('filter');
                 const options = isFilter ? filterOptions : frameOptions;
@@ -195,7 +195,15 @@
                 this.classList.add('selected');
 
                 if (isFilter) {
-                    await setFilters(this.dataset.filter);
+                    const filter = this.dataset.filter;
+
+                    if (filter === 'original') {
+                        drawImages();
+                    } else {
+                        await setFilters(filter);
+                    }
+
+                    enableButton(0);
                 } else {
                     // preview-frame에 흰색일때만 구분선으로 border 주기
                     if (this.dataset.type === 'white') {
@@ -205,12 +213,8 @@
                         $('#preview-frame').css('border', 'none');
                     }
 
-                    await initPicture(`/images/${this.dataset.frame}`);
+                    await drawFilteredImageWithFrame(`/images/${this.dataset.frame}`);
                 }
-
-                // 필터와 프레임 적용될 동안 버튼 disable 처리
-                document.querySelector('#btn-go-to-print').disabled = false;
-
             });
         });
 
@@ -285,6 +289,6 @@
             }, 1000);
         }
 
-        initPickPhotoimer(80_000000);
+        initPickPhotoimer(80);
     });
 </script>
