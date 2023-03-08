@@ -1,4 +1,4 @@
-﻿@model WebCameraControl.Models.IndexModel
+@model WebCameraControl.Models.IndexModel
 
 @{
     Layout = "_Layout";
@@ -211,7 +211,7 @@
 
 
             const base64Image = canvas.toDataURL('image/jpeg').split(';base64,')[1];
-            const count = sessionStorage.getItem('count');
+            const count = localStorage.getItem('count') ?? 1;
 
             fetch('/api/image/print', {
                 method: 'POST',

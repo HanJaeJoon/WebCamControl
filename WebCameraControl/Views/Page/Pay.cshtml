@@ -1,4 +1,4 @@
-﻿@model WebCameraControl.Models.IndexModel
+@model WebCameraControl.Models.IndexModel
 
 @{
     Layout = "_Layout";
@@ -78,7 +78,7 @@
         btnNext.addEventListener('click', () => {
             const count = document.querySelector('.picture-option.selected')?.getAttribute("data-print-count");
 
-            sessionStorage.setItem("count", count);
+            localStorage.setItem('count', count);
 
             window.location.href = `/take-picture`;
         });
