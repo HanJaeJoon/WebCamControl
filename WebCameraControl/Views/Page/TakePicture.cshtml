@@ -18,10 +18,10 @@
         <span class="w-auto me-auto colored-intro">2. Pick 4 photos</span>
         <span class="w-auto me-auto black-intro mb-5">Arrange the photo order as well</span>
         <span class="w-auto me-auto colored-intro">3. Select photo style</span>
-        <span class="w-auto me-auto black-intro mb-5">Photo filter and frame type</span>
+        <span class="w-auto me-auto black-intro mb-5">Pick photo filter and frame type</span>
         <div class="fixed-bottom px-5">
             <button type="button" id="btn-next" class="btn btn-secondary btn-lg mx-auto mt-5">
-                Okay, I got it &#8594;
+                Okay, I got it
             </button>
             <div class="mx-auto mt-2 mb-5 text-center">
                 <a href="/" class="text-black">< Go back to first</a>
@@ -37,7 +37,7 @@
     </div>
 
     <span id="camera-counter" class="w-auto me-auto ms-3"><span id="camera-current">1</span>/8</span>
-    <span id="camera-timer" class="w-auto mx-auto">Ready?</span>
+    <span id="camera-timer" class="w-100 mx-auto">Ready ?🚀</span>
 </div>
 
 
@@ -62,52 +62,58 @@
         const btnNext = document.querySelector('#btn-next');
         const timerSpan = document.querySelector('#timer');
 
+        // 웹캠 먼저 로드
+        navigator.mediaDevices?.enumerateDevices()
+            .then(devices => {
+                let webcamOption = null;
+
+                for (let i = 0; i < devices.length; i++) {
+                    const device = devices[i];
+
+                    if (device?.kind !== 'videoinput') {
+                        continue;
+                    }
+
+                    if (device.label?.toLowerCase()?.includes(variables.CameraManufacturer) || !webcamOption) {
+                        webcamOption = {
+                            width: windowInnerWidth,
+                            height: windowInnerHeight,
+                            image_format: 'jpeg',
+                            jpeg_quality: 100,
+                            deviceId: { exact: device.deviceId, },
+                            flip_horiz: true,
+
+                            // device capture size
+                            dest_width: windowInnerWidth / 2,
+                            dest_height: windowInnerHeight / 2,
+                        };
+                    }
+                }
+
+                Webcam.set(webcamOption);
+                Webcam.attach('#camera-preview');
+
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
         const goNext = () => {
-            initTimer();
-            document.querySelector('#guide-area').classList.add('d-none');
-            document.querySelector('#take-picture-area').classList.remove('d-none');
             shutter.play();
             shutter.pause();
             click.play();
             click.pause();
 
-            navigator.mediaDevices?.enumerateDevices()
-                .then(devices => {
-                    let webcamOption = null;
-
-                    for (let i = 0; i < devices.length; i++) {
-                        const device = devices[i];
-
-                        if (device?.kind !== 'videoinput') {
-                            continue;
-                        }
-
-                        if (device.label?.toLowerCase()?.includes(variables.CameraManufacturer) || !webcamOption) {
-                            webcamOption = {
-                                width: windowInnerWidth,
-                                height: windowInnerHeight,
-                                image_format: 'jpeg',
-                                jpeg_quality: 100,
-                                deviceId: { exact: device.deviceId, },
-                                flip_horiz: true,
-
-                                // device capture size
-                                dest_width: windowInnerWidth / 2,
-                                dest_height: windowInnerHeight / 2,
-                            };
-                        }
-                    }
-
-                    Webcam.set(webcamOption);
-                    Webcam.attach('#camera-preview');
-
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            // 흰화면 간격 줄이기 위해 1초 후 리다이렉트 
+            setTimeout(() => {
+                document.querySelector('#guide-area').classList.add('d-none');
+                document.querySelector('#take-picture-area').classList.remove('d-none');
+                initTimer();
+                startTimer(timerSpan, goNext);
+            }, 1000);
         };
 
-        startTimer(timerSpan, goNext);
+
         btnNext.addEventListener('click', goNext);
 
         const totalCount = 8;
@@ -167,6 +173,7 @@
         }
     
         // 사진 찍기 타이머
+        let ReadyTextArr = ['Ready ?🚀', 'Amazing! 💛', 'Perfect Shot 💯', 'Vibe 🔥', 'Try a new pose! 😝', '3️⃣ more to go!', 'Awesome 💜', 'Last shot! 🙉', 'Ready ?🚀']
         const initTimer = () => {
             let seconds;
             let timer = 6;
@@ -185,12 +192,13 @@
 
                 // 배경음 시작
                 if (timer == 5) {
+                    shutter.currentTime = 0; 
                     shutter.play();
                     click.pause();
                 }
-
+                
                 let cameraEmojispan = $('<span />').attr('class', 'emoji camera').html('');
-                cameraTimerSpan.empty().append(timer === 6 ? 'Ready?' :
+                cameraTimerSpan.empty().append(timer === 6 ? ReadyTextArr[current - 1] :
                     timer === 0 ? cameraEmojispan :
                         seconds + '!');
 
@@ -220,6 +228,5 @@
                 }
             }, 1_000);
         }
-
     });
 </script>
