@@ -62,7 +62,7 @@
         const btnNext = document.querySelector('#btn-next');
         const timerSpan = document.querySelector('#timer');
 
-        // 웹캠 로드
+        // 웹캠 먼저 로드
         navigator.mediaDevices?.enumerateDevices()
             .then(devices => {
                 let webcamOption = null;
@@ -104,6 +104,7 @@
             click.play();
             click.pause();
 
+            // 흰화면 간격 줄이기 위해 1초 후 리다이렉트 
             setTimeout(() => {
                 document.querySelector('#guide-area').classList.add('d-none');
                 document.querySelector('#take-picture-area').classList.remove('d-none');
