@@ -232,7 +232,7 @@ body {
 }
 
 .picture-option.selected {
-    border: 6px solid #C2A9FA;
+    border: 6px solid #742DDD;
     border-radius: 4px;
 }
 
@@ -264,7 +264,8 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
     font-weight: 900;
-    font-size: 4em;
+    font-size: 4rem;
+    text-align: center;
     line-height: 16px;
     letter-spacing: -0.4px;
     color: #FFF2B6;
